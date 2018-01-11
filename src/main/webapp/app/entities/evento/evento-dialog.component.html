@@ -1,0 +1,159 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myEventoLabel">Create or edit a Evento</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!evento.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="evento.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_nombre">Nombre</label>
+            <input type="text" class="form-control" name="nombre" id="field_nombre"
+                [(ngModel)]="evento.nombre" required/>
+            <div [hidden]="!(editForm.controls.nombre?.dirty && editForm.controls.nombre?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.nombre?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_resumen">Resumen</label>
+            <textarea class="form-control" name="resumen" id="field_resumen"
+                [(ngModel)]="evento.resumen" required></textarea>
+            <div [hidden]="!(editForm.controls.resumen?.dirty && editForm.controls.resumen?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.resumen?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_descripcion">Descripcion</label>
+            <textarea class="form-control" name="descripcion" id="field_descripcion"
+                [(ngModel)]="evento.descripcion" required></textarea>
+            <div [hidden]="!(editForm.controls.descripcion?.dirty && editForm.controls.descripcion?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.descripcion?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_precio">Precio</label>
+            <input type="number" class="form-control" name="precio" id="field_precio"
+                [(ngModel)]="evento.precio" required/>
+            <div [hidden]="!(editForm.controls.precio?.dirty && editForm.controls.precio?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.precio?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.precio?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_ubicacion">Ubicacion</label>
+            <input type="text" class="form-control" name="ubicacion" id="field_ubicacion"
+                [(ngModel)]="evento.ubicacion" required/>
+            <div [hidden]="!(editForm.controls.ubicacion?.dirty && editForm.controls.ubicacion?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.ubicacion?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_horario">Horario</label>
+            <div class="input-group">
+                <input id="field_horario" type="text" class="form-control" name="horario" ngbDatepicker  #horarioDp="ngbDatepicker" [(ngModel)]="evento.horario"
+                required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-secondary" (click)="horarioDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+            <div [hidden]="!(editForm.controls.horario?.dirty && editForm.controls.horario?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.horario?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_imagenes">Imagenes</label>
+            <div>
+                <div *ngIf="evento.imagenes" class="form-text text-danger clearfix">
+                    <a class="pull-left" (click)="openFile(evento.imagenesContentType, evento.imagenes)">open</a><br>
+                    <span class="pull-left">{{evento.imagenesContentType}}, {{byteSize(evento.imagenes)}}</span>
+                    <button type="button" (click)="evento.imagenes=null;evento.imagenesContentType=null;"
+                            class="btn btn-secondary btn-xs pull-right">
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+                <input type="file" id="file_imagenes" (change)="setFileData($event, evento, 'imagenes', false)"/>
+            </div>
+            <input type="hidden" class="form-control" name="imagenes" id="field_imagenes"
+                [(ngModel)]="evento.imagenes" required/>
+            <input type="hidden" class="form-control" name="imagenesContentType" id="field_imagenesContentType"
+                [(ngModel)]="evento.imagenesContentType" />
+            <div [hidden]="!(editForm.controls.imagenes?.dirty && editForm.controls.imagenes?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.imagenes?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_destacado">Destacado</label>
+            <input type="checkbox" class="form-control" name="destacado" id="field_destacado"
+                [(ngModel)]="evento.destacado" />
+            <div [hidden]="!(editForm.controls.destacado?.dirty && editForm.controls.destacado?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.destacado?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_estado">Estado</label>
+            <input type="checkbox" class="form-control" name="estado" id="field_estado"
+                [(ngModel)]="evento.estado" />
+            <div [hidden]="!(editForm.controls.estado?.dirty && editForm.controls.estado?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.estado?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_categoria">Categoria</label>
+            <select class="form-control" id="field_categoria" name="categoria" [(ngModel)]="evento.categoria" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="categoriaOption.id === evento.categoria?.id ? evento.categoria : categoriaOption" *ngFor="let categoriaOption of categorias; trackBy: trackCategoriaById">{{categoriaOption.nombre}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="field_tags">Tags</label>
+            <select class="form-control" id="field_tags" multiple name="tags" [(ngModel)]="evento.tags">
+                <option [ngValue]="getSelected(evento.tags, tagsOption)" *ngFor="let tagsOption of tags; trackBy: trackTagsById">{{tagsOption.nombre}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>
