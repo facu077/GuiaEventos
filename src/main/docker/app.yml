@@ -1,0 +1,14 @@
+version: '2'
+services:
+    trabajofinal-app:
+        image: trabajofinal
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - SPRING_DATASOURCE_URL=jdbc:mysql://trabajofinal-mysql:3306/trabajofinal?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+        ports:
+            - 8080:8080
+    trabajofinal-mysql:
+        extends:
+            file: mysql.yml
+            service: trabajofinal-mysql
