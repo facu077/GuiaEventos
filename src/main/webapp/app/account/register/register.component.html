@@ -72,6 +72,7 @@
                         </small>
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <label class="form-control-label" for="password">New password</label>
                     <input type="password" class="form-control" id="password" name="password" #password="ngModel" placeholder="New password"
@@ -111,6 +112,8 @@
                         </small>
                     </div>
                 </div>
+
+                <input class="form-control" id="fechaNacimiento" ng-model="vm.registerAccount.fechaNacimiento" placeholder="global.form.fechaNacimiento.placeholder" />
 
                 <button type="submit" [disabled]="registerForm.form.invalid" class="btn btn-primary">Register</button>
             </form>

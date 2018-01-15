@@ -3,7 +3,9 @@ package com.edu.um.programacion2.service;
 import com.edu.um.programacion2.config.CacheConfiguration;
 import com.edu.um.programacion2.domain.Authority;
 import com.edu.um.programacion2.domain.User;
+import com.edu.um.programacion2.domain.Usuario;
 import com.edu.um.programacion2.repository.AuthorityRepository;
+import com.edu.um.programacion2.repository.UsuarioRepository;
 import com.edu.um.programacion2.config.Constants;
 import com.edu.um.programacion2.repository.UserRepository;
 import com.edu.um.programacion2.security.AuthoritiesConstants;
@@ -22,9 +24,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+
+
 
 /**
  * Service class for managing users.
@@ -32,7 +39,10 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class UserService {
-
+	
+	@Inject
+	private UsuarioRepository UsuarioRepository;
+	
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
@@ -94,7 +104,7 @@ public class UserService {
             });
     }
 
-    public User registerUser(UserDTO userDTO, String password) {
+    public User registerUser(UserDTO userDTO, String password, LocalDate fechaNacimiento) {
 
         User newUser = new User();
         Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
@@ -118,6 +128,15 @@ public class UserService {
         cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).evict(newUser.getLogin());
         cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).evict(newUser.getEmail());
         log.debug("Created Information for User: {}", newUser);
+        
+        // Create and save the Usuario entity
+        Usuario newUsuario = new Usuario();
+        newUsuario.setUser(newUser);
+        newUsuario.setFechaNacimiento(fechaNacimiento);
+        UsuarioRepository.save(newUsuario);
+
+        log.debug("Created Information for UserExtra: {}", newUsuario);
+        
         return newUser;
     }
 

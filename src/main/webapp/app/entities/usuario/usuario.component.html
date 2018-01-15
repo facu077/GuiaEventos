@@ -1,0 +1,78 @@
+<div>
+    <h2>
+        <span>Usuarios</span>
+        <button class="btn btn-primary float-right jh-create-entity create-usuario" [routerLink]="['/', { outlets: { popup: ['usuario-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span >
+            Create new Usuario
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="usuarios">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span></th>
+            <th><span>Fecha Nacimiento</span></th>
+            <th><span>Sexo</span></th>
+            <th><span>Prestador</span></th>
+            <th><span>User</span></th>
+            <th><span>Evento</span></th>
+            <th><span>Tag</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let usuario of usuarios ;trackBy: trackId">
+                <td><a [routerLink]="['../usuario', usuario.id ]">{{usuario.id}}</a></td>
+                <td>{{usuario.fechaNacimiento | date:'mediumDate'}}</td>
+                <td>{{usuario.sexo}}</td>
+                <td>{{usuario.prestador}}</td>
+                <td>
+                    {{usuario.user?.id}}
+                </td>
+                <td>
+                    <span *ngFor="let evento of usuario.eventos; let last = last">
+                            <a class="form-control-static" [routerLink]="['../evento', evento?.id ]">{{evento.nombre}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td>
+                    <span *ngFor="let tag of usuario.tags; let last = last">
+                            <a class="form-control-static" [routerLink]="['../tags', tag?.id ]">{{tag.nombre}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../usuario', usuario.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'usuario/'+ usuario.id + '/edit'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'usuario/'+ usuario.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

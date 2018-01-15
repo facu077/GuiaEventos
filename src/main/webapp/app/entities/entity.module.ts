@@ -3,6 +3,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TrabajoFinalEventoModule } from './evento/evento.module';
 import { TrabajoFinalTagsModule } from './tags/tags.module';
 import { TrabajoFinalCategoriaModule } from './categoria/categoria.module';
+import { TrabajoFinalUsuarioModule } from './usuario/usuario.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -10,6 +11,7 @@ import { TrabajoFinalCategoriaModule } from './categoria/categoria.module';
         TrabajoFinalEventoModule,
         TrabajoFinalTagsModule,
         TrabajoFinalCategoriaModule,
+        TrabajoFinalUsuarioModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],
