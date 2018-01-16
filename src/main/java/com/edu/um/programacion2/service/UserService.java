@@ -4,6 +4,7 @@ import com.edu.um.programacion2.config.CacheConfiguration;
 import com.edu.um.programacion2.domain.Authority;
 import com.edu.um.programacion2.domain.User;
 import com.edu.um.programacion2.domain.Usuario;
+import com.edu.um.programacion2.domain.enumeration.Sexo;
 import com.edu.um.programacion2.repository.AuthorityRepository;
 import com.edu.um.programacion2.repository.UsuarioRepository;
 import com.edu.um.programacion2.config.Constants;
@@ -104,7 +105,7 @@ public class UserService {
             });
     }
 
-    public User registerUser(UserDTO userDTO, String password, LocalDate fechaNacimiento) {
+    public User registerUser(UserDTO userDTO, String password, LocalDate fechaNacimiento, Sexo sexo) {
 
         User newUser = new User();
         Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
@@ -132,7 +133,10 @@ public class UserService {
         // Create and save the Usuario entity
         Usuario newUsuario = new Usuario();
         newUsuario.setUser(newUser);
+        newUsuario.setId(newUser.getId());
+        newUsuario.setPrestador(false);
         newUsuario.setFechaNacimiento(fechaNacimiento);
+        newUsuario.setSexo(sexo);
         UsuarioRepository.save(newUsuario);
 
         log.debug("Created Information for UserExtra: {}", newUsuario);

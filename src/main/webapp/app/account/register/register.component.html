@@ -1,26 +1,26 @@
 <div>
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <h1>Registration</h1>
+            <h1>Registro</h1>
 
             <div class="alert alert-success" *ngIf="success">
-                <strong>Registration saved!</strong> Please check your email for confirmation.
+                <strong>Registro exitoso!</strong> Por favor verifica tu email.
             </div>
 
             <div class="alert alert-danger" *ngIf="error">
-                <strong>Registration failed!</strong> Please try again later.
+                <strong>Registro fallido!</strong> Por favor intenta mas tarde.
             </div>
 
             <div class="alert alert-danger" *ngIf="errorUserExists">
-                <strong>Login name already registered!</strong> Please choose another one.
+                <strong>Numbre de usuario en uso!</strong> Por favor elige otro.
             </div>
 
             <div class="alert alert-danger" *ngIf="errorEmailExists">
-                <strong>Email is already in use!</strong> Please choose another one.
+                <strong>Email en uso!</strong> Por favor elige otro.
             </div>
 
             <div class="alert alert-danger" *ngIf="doNotMatch">
-                The password and its confirmation do not match!
+                La contraseña y su confirmacion no coinciden!
             </div>
         </div>
     </div>
@@ -28,24 +28,24 @@
         <div class="col-md-4">
             <form name="form" role="form" (ngSubmit)="register()" #registerForm="ngForm" *ngIf="!success">
                 <div class="form-group">
-                    <label class="form-control-label" for="login">Username</label>
+                    <label class="form-control-label" for="login">Nobmre de Usuario</label>
                     <input type="text" class="form-control" [(ngModel)]="registerAccount.login" id="login" name="login" #login="ngModel" placeholder="Your username"
                             required minlength="1" maxlength="50" pattern="^[_'.@A-Za-z0-9-]*$">
                     <div *ngIf="login.dirty && login.invalid">
                         <small class="form-text text-danger" *ngIf="login.errors.required">
-                            Your username is required.
+                            Tu nombre de usuario es necesario.
                         </small>
                         <small class="form-text text-danger" *ngIf="login.errors.minlength"
                                >
-                            Your username is required to be at least 1 character.
+                            Tu nombre de usuario debe tener al menos 1 caracter.
                         </small>
                         <small class="form-text text-danger" *ngIf="login.errors.maxlength"
                                >
-                            Your username cannot be longer than 50 characters.
+                               Tu nombre de usuario no puede tener mas de 50 caracteres.
                         </small>
                         <small class="form-text text-danger" *ngIf="login.errors.pattern"
                               >
-                            Your username can only contain letters and digits.
+                            Tu nombre de usuario solo puede contener letras y digitos.
                         </small>
                     </div>
                 </div>
@@ -113,7 +113,30 @@
                     </div>
                 </div>
 
-                <input class="form-control" id="fechaNacimiento" ng-model="vm.registerAccount.fechaNacimiento" placeholder="global.form.fechaNacimiento.placeholder" />
+                <div class="form-group">
+                    <label class="form-control-label" for="firstName">Nombre</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" #nombre="ngModel" placeholder="Nombre"
+                            [(ngModel)]="registerAccount.firstName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="lastName">Apellido</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" #nombre="ngModel" placeholder="Nombre"
+                            [(ngModel)]="registerAccount.lastName" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="sexo">Sexo</label>
+                    <select class="form-control" name="sexo" #sexo="ngModel" [(ngModel)]="registerAccount.sexo" id="sexo" >
+                        <option value="MASCULINO">Masculino</option>
+                        <option value="FEMENINO">Femenino</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="fechaNacimiento">Fecha de Nacimiento</label>
+                    <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" #fechaNacimiento="ngModel"
+                            [(ngModel)]="registerAccount.fechaNacimiento">
+                </div>
 
                 <button type="submit" [disabled]="registerForm.form.invalid" class="btn btn-primary">Register</button>
             </form>

@@ -1,5 +1,6 @@
 package com.edu.um.programacion2.web.rest.vm;
 
+import com.edu.um.programacion2.domain.enumeration.Sexo;
 import com.edu.um.programacion2.service.dto.UserDTO;
 
 import java.time.LocalDate;
@@ -19,6 +20,8 @@ public class ManagedUserVM extends UserDTO {
     private String password;
     
     private LocalDate fechaNacimiento;
+    
+    private Sexo sexo;
 
     public ManagedUserVM() {
         // Empty constructor needed for Jackson.
@@ -34,6 +37,10 @@ public class ManagedUserVM extends UserDTO {
 
     public LocalDate getfechaNacimiento() {
         return fechaNacimiento;
+    }
+    
+    public Sexo getSexo() {
+        return sexo;
     }
     
     @Override
