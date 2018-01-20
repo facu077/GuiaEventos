@@ -1,6 +1,7 @@
 package com.edu.um.programacion2.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.edu.um.programacion2.domain.Tags;
 import com.edu.um.programacion2.domain.Usuario;
 
 import com.edu.um.programacion2.repository.UsuarioRepository;
@@ -117,4 +118,5 @@ public class UsuarioResource {
         usuarioRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    
 }

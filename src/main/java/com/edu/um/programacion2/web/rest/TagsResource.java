@@ -11,6 +11,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -124,5 +125,22 @@ public class TagsResource {
         log.debug("REST request to delete Tags : {}", id);
         tagsRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+    
+    /*@GetMapping("/tagsUsuario")
+    @Timed
+    public List<Tags> getAlgo() {
+        log.debug("REST request get tagsUsuario");
+        return tagsRepository.findUnUsuario(5L);
+    }*/
+    
+    @GetMapping("/tagsUsuario")
+    @Timed
+    public ResponseEntity<List<Tags>> getTagsUsuario(Pageable pageable) {
+        log.debug("REST request to get a page of Tags");
+        List<Tags> tags = tagsRepository.findUserTags(5L);
+        final Page<Tags> page = new PageImpl<>(tags);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tags");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 }

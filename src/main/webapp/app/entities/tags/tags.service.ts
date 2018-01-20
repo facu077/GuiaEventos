@@ -10,6 +10,7 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 export class TagsService {
 
     private resourceUrl =  SERVER_API_URL + 'api/tags';
+    private resourceUrlUserTags =  SERVER_API_URL + 'api/tagsUsuario';
 
     constructor(private http: Http) { }
 
@@ -44,6 +45,12 @@ export class TagsService {
 
     delete(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
+    }
+
+    findTags(req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
+        return this.http.get(this.resourceUrlUserTags, options)
+            .map((res: Response) => this.convertResponse(res));
     }
 
     private convertResponse(res: Response): ResponseWrapper {
