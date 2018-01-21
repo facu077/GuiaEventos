@@ -2,6 +2,7 @@ package com.edu.um.programacion2.repository;
 
 import com.edu.um.programacion2.domain.Tags;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,4 +20,17 @@ public interface TagsRepository extends JpaRepository<Tags, Long> {
             nativeQuery=true
     )
     List<Tags> findUserTags(@Param("id") Long id);
+    
+    @Query(value = "select jhi_user.id from jhi_user where jhi_user.login = :login",
+            nativeQuery=true
+    )
+    Long getUserId(@Param("login") String login);
+    
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM usuario_tag WHERE usuario_tag.tags_id = :idTag AND usuario_tag.usuarios_id = :idUs",
+            nativeQuery=true
+    )
+    void deleteTagUsuario(@Param("idTag") Long idTag, @Param("idUs") Long idUs);
+    
 }

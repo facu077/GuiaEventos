@@ -6,6 +6,7 @@ import { TagsDetailComponent } from './tags-detail.component';
 import { TagsPopupComponent } from './tags-dialog.component';
 import { TagsDeletePopupComponent } from './tags-delete-dialog.component';
 import { TagsUsuarioComponent } from './tags-usuario.component';
+import { TagsUsuarioDeletePopupComponent } from './tags-usuario-delete-dialog.component'
 
 export const tagsRoute: Routes = [
     {
@@ -59,6 +60,16 @@ export const tagsPopupRoute: Routes = [
     {
         path: 'tags/:id/delete',
         component: TagsDeletePopupComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Tags'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
+    {
+        path: 'tagsUsuario/:id/delete',
+        component: TagsUsuarioDeletePopupComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Tags'

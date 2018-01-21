@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.edu.um.programacion2.domain.Tags;
 
 import com.edu.um.programacion2.repository.TagsRepository;
+import com.edu.um.programacion2.security.SecurityUtils;
 import com.edu.um.programacion2.web.rest.errors.BadRequestAlertException;
 import com.edu.um.programacion2.web.rest.util.HeaderUtil;
 import com.edu.um.programacion2.web.rest.util.PaginationUtil;
@@ -127,20 +128,42 @@ public class TagsResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
     
-    /*@GetMapping("/tagsUsuario")
-    @Timed
-    public List<Tags> getAlgo() {
-        log.debug("REST request get tagsUsuario");
-        return tagsRepository.findUnUsuario(5L);
-    }*/
+    /**
+     * GET /tagsUsuario : Lista los tags del usuario
+     * 
+     * @param id del usario
+     * @return
+     */
     
     @GetMapping("/tagsUsuario")
     @Timed
     public ResponseEntity<List<Tags>> getTagsUsuario(Pageable pageable) {
         log.debug("REST request to get a page of Tags");
-        List<Tags> tags = tagsRepository.findUserTags(5L);
+        String login;
+        Long id;
+        login = SecurityUtils.getCurrentUserLogin().get();
+        id = tagsRepository.getUserId(login);
+        List<Tags> tags = tagsRepository.findUserTags(id);
         final Page<Tags> page = new PageImpl<>(tags);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tags");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    /**
+     * DELETE  /tagsUsuario/:id : delete the "id" tags Usuario.
+     *
+     * @param id the id of the tags to delete
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @DeleteMapping("/tagsUsuario/{idTag}")
+    @Timed
+    public ResponseEntity<Void> deleteTagsUsuario(@PathVariable Long idTag) {
+        String login;
+        Long idUs;
+        login = SecurityUtils.getCurrentUserLogin().get();
+        idUs = tagsRepository.getUserId(login);
+        log.debug("REST request to delete TagsUsuario : {}", idTag);
+        tagsRepository.deleteTagUsuario(idTag,idUs);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, idTag.toString())).build();
     }
 }

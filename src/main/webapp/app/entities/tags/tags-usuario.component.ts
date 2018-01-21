@@ -7,7 +7,7 @@ import { TagsService } from './tags.service';
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 
 @Component({
-    selector: 'jhi-tags',
+    selector: 'jhi-tags-usuario',
     templateUrl: './tags-usuario.component.html'
 })
 export class TagsUsuarioComponent implements OnInit, OnDestroy {

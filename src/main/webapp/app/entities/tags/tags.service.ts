@@ -53,6 +53,10 @@ export class TagsService {
             .map((res: Response) => this.convertResponse(res));
     }
 
+    deleteTagUs(id: number): Observable<Response> {
+        return this.http.delete(`${this.resourceUrlUserTags}/${id}`);
+    }
+
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         const result = [];
