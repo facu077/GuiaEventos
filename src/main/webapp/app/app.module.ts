@@ -12,6 +12,11 @@ import { TrabajoFinalAccountModule } from './account/account.module';
 import { TrabajoFinalEntityModule } from './entities/entity.module';
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
+import { TagsUsuarioComponent } from './entities/tags/tags-usuario.component';
+import { TagsUsuarioDeletePopupComponent } from './entities/tags/tags-usuario-delete-dialog.component';
+import { TagsUsuarioDeleteDialogComponent } from './entities/tags/tags-usuario-delete-dialog.component';
+import { TagsUsuarioDialogComponent } from './entities/tags/tags-usuario-dialog.component';
+import { TagsUsuarioPopupComponent } from './entities/tags/tags-usuario-dialog.component';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -41,7 +46,12 @@ import {
         NavbarComponent,
         ErrorComponent,
         PageRibbonComponent,
-        FooterComponent
+        FooterComponent,
+        TagsUsuarioComponent,
+        TagsUsuarioDeletePopupComponent,
+        TagsUsuarioDeleteDialogComponent,
+        TagsUsuarioDialogComponent,
+        TagsUsuarioPopupComponent
     ],
     providers: [
         ProfileService,
@@ -49,6 +59,7 @@ import {
         PaginationConfig,
         UserRouteAccessService
     ],
+    entryComponents: [TagsUsuarioDeleteDialogComponent, TagsUsuarioDialogComponent],
     bootstrap: [ JhiMainComponent ]
 })
 export class TrabajoFinalAppModule {}

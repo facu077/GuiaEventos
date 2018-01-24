@@ -1,0 +1,265 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="root (generated)" id="1515978377440-1">
+        <createTable tableName="categoria">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="categoriaPK"/>
+            </column>
+            <column name="nombre" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-2">
+        <createTable tableName="evento">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="eventoPK"/>
+            </column>
+            <column name="descripcion" type="LONGTEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="destacado" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="estado" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="horario" type="TINYBLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="imagenes" type="LONGBLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="imagenes_content_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nombre" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="precio" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="resumen" type="LONGTEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ubicacion" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="categoria_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-3">
+        <createTable tableName="evento_tags">
+            <column name="eventos_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tags_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-4">
+        <createTable tableName="jhi_authority">
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-5">
+        <createTable tableName="jhi_persistent_audit_event">
+            <column autoIncrement="true" name="event_id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="jhi_persistent_audit_eventPK"/>
+            </column>
+            <column name="event_date" type="TINYBLOB"/>
+            <column name="event_type" type="VARCHAR(255)"/>
+            <column name="principal" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-6">
+        <createTable tableName="jhi_persistent_audit_evt_data">
+            <column name="event_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-7">
+        <createTable tableName="jhi_social_user_connection">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="jhi_social_user_connectionPK"/>
+            </column>
+            <column name="access_token" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="display_name" type="VARCHAR(255)"/>
+            <column name="expire_time" type="BIGINT"/>
+            <column name="image_url" type="VARCHAR(255)"/>
+            <column name="profile_url" type="VARCHAR(255)"/>
+            <column name="provider_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="provider_user_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rank" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="refresh_token" type="VARCHAR(255)"/>
+            <column name="secret" type="VARCHAR(255)"/>
+            <column name="user_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-8">
+        <createTable tableName="jhi_user">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="jhi_userPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="TINYBLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_by" type="VARCHAR(50)"/>
+            <column name="last_modified_date" type="TINYBLOB"/>
+            <column name="activated" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activation_key" type="VARCHAR(20)"/>
+            <column name="email" type="VARCHAR(100)"/>
+            <column name="first_name" type="VARCHAR(50)"/>
+            <column name="image_url" type="VARCHAR(256)"/>
+            <column name="lang_key" type="VARCHAR(6)"/>
+            <column name="last_name" type="VARCHAR(50)"/>
+            <column name="login" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password_hash" type="VARCHAR(60)"/>
+            <column name="reset_date" type="TINYBLOB"/>
+            <column name="reset_key" type="VARCHAR(20)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-9">
+        <createTable tableName="jhi_user_authority">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="authority_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-10">
+        <createTable tableName="tags">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="tagsPK"/>
+            </column>
+            <column name="nombre" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-11">
+        <createTable tableName="usuario">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fecha_nacimiento" type="TINYBLOB"/>
+            <column name="prestador" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sexo" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-12">
+        <createTable tableName="usuario_evento">
+            <column name="usuarios_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="eventos_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-13">
+        <createTable tableName="usuario_tag">
+            <column name="usuarios_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tags_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-14">
+        <addPrimaryKey columnNames="eventos_id, tags_id" tableName="evento_tags"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-15">
+        <addPrimaryKey columnNames="event_id, name" tableName="jhi_persistent_audit_evt_data"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-16">
+        <addPrimaryKey columnNames="user_id, authority_name" tableName="jhi_user_authority"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-17">
+        <addPrimaryKey columnNames="usuarios_id, eventos_id" tableName="usuario_evento"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-18">
+        <addPrimaryKey columnNames="usuarios_id, tags_id" tableName="usuario_tag"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-19">
+        <addPrimaryKey columnNames="name" constraintName="jhi_authorityPK" tableName="jhi_authority"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-20">
+        <addPrimaryKey columnNames="id" constraintName="usuarioPK" tableName="usuario"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-21">
+        <addUniqueConstraint columnNames="email" constraintName="UC_JHI_USEREMAIL_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-22">
+        <addUniqueConstraint columnNames="login" constraintName="UC_JHI_USERLOGIN_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-23">
+        <addUniqueConstraint columnNames="user_id" constraintName="UC_USUARIOUSER_ID_COL" tableName="usuario"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-24">
+        <addForeignKeyConstraint baseColumnNames="tags_id" baseTableName="evento_tags" constraintName="FK180w1n5x9dfwhkhet5g8v61y3" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="tags"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-25">
+        <addForeignKeyConstraint baseColumnNames="eventos_id" baseTableName="usuario_evento" constraintName="FK1fvu2bsb9mwv6nwqvor05rnrk" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="evento"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-26">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="jhi_user_authority" constraintName="FK290okww5jujghp4el5i7mgwu0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-27">
+        <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="jhi_persistent_audit_evt_data" constraintName="FK2ehnyx2si4tjd2nt4q7y40v8m" deferrable="false" initiallyDeferred="false" referencedColumnNames="event_id" referencedTableName="jhi_persistent_audit_event"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-28">
+        <addForeignKeyConstraint baseColumnNames="authority_name" baseTableName="jhi_user_authority" constraintName="FK4psxl0jtx6nr7rhqbynr6itoc" deferrable="false" initiallyDeferred="false" referencedColumnNames="name" referencedTableName="jhi_authority"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-29">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="usuario" constraintName="FKb8byajvdw0k6mgal9ih48a171" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-30">
+        <addForeignKeyConstraint baseColumnNames="eventos_id" baseTableName="evento_tags" constraintName="FKd2ipommugjeb6uu6336v8aq0o" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="evento"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-31">
+        <addForeignKeyConstraint baseColumnNames="categoria_id" baseTableName="evento" constraintName="FKo5p3xnj11xgu3bsg7tc0jcold" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="categoria"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-32">
+        <addForeignKeyConstraint baseColumnNames="usuarios_id" baseTableName="usuario_evento" constraintName="FKptk49n4yr18gaxg71e9703git" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="usuario"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-33">
+        <addForeignKeyConstraint baseColumnNames="tags_id" baseTableName="usuario_tag" constraintName="FKsi67nnlrfwg71rq7i69wecs73" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="tags"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1515978377440-34">
+        <addForeignKeyConstraint baseColumnNames="usuarios_id" baseTableName="usuario_tag" constraintName="FKt9xmijv291ovc5hwrsmkbffqo" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="usuario"/>
+    </changeSet>
+</databaseChangeLog>

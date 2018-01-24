@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.edu.um.programacion2.domain.Tags;
 
 import com.edu.um.programacion2.repository.TagsRepository;
+import com.edu.um.programacion2.security.SecurityUtils;
 import com.edu.um.programacion2.web.rest.errors.BadRequestAlertException;
 import com.edu.um.programacion2.web.rest.util.HeaderUtil;
 import com.edu.um.programacion2.web.rest.util.PaginationUtil;
@@ -11,6 +12,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -125,4 +127,63 @@ public class TagsResource {
         tagsRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    
+    /**
+     * GET /tagsUsuario : Lista los tags del usuario
+     * 
+     * @param id del usario
+     * @return
+     */
+    
+    @GetMapping("/tagsUsuario")
+    @Timed
+    public ResponseEntity<List<Tags>> getTagsUsuario(Pageable pageable) {
+        log.debug("REST request to get a page of Tags");
+        String login;
+        Long id;
+        login = SecurityUtils.getCurrentUserLogin().get();
+        id = tagsRepository.getUserId(login);
+        List<Tags> tags = tagsRepository.findUserTags(id);
+        final Page<Tags> page = new PageImpl<>(tags);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tags");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    /**
+     * DELETE  /tagsUsuario/:id : delete the "id" tags Usuario.
+     *
+     * @param id the id of the tags to delete
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @DeleteMapping("/tagsUsuario/{idTag}")
+    @Timed
+    public ResponseEntity<Void> deleteTagsUsuario(@PathVariable Long idTag) {
+        String login;
+        Long idUs;
+        login = SecurityUtils.getCurrentUserLogin().get();
+        idUs = tagsRepository.getUserId(login);
+        log.debug("REST request to delete TagsUsuario : {}", idTag);
+        tagsRepository.deleteTagUsuario(idTag,idUs);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, idTag.toString())).build();
+    }
+    
+    /**
+     * GET  /tagsUsuario/add/:id : Add the "id" tags Usuario.
+     *
+     * @param id the id of the tags to add
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @GetMapping("/tagsUsuario/add/{idTag}")
+    @Timed
+    public ResponseEntity<Void> addTagsUsuario(@PathVariable Long idTag) {
+        String login;
+        Long idUs;
+        login = SecurityUtils.getCurrentUserLogin().get();
+        idUs = tagsRepository.getUserId(login);
+        log.debug("REST request to delete TagsUsuario : {}", idTag);
+        tagsRepository.addTagUsuario(idTag,idUs);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, idTag.toString())).build();
+    }
+    
+    
 }

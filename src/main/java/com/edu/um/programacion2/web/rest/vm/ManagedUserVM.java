@@ -1,6 +1,10 @@
 package com.edu.um.programacion2.web.rest.vm;
 
+import com.edu.um.programacion2.domain.enumeration.Sexo;
 import com.edu.um.programacion2.service.dto.UserDTO;
+
+import java.time.LocalDate;
+
 import javax.validation.constraints.Size;
 
 /**
@@ -14,6 +18,10 @@ public class ManagedUserVM extends UserDTO {
 
     @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
     private String password;
+    
+    private LocalDate fechaNacimiento;
+    
+    private Sexo sexo;
 
     public ManagedUserVM() {
         // Empty constructor needed for Jackson.
@@ -27,6 +35,14 @@ public class ManagedUserVM extends UserDTO {
         this.password = password;
     }
 
+    public LocalDate getfechaNacimiento() {
+        return fechaNacimiento;
+    }
+    
+    public Sexo getSexo() {
+        return sexo;
+    }
+    
     @Override
     public String toString() {
         return "ManagedUserVM{" +
