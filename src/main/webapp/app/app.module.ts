@@ -15,6 +15,8 @@ import { PaginationConfig } from './blocks/config/uib-pagination.config';
 import { TagsUsuarioComponent } from './entities/tags/tags-usuario.component';
 import { TagsUsuarioDeletePopupComponent } from './entities/tags/tags-usuario-delete-dialog.component';
 import { TagsUsuarioDeleteDialogComponent } from './entities/tags/tags-usuario-delete-dialog.component';
+import { TagsUsuarioDialogComponent } from './entities/tags/tags-usuario-dialog.component';
+import { TagsUsuarioPopupComponent } from './entities/tags/tags-usuario-dialog.component';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -47,7 +49,9 @@ import {
         FooterComponent,
         TagsUsuarioComponent,
         TagsUsuarioDeletePopupComponent,
-        TagsUsuarioDeleteDialogComponent
+        TagsUsuarioDeleteDialogComponent,
+        TagsUsuarioDialogComponent,
+        TagsUsuarioPopupComponent
     ],
     providers: [
         ProfileService,
@@ -55,7 +59,7 @@ import {
         PaginationConfig,
         UserRouteAccessService
     ],
-    entryComponents: [TagsUsuarioDeleteDialogComponent],
+    entryComponents: [TagsUsuarioDeleteDialogComponent, TagsUsuarioDialogComponent],
     bootstrap: [ JhiMainComponent ]
 })
 export class TrabajoFinalAppModule {}

@@ -33,4 +33,11 @@ public interface TagsRepository extends JpaRepository<Tags, Long> {
     )
     void deleteTagUsuario(@Param("idTag") Long idTag, @Param("idUs") Long idUs);
     
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO usuario_tag (tags_id, usuarios_id) VALUES (:idTag,:idUs)",
+            nativeQuery=true
+    )
+    void addTagUsuario(@Param("idTag") Long idTag, @Param("idUs") Long idUs);
+    
 }

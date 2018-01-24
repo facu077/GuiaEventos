@@ -7,6 +7,7 @@ import { TagsPopupComponent } from './tags-dialog.component';
 import { TagsDeletePopupComponent } from './tags-delete-dialog.component';
 import { TagsUsuarioComponent } from './tags-usuario.component';
 import { TagsUsuarioDeletePopupComponent } from './tags-usuario-delete-dialog.component'
+import { TagsUsuarioPopupComponent } from './tags-usuario-dialog.component';
 
 export const tagsRoute: Routes = [
     {
@@ -76,5 +77,15 @@ export const tagsPopupRoute: Routes = [
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
-    }
+    },
+    {
+        path: 'tags-usuario-new',
+        component: TagsUsuarioPopupComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Tags'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
 ];

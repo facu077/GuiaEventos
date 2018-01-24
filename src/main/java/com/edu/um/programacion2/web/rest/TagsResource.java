@@ -166,4 +166,24 @@ public class TagsResource {
         tagsRepository.deleteTagUsuario(idTag,idUs);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, idTag.toString())).build();
     }
+    
+    /**
+     * GET  /tagsUsuario/add/:id : Add the "id" tags Usuario.
+     *
+     * @param id the id of the tags to add
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @GetMapping("/tagsUsuario/add/{idTag}")
+    @Timed
+    public ResponseEntity<Void> addTagsUsuario(@PathVariable Long idTag) {
+        String login;
+        Long idUs;
+        login = SecurityUtils.getCurrentUserLogin().get();
+        idUs = tagsRepository.getUserId(login);
+        log.debug("REST request to delete TagsUsuario : {}", idTag);
+        tagsRepository.addTagUsuario(idTag,idUs);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, idTag.toString())).build();
+    }
+    
+    
 }

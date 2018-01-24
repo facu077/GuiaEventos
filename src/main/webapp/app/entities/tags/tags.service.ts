@@ -57,6 +57,18 @@ export class TagsService {
         return this.http.delete(`${this.resourceUrlUserTags}/${id}`);
     }
 
+    addTagsUsuario(id: number): Observable<Response> {
+        return this.http.get(`${this.resourceUrlUserTags}/add/${id}`);
+    }
+
+    /*addTagsUsuario(tags: Tags): Observable<Tags> {
+        const copy = this.convert(tags);
+        return this.http.post(`${this.resourceUrlUserTags}`, copy).map((res: Response) => {
+            const jsonResponse = res.json();
+            return this.convertItemFromServer(jsonResponse);
+        });
+    }*/
+
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         const result = [];
