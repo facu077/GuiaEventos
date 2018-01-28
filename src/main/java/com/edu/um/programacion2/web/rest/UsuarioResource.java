@@ -5,6 +5,7 @@ import com.edu.um.programacion2.domain.Tags;
 import com.edu.um.programacion2.domain.Usuario;
 
 import com.edu.um.programacion2.repository.UsuarioRepository;
+import com.edu.um.programacion2.security.SecurityUtils;
 import com.edu.um.programacion2.web.rest.errors.BadRequestAlertException;
 import com.edu.um.programacion2.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -117,6 +118,25 @@ public class UsuarioResource {
         log.debug("REST request to delete Usuario : {}", id);
         usuarioRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+    
+    /**
+     * DELETE  /usuarios/:id : delete the "id" usuario.
+     *
+     * @param id the id of the usuario to delete
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @GetMapping("/usuarios/addrole")
+    @Timed
+    public ResponseEntity<Void> addRolePrestador() {
+    	String login;
+        Long idUs;
+        login = SecurityUtils.getCurrentUserLogin().get();
+        idUs = usuarioRepository.getUserId(login);
+        log.debug("REST request to add Role Prestador");
+        usuarioRepository.addRole(idUs);
+        //VER ESE RETURN
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, idUs.toString())).build();
     }
     
 }

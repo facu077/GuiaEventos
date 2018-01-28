@@ -1,0 +1,22 @@
+<div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h2>Registrarse como prestador</h2>
+    
+                <div class="alert alert-success" *ngIf="success">
+                    <strong>Registro exitoso!</strong>
+                </div>
+    
+                <jhi-alert-error></jhi-alert-error>
+    
+                <form name="form" role="form" (ngSubmit)="save()" #settingsForm="ngForm" *ngIf="settingsAccount" novalidate>
+
+                    <div class="form-group">De esta forma podras crear tus propios eventos</div>
+
+                    <button type="submit" [disabled]="settingsForm.form.invalid" class="btn btn-primary">Ser Prestador</button>
+                </form>
+            </div>
+        </div>
+    
+    </div>
+    

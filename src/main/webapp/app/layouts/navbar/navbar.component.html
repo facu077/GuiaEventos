@@ -73,6 +73,18 @@
                             <span>Administrar Tags</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="serPrestador" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
+                            <span>Ser Prestador</span>
+                        </a>
+                    </li>
+                    <li *jhiHasAnyAuthority="'ROLE_PRESTADOR'">
+                        <a class="dropdown-item" routerLink="evento" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
+                            <span>Administrar Eventos</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
