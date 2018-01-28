@@ -5,6 +5,7 @@ import { UsuarioComponent } from './usuario.component';
 import { UsuarioDetailComponent } from './usuario-detail.component';
 import { UsuarioPopupComponent } from './usuario-dialog.component';
 import { UsuarioDeletePopupComponent } from './usuario-delete-dialog.component';
+import { SerPrestadorComponent } from './serprestador.component';
 
 export const usuarioRoute: Routes = [
     {
@@ -18,6 +19,14 @@ export const usuarioRoute: Routes = [
     }, {
         path: 'usuario/:id',
         component: UsuarioDetailComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Usuarios'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'serPrestador',
+        component: SerPrestadorComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Usuarios'

@@ -12,6 +12,7 @@ import { TrabajoFinalAccountModule } from './account/account.module';
 import { TrabajoFinalEntityModule } from './entities/entity.module';
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
+import { SerPrestadorComponent } from './entities/usuario/serprestador.component'
 import { TagsUsuarioComponent } from './entities/tags/tags-usuario.component';
 import { TagsUsuarioDeletePopupComponent } from './entities/tags/tags-usuario-delete-dialog.component';
 import { TagsUsuarioDeleteDialogComponent } from './entities/tags/tags-usuario-delete-dialog.component';
@@ -47,6 +48,7 @@ import {
         ErrorComponent,
         PageRibbonComponent,
         FooterComponent,
+        SerPrestadorComponent,
         TagsUsuarioComponent,
         TagsUsuarioDeletePopupComponent,
         TagsUsuarioDeleteDialogComponent,
