@@ -29,18 +29,14 @@
             <column name="sexo" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-
-            <column name="prestador" type="bit">
-                <constraints nullable="false" />
-            </column>
             <column name="user_id" type="bigint">
                 <constraints unique="true" nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         
-        <createTable tableName="usuario_evento">
-            <column name="eventos_id" type="bigint">
+        <createTable tableName="usuario_evento_registrado">
+            <column name="evento_registrados_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="usuarios_id" type="bigint">
@@ -48,7 +44,18 @@
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="usuarios_id, eventos_id" tableName="usuario_evento"/>
+        <addPrimaryKey columnNames="usuarios_id, evento_registrados_id" tableName="usuario_evento_registrado"/>
+        
+        <createTable tableName="usuario_evento_favorito">
+            <column name="evento_favoritos_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="usuarios_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="usuarios_id, evento_favoritos_id" tableName="usuario_evento_favorito"/>
         
         <createTable tableName="usuario_tag">
             <column name="tags_id" type="bigint">

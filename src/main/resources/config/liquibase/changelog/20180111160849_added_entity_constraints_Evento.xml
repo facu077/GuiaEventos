@@ -14,6 +14,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="categoria"/>
 
+        <addForeignKeyConstraint baseColumnNames="usuario_creador_id"
+                                 baseTableName="evento"
+                                 constraintName="fk_evento_usuario_creador_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="usuario"/>
+
         <addForeignKeyConstraint baseColumnNames="eventos_id"
                                  baseTableName="evento_tags"
                                  constraintName="fk_evento_tags_eventos_id"

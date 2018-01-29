@@ -10,11 +10,10 @@ export class Usuario implements BaseEntity {
         public id?: number,
         public fechaNacimiento?: any,
         public sexo?: Sexo,
-        public prestador?: boolean,
         public user?: User,
-        public eventos?: BaseEntity[],
+        public eventoRegistrados?: BaseEntity[],
+        public eventoFavoritos?: BaseEntity[],
         public tags?: BaseEntity[],
     ) {
-        this.prestador = false;
     }
 }

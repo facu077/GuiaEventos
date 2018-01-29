@@ -8,6 +8,12 @@
             "otherEntityField": "nombre"
         },
         {
+            "relationshipType": "many-to-one",
+            "relationshipName": "usuarioCreador",
+            "otherEntityName": "usuario",
+            "otherEntityField": "id"
+        },
+        {
             "relationshipType": "many-to-many",
             "otherEntityRelationshipName": "",
             "relationshipName": "tags",

@@ -15,13 +15,24 @@
                                  referencedTableName="jhi_user"/>
 
         <addForeignKeyConstraint baseColumnNames="usuarios_id"
-                                 baseTableName="usuario_evento"
-                                 constraintName="fk_usuario_evento_usuarios_id"
+                                 baseTableName="usuario_evento_registrado"
+                                 constraintName="fk_usuario_evento_registrado_usuarios_id"
                                  referencedColumnNames="id"
                                  referencedTableName="usuario"/>
-        <addForeignKeyConstraint baseColumnNames="eventos_id"
-                                 baseTableName="usuario_evento"
-                                 constraintName="fk_usuario_evento_eventos_id"
+        <addForeignKeyConstraint baseColumnNames="evento_registrados_id"
+                                 baseTableName="usuario_evento_registrado"
+                                 constraintName="fk_usuario_evento_registrado_evento_registrados_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="evento"/>
+        
+        <addForeignKeyConstraint baseColumnNames="usuarios_id"
+                                 baseTableName="usuario_evento_favorito"
+                                 constraintName="fk_usuario_evento_favorito_usuarios_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="usuario"/>
+        <addForeignKeyConstraint baseColumnNames="evento_favoritos_id"
+                                 baseTableName="usuario_evento_favorito"
+                                 constraintName="fk_usuario_evento_favorito_evento_favoritos_id"
                                  referencedColumnNames="id"
                                  referencedTableName="evento"/>
         

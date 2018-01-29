@@ -68,6 +68,9 @@ public class Evento implements Serializable {
     @ManyToOne
     private Categoria categoria;
 
+    @ManyToOne
+    private Usuario usuarioCreador;
+
     @ManyToMany
     @JoinTable(name = "evento_tags",
                joinColumns = @JoinColumn(name="eventos_id", referencedColumnName="id"),
@@ -224,6 +227,19 @@ public class Evento implements Serializable {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public Usuario getUsuarioCreador() {
+        return usuarioCreador;
+    }
+
+    public Evento usuarioCreador(Usuario usuario) {
+        this.usuarioCreador = usuario;
+        return this;
+    }
+
+    public void setUsuarioCreador(Usuario usuario) {
+        this.usuarioCreador = usuario;
     }
 
     public Set<Tags> getTags() {

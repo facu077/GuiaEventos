@@ -14,6 +14,7 @@ export class Evento implements BaseEntity {
         public destacado?: boolean,
         public estado?: boolean,
         public categoria?: BaseEntity,
+        public usuarioCreador?: BaseEntity,
         public tags?: BaseEntity[],
     ) {
         this.destacado = false;

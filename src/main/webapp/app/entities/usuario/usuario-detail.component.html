@@ -12,18 +12,20 @@
         <dd>
             <span>{{usuario.sexo}}</span>
         </dd>
-        <dt><span>Prestador</span></dt>
-        <dd>
-            <span>{{usuario.prestador}}</span>
-        </dd>
         <dt><span>User</span></dt>
         <dd>
             {{usuario.user?.id}}
         </dd>
-        <dt><span>Evento</span></dt>
+        <dt><span>Evento Registrado</span></dt>
         <dd>
-            <span *ngFor="let evento of usuario.eventos; let last = last">
-                <a [routerLink]="['/evento', evento?.id ]">{{evento.nombre}}</a>{{last ? '' : ', '}}
+            <span *ngFor="let eventoRegistrado of usuario.eventoRegistrados; let last = last">
+                <a [routerLink]="['/evento', eventoRegistrado?.id ]">{{eventoRegistrado.nombre}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span>Evento Favorito</span></dt>
+        <dd>
+            <span *ngFor="let eventoFavorito of usuario.eventoFavoritos; let last = last">
+                <a [routerLink]="['/evento', eventoFavorito?.id ]">{{eventoFavorito.id}}</a>{{last ? '' : ', '}}
             </span>
         </dd>
         <dt><span>Tag</span></dt>

@@ -27,6 +27,7 @@
             <th jhiSortBy="destacado"><span>Destacado</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="estado"><span>Estado</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="categoria.nombre"><span>Categoria</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="usuarioCreador.id"><span>Usuario Creador</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -48,6 +49,11 @@
                 <td>
                     <div *ngIf="evento.categoria">
                         <a [routerLink]="['../categoria', evento.categoria?.id ]" >{{evento.categoria?.nombre}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="evento.usuarioCreador">
+                        <a [routerLink]="['../usuario', evento.usuarioCreador?.id ]" >{{evento.usuarioCreador?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">

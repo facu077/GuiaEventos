@@ -47,9 +47,6 @@ public class UsuarioResourceIntTest {
     private static final Sexo DEFAULT_SEXO = Sexo.MASCULINO;
     private static final Sexo UPDATED_SEXO = Sexo.FEMENINO;
 
-    private static final Boolean DEFAULT_PRESTADOR = false;
-    private static final Boolean UPDATED_PRESTADOR = true;
-
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -89,8 +86,7 @@ public class UsuarioResourceIntTest {
     public static Usuario createEntity(EntityManager em) {
         Usuario usuario = new Usuario()
             .fechaNacimiento(DEFAULT_FECHA_NACIMIENTO)
-            .sexo(DEFAULT_SEXO)
-            .prestador(DEFAULT_PRESTADOR);
+            .sexo(DEFAULT_SEXO);
         return usuario;
     }
 
@@ -116,7 +112,6 @@ public class UsuarioResourceIntTest {
         Usuario testUsuario = usuarioList.get(usuarioList.size() - 1);
         assertThat(testUsuario.getFechaNacimiento()).isEqualTo(DEFAULT_FECHA_NACIMIENTO);
         assertThat(testUsuario.getSexo()).isEqualTo(DEFAULT_SEXO);
-        assertThat(testUsuario.isPrestador()).isEqualTo(DEFAULT_PRESTADOR);
     }
 
     @Test
@@ -140,24 +135,6 @@ public class UsuarioResourceIntTest {
 
     @Test
     @Transactional
-    public void checkPrestadorIsRequired() throws Exception {
-        int databaseSizeBeforeTest = usuarioRepository.findAll().size();
-        // set the field null
-        usuario.setPrestador(null);
-
-        // Create the Usuario, which fails.
-
-        restUsuarioMockMvc.perform(post("/api/usuarios")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(usuario)))
-            .andExpect(status().isBadRequest());
-
-        List<Usuario> usuarioList = usuarioRepository.findAll();
-        assertThat(usuarioList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllUsuarios() throws Exception {
         // Initialize the database
         usuarioRepository.saveAndFlush(usuario);
@@ -168,8 +145,7 @@ public class UsuarioResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(usuario.getId().intValue())))
             .andExpect(jsonPath("$.[*].fechaNacimiento").value(hasItem(DEFAULT_FECHA_NACIMIENTO.toString())))
-            .andExpect(jsonPath("$.[*].sexo").value(hasItem(DEFAULT_SEXO.toString())))
-            .andExpect(jsonPath("$.[*].prestador").value(hasItem(DEFAULT_PRESTADOR.booleanValue())));
+            .andExpect(jsonPath("$.[*].sexo").value(hasItem(DEFAULT_SEXO.toString())));
     }
 
     @Test
@@ -184,8 +160,7 @@ public class UsuarioResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(usuario.getId().intValue()))
             .andExpect(jsonPath("$.fechaNacimiento").value(DEFAULT_FECHA_NACIMIENTO.toString()))
-            .andExpect(jsonPath("$.sexo").value(DEFAULT_SEXO.toString()))
-            .andExpect(jsonPath("$.prestador").value(DEFAULT_PRESTADOR.booleanValue()));
+            .andExpect(jsonPath("$.sexo").value(DEFAULT_SEXO.toString()));
     }
 
     @Test
@@ -209,8 +184,7 @@ public class UsuarioResourceIntTest {
         em.detach(updatedUsuario);
         updatedUsuario
             .fechaNacimiento(UPDATED_FECHA_NACIMIENTO)
-            .sexo(UPDATED_SEXO)
-            .prestador(UPDATED_PRESTADOR);
+            .sexo(UPDATED_SEXO);
 
         restUsuarioMockMvc.perform(put("/api/usuarios")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -223,7 +197,6 @@ public class UsuarioResourceIntTest {
         Usuario testUsuario = usuarioList.get(usuarioList.size() - 1);
         assertThat(testUsuario.getFechaNacimiento()).isEqualTo(UPDATED_FECHA_NACIMIENTO);
         assertThat(testUsuario.getSexo()).isEqualTo(UPDATED_SEXO);
-        assertThat(testUsuario.isPrestador()).isEqualTo(UPDATED_PRESTADOR);
     }
 
     @Test

@@ -3,34 +3,33 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { SERVER_API_URL } from '../../app.constants';
 
-import { Tags } from './tags.model';
+import { Notificaciones } from './notificaciones.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
 
 @Injectable()
-export class TagsService {
+export class NotificacionesService {
 
-    private resourceUrl =  SERVER_API_URL + 'api/tags';
-    private resourceUrlUserTags =  SERVER_API_URL + 'api/tagsUsuario';
+    private resourceUrl =  SERVER_API_URL + 'api/notificaciones';
 
     constructor(private http: Http) { }
 
-    create(tags: Tags): Observable<Tags> {
-        const copy = this.convert(tags);
+    create(notificaciones: Notificaciones): Observable<Notificaciones> {
+        const copy = this.convert(notificaciones);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
             return this.convertItemFromServer(jsonResponse);
         });
     }
 
-    update(tags: Tags): Observable<Tags> {
-        const copy = this.convert(tags);
+    update(notificaciones: Notificaciones): Observable<Notificaciones> {
+        const copy = this.convert(notificaciones);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
             return this.convertItemFromServer(jsonResponse);
         });
     }
 
-    find(id: number): Observable<Tags> {
+    find(id: number): Observable<Notificaciones> {
         return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
             const jsonResponse = res.json();
             return this.convertItemFromServer(jsonResponse);
@@ -47,20 +46,6 @@ export class TagsService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
-    findTags(req?: any): Observable<ResponseWrapper> {
-        const options = createRequestOption(req);
-        return this.http.get(this.resourceUrlUserTags, options)
-            .map((res: Response) => this.convertResponse(res));
-    }
-
-    deleteTagUs(id: number): Observable<Response> {
-        return this.http.delete(`${this.resourceUrlUserTags}/${id}`);
-    }
-
-    addTagsUsuario(id: number): Observable<Response> {
-        return this.http.get(`${this.resourceUrlUserTags}/add/${id}`);
-    }
-
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         const result = [];
@@ -71,18 +56,18 @@ export class TagsService {
     }
 
     /**
-     * Convert a returned JSON object to Tags.
+     * Convert a returned JSON object to Notificaciones.
      */
-    private convertItemFromServer(json: any): Tags {
-        const entity: Tags = Object.assign(new Tags(), json);
+    private convertItemFromServer(json: any): Notificaciones {
+        const entity: Notificaciones = Object.assign(new Notificaciones(), json);
         return entity;
     }
 
     /**
-     * Convert a Tags to a JSON which can be sent to the server.
+     * Convert a Notificaciones to a JSON which can be sent to the server.
      */
-    private convert(tags: Tags): Tags {
-        const copy: Tags = Object.assign({}, tags);
+    private convert(notificaciones: Notificaciones): Notificaciones {
+        const copy: Notificaciones = Object.assign({}, notificaciones);
         return copy;
     }
 }

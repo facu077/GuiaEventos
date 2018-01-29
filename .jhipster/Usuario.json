@@ -12,9 +12,17 @@
         {
             "relationshipType": "many-to-many",
             "otherEntityRelationshipName": "",
-            "relationshipName": "evento",
+            "relationshipName": "eventoRegistrado",
             "otherEntityName": "evento",
             "otherEntityField": "nombre",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "eventoFavorito",
+            "otherEntityName": "evento",
+            "otherEntityField": "id",
             "ownerSide": true
         },
         {
@@ -35,13 +43,6 @@
             "fieldName": "sexo",
             "fieldType": "Sexo",
             "fieldValues": "MASCULINO,FEMENINO"
-        },
-        {
-            "fieldName": "prestador",
-            "fieldType": "Boolean",
-            "fieldValidateRules": [
-                "required"
-            ]
         }
     ],
     "changelogDate": "20180114233454",

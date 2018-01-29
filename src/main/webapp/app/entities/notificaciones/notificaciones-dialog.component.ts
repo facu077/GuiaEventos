@@ -6,50 +6,37 @@ import { Observable } from 'rxjs/Observable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
-import { Evento } from './evento.model';
-import { EventoPopupService } from './evento-popup.service';
-import { EventoService } from './evento.service';
-import { Categoria, CategoriaService } from '../categoria';
+import { Notificaciones } from './notificaciones.model';
+import { NotificacionesPopupService } from './notificaciones-popup.service';
+import { NotificacionesService } from './notificaciones.service';
 import { Usuario, UsuarioService } from '../usuario';
-import { Tags, TagsService } from '../tags';
 import { ResponseWrapper } from '../../shared';
 
 @Component({
-    selector: 'jhi-evento-dialog',
-    templateUrl: './evento-dialog.component.html'
+    selector: 'jhi-notificaciones-dialog',
+    templateUrl: './notificaciones-dialog.component.html'
 })
-export class EventoDialogComponent implements OnInit {
+export class NotificacionesDialogComponent implements OnInit {
 
-    evento: Evento;
+    notificaciones: Notificaciones;
     isSaving: boolean;
 
-    categorias: Categoria[];
-
     usuarios: Usuario[];
-
-    tags: Tags[];
-    horarioDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,
         private dataUtils: JhiDataUtils,
         private jhiAlertService: JhiAlertService,
-        private eventoService: EventoService,
-        private categoriaService: CategoriaService,
+        private notificacionesService: NotificacionesService,
         private usuarioService: UsuarioService,
-        private tagsService: TagsService,
         private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.categoriaService.query()
-            .subscribe((res: ResponseWrapper) => { this.categorias = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.usuarioService.query()
             .subscribe((res: ResponseWrapper) => { this.usuarios = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
-        this.tagsService.query()
-            .subscribe((res: ResponseWrapper) => { this.tags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     byteSize(field) {
@@ -70,22 +57,22 @@ export class EventoDialogComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        if (this.evento.id !== undefined) {
+        if (this.notificaciones.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.eventoService.update(this.evento));
+                this.notificacionesService.update(this.notificaciones));
         } else {
             this.subscribeToSaveResponse(
-                this.eventoService.create(this.evento));
+                this.notificacionesService.create(this.notificaciones));
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<Evento>) {
-        result.subscribe((res: Evento) =>
+    private subscribeToSaveResponse(result: Observable<Notificaciones>) {
+        result.subscribe((res: Notificaciones) =>
             this.onSaveSuccess(res), (res: Response) => this.onSaveError());
     }
 
-    private onSaveSuccess(result: Evento) {
-        this.eventManager.broadcast({ name: 'eventoListModification', content: 'OK'});
+    private onSaveSuccess(result: Notificaciones) {
+        this.eventManager.broadcast({ name: 'notificacionesListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }
@@ -98,51 +85,32 @@ export class EventoDialogComponent implements OnInit {
         this.jhiAlertService.error(error.message, null, null);
     }
 
-    trackCategoriaById(index: number, item: Categoria) {
-        return item.id;
-    }
-
     trackUsuarioById(index: number, item: Usuario) {
         return item.id;
-    }
-
-    trackTagsById(index: number, item: Tags) {
-        return item.id;
-    }
-
-    getSelected(selectedVals: Array<any>, option: any) {
-        if (selectedVals) {
-            for (let i = 0; i < selectedVals.length; i++) {
-                if (option.id === selectedVals[i].id) {
-                    return selectedVals[i];
-                }
-            }
-        }
-        return option;
     }
 }
 
 @Component({
-    selector: 'jhi-evento-popup',
+    selector: 'jhi-notificaciones-popup',
     template: ''
 })
-export class EventoPopupComponent implements OnInit, OnDestroy {
+export class NotificacionesPopupComponent implements OnInit, OnDestroy {
 
     routeSub: any;
 
     constructor(
         private route: ActivatedRoute,
-        private eventoPopupService: EventoPopupService
+        private notificacionesPopupService: NotificacionesPopupService
     ) {}
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.eventoPopupService
-                    .open(EventoDialogComponent as Component, params['id']);
+                this.notificacionesPopupService
+                    .open(NotificacionesDialogComponent as Component, params['id']);
             } else {
-                this.eventoPopupService
-                    .open(EventoDialogComponent as Component);
+                this.notificacionesPopupService
+                    .open(NotificacionesDialogComponent as Component);
             }
         });
     }

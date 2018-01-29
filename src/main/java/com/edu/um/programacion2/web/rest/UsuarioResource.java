@@ -1,11 +1,9 @@
 package com.edu.um.programacion2.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.edu.um.programacion2.domain.Tags;
 import com.edu.um.programacion2.domain.Usuario;
 
 import com.edu.um.programacion2.repository.UsuarioRepository;
-import com.edu.um.programacion2.security.SecurityUtils;
 import com.edu.um.programacion2.web.rest.errors.BadRequestAlertException;
 import com.edu.um.programacion2.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -14,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -47,7 +44,7 @@ public class UsuarioResource {
      */
     @PostMapping("/usuarios")
     @Timed
-    public ResponseEntity<Usuario> createUsuario(@Valid @RequestBody Usuario usuario) throws URISyntaxException {
+    public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) throws URISyntaxException {
         log.debug("REST request to save Usuario : {}", usuario);
         if (usuario.getId() != null) {
             throw new BadRequestAlertException("A new usuario cannot already have an ID", ENTITY_NAME, "idexists");
@@ -69,7 +66,7 @@ public class UsuarioResource {
      */
     @PutMapping("/usuarios")
     @Timed
-    public ResponseEntity<Usuario> updateUsuario(@Valid @RequestBody Usuario usuario) throws URISyntaxException {
+    public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario) throws URISyntaxException {
         log.debug("REST request to update Usuario : {}", usuario);
         if (usuario.getId() == null) {
             return createUsuario(usuario);
@@ -119,24 +116,4 @@ public class UsuarioResource {
         usuarioRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-    
-    /**
-     * DELETE  /usuarios/:id : delete the "id" usuario.
-     *
-     * @param id the id of the usuario to delete
-     * @return the ResponseEntity with status 200 (OK)
-     */
-    @GetMapping("/usuarios/addrole")
-    @Timed
-    public ResponseEntity<Void> addRolePrestador() {
-    	String login;
-        Long idUs;
-        login = SecurityUtils.getCurrentUserLogin().get();
-        idUs = usuarioRepository.getUserId(login);
-        log.debug("REST request to add Role Prestador");
-        usuarioRepository.addRole(idUs);
-        //VER ESE RETURN
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, idUs.toString())).build();
-    }
-    
 }

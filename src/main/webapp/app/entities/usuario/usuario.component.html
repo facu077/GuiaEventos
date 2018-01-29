@@ -19,9 +19,9 @@
             <th><span>ID</span></th>
             <th><span>Fecha Nacimiento</span></th>
             <th><span>Sexo</span></th>
-            <th><span>Prestador</span></th>
             <th><span>User</span></th>
-            <th><span>Evento</span></th>
+            <th><span>Evento Registrado</span></th>
+            <th><span>Evento Favorito</span></th>
             <th><span>Tag</span></th>
             <th></th>
             </tr>
@@ -31,13 +31,17 @@
                 <td><a [routerLink]="['../usuario', usuario.id ]">{{usuario.id}}</a></td>
                 <td>{{usuario.fechaNacimiento | date:'mediumDate'}}</td>
                 <td>{{usuario.sexo}}</td>
-                <td>{{usuario.prestador}}</td>
                 <td>
                     {{usuario.user?.id}}
                 </td>
                 <td>
-                    <span *ngFor="let evento of usuario.eventos; let last = last">
-                            <a class="form-control-static" [routerLink]="['../evento', evento?.id ]">{{evento.nombre}}</a>{{last ? '' : ', '}}
+                    <span *ngFor="let eventoRegistrado of usuario.eventoRegistrados; let last = last">
+                            <a class="form-control-static" [routerLink]="['../evento', eventoRegistrado?.id ]">{{eventoRegistrado.nombre}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td>
+                    <span *ngFor="let eventoFavorito of usuario.eventoFavoritos; let last = last">
+                            <a class="form-control-static" [routerLink]="['../evento', eventoFavorito?.id ]">{{eventoFavorito.id}}</a>{{last ? '' : ', '}}
                         </span>
                 </td>
                 <td>

@@ -134,7 +134,6 @@ public class UserService {
         Usuario newUsuario = new Usuario();
         newUsuario.setUser(newUser);
         newUsuario.setId(newUser.getId());
-        newUsuario.setPrestador(false);
         newUsuario.setFechaNacimiento(fechaNacimiento);
         newUsuario.setSexo(sexo);
         UsuarioRepository.save(newUsuario);

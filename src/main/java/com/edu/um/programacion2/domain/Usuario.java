@@ -2,7 +2,6 @@ package com.edu.um.programacion2.domain;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -31,20 +30,21 @@ public class Usuario implements Serializable {
     @Column(name = "sexo")
     private Sexo sexo;
 
-    @NotNull
-    @Column(name = "prestador", nullable = false)
-    private Boolean prestador;
-
     @OneToOne
     @JoinColumn(unique = true)
-    //@MapsId deberia estar pero rompe todo con los tags
     private User user;
 
     @ManyToMany
-    @JoinTable(name = "usuario_evento",
+    @JoinTable(name = "usuario_evento_registrado",
                joinColumns = @JoinColumn(name="usuarios_id", referencedColumnName="id"),
-               inverseJoinColumns = @JoinColumn(name="eventos_id", referencedColumnName="id"))
-    private Set<Evento> eventos = new HashSet<>();
+               inverseJoinColumns = @JoinColumn(name="evento_registrados_id", referencedColumnName="id"))
+    private Set<Evento> eventoRegistrados = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "usuario_evento_favorito",
+               joinColumns = @JoinColumn(name="usuarios_id", referencedColumnName="id"),
+               inverseJoinColumns = @JoinColumn(name="evento_favoritos_id", referencedColumnName="id"))
+    private Set<Evento> eventoFavoritos = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "usuario_tag",
@@ -87,19 +87,6 @@ public class Usuario implements Serializable {
         this.sexo = sexo;
     }
 
-    public Boolean isPrestador() {
-        return prestador;
-    }
-
-    public Usuario prestador(Boolean prestador) {
-        this.prestador = prestador;
-        return this;
-    }
-
-    public void setPrestador(Boolean prestador) {
-        this.prestador = prestador;
-    }
-
     public User getUser() {
         return user;
     }
@@ -113,27 +100,50 @@ public class Usuario implements Serializable {
         this.user = user;
     }
 
-    public Set<Evento> getEventos() {
-        return eventos;
+    public Set<Evento> getEventoRegistrados() {
+        return eventoRegistrados;
     }
 
-    public Usuario eventos(Set<Evento> eventos) {
-        this.eventos = eventos;
+    public Usuario eventoRegistrados(Set<Evento> eventos) {
+        this.eventoRegistrados = eventos;
         return this;
     }
 
-    public Usuario addEvento(Evento evento) {
-        this.eventos.add(evento);
+    public Usuario addEventoRegistrado(Evento evento) {
+        this.eventoRegistrados.add(evento);
         return this;
     }
 
-    public Usuario removeEvento(Evento evento) {
-        this.eventos.remove(evento);
+    public Usuario removeEventoRegistrado(Evento evento) {
+        this.eventoRegistrados.remove(evento);
         return this;
     }
 
-    public void setEventos(Set<Evento> eventos) {
-        this.eventos = eventos;
+    public void setEventoRegistrados(Set<Evento> eventos) {
+        this.eventoRegistrados = eventos;
+    }
+
+    public Set<Evento> getEventoFavoritos() {
+        return eventoFavoritos;
+    }
+
+    public Usuario eventoFavoritos(Set<Evento> eventos) {
+        this.eventoFavoritos = eventos;
+        return this;
+    }
+
+    public Usuario addEventoFavorito(Evento evento) {
+        this.eventoFavoritos.add(evento);
+        return this;
+    }
+
+    public Usuario removeEventoFavorito(Evento evento) {
+        this.eventoFavoritos.remove(evento);
+        return this;
+    }
+
+    public void setEventoFavoritos(Set<Evento> eventos) {
+        this.eventoFavoritos = eventos;
     }
 
     public Set<Tags> getTags() {
@@ -186,7 +196,6 @@ public class Usuario implements Serializable {
             "id=" + getId() +
             ", fechaNacimiento='" + getFechaNacimiento() + "'" +
             ", sexo='" + getSexo() + "'" +
-            ", prestador='" + isPrestador() + "'" +
             "}";
     }
 }
