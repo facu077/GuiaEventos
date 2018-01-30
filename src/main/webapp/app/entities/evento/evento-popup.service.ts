@@ -26,11 +26,11 @@ export class EventoPopupService {
 
             if (id) {
                 this.eventoService.find(id).subscribe((evento) => {
-                    if (evento.horario) {
-                        evento.horario = {
-                            year: evento.horario.getFullYear(),
-                            month: evento.horario.getMonth() + 1,
-                            day: evento.horario.getDate()
+                    if (evento.fecha) {
+                        evento.fecha = {
+                            year: evento.fecha.getFullYear(),
+                            month: evento.fecha.getMonth() + 1,
+                            day: evento.fecha.getDate()
                         };
                     }
                     this.ngbModalRef = this.eventoModalRef(component, evento);

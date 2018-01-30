@@ -42,23 +42,27 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="horario" type="date">
+            <column name="fecha" type="date">
                 <constraints nullable="false" />
+            </column>
+
+            <column name="hora" type="varchar(255)">
+                <constraints nullable="true" />
             </column>
 
             <column name="imagenes" type="longblob">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="imagenes_content_type" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
 
             <column name="destacado" type="bit">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
 
             <column name="estado" type="bit">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
 
             <column name="categoria_id" type="bigint">

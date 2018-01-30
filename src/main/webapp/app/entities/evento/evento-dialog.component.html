@@ -72,20 +72,25 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" for="field_horario">Horario</label>
+            <label class="form-control-label" for="field_fecha">Fecha</label>
             <div class="input-group">
-                <input id="field_horario" type="text" class="form-control" name="horario" ngbDatepicker  #horarioDp="ngbDatepicker" [(ngModel)]="evento.horario"
+                <input id="field_fecha" type="date" class="form-control" name="fecha" ngbDatepicker  #fechaDp="ngbDatepicker" [(ngModel)]="evento.fecha"
                 required/>
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-secondary" (click)="horarioDp.toggle()"><i class="fa fa-calendar"></i></button>
+                    <button type="button" class="btn btn-secondary" (click)="fechaDp.toggle()"><i class="fa fa-calendar"></i></button>
                 </span>
             </div>
-            <div [hidden]="!(editForm.controls.horario?.dirty && editForm.controls.horario?.invalid)">
+            <div [hidden]="!(editForm.controls.fecha?.dirty && editForm.controls.fecha?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.horario?.errors?.required">
+                   [hidden]="!editForm.controls.fecha?.errors?.required">
                    This field is required.
                 </small>
             </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_hora">Hora</label>
+            <input type="time" class="form-control" name="hora" id="field_hora"
+                [(ngModel)]="evento.hora" />
         </div>
         <div class="form-group">
             <label class="form-control-label" for="field_imagenes">Imagenes</label>
@@ -101,37 +106,19 @@
                 <input type="file" id="file_imagenes" (change)="setFileData($event, evento, 'imagenes', false)"/>
             </div>
             <input type="hidden" class="form-control" name="imagenes" id="field_imagenes"
-                [(ngModel)]="evento.imagenes" required/>
+                [(ngModel)]="evento.imagenes" />
             <input type="hidden" class="form-control" name="imagenesContentType" id="field_imagenesContentType"
                 [(ngModel)]="evento.imagenesContentType" />
-            <div [hidden]="!(editForm.controls.imagenes?.dirty && editForm.controls.imagenes?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.imagenes?.errors?.required">
-                   This field is required.
-                </small>
-            </div>
         </div>
         <div class="form-group">
             <label class="form-control-label" for="field_destacado">Destacado</label>
             <input type="checkbox" class="form-control" name="destacado" id="field_destacado"
                 [(ngModel)]="evento.destacado" />
-            <div [hidden]="!(editForm.controls.destacado?.dirty && editForm.controls.destacado?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.destacado?.errors?.required">
-                   This field is required.
-                </small>
-            </div>
         </div>
         <div class="form-group">
             <label class="form-control-label" for="field_estado">Estado</label>
             <input type="checkbox" class="form-control" name="estado" id="field_estado"
                 [(ngModel)]="evento.estado" />
-            <div [hidden]="!(editForm.controls.estado?.dirty && editForm.controls.estado?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.estado?.errors?.required">
-                   This field is required.
-                </small>
-            </div>
         </div>
 
         <div class="form-group">

@@ -49,6 +49,12 @@ export class EventoService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
+    queryUsuario(req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
+        return this.http.get(this.resourceUrlUsuario, options)
+            .map((res: Response) => this.convertResponse(res));
+    }
+
     createUsuario(evento: Evento): Observable<Evento> {
         const copy = this.convert(evento);
         return this.http.post(this.resourceUrlUsuario, copy).map((res: Response) => {
@@ -71,8 +77,8 @@ export class EventoService {
      */
     private convertItemFromServer(json: any): Evento {
         const entity: Evento = Object.assign(new Evento(), json);
-        entity.horario = this.dateUtils
-            .convertLocalDateFromServer(json.horario);
+        entity.fecha = this.dateUtils
+            .convertLocalDateFromServer(json.fecha);
         return entity;
     }
 
@@ -81,8 +87,8 @@ export class EventoService {
      */
     private convert(evento: Evento): Evento {
         const copy: Evento = Object.assign({}, evento);
-        copy.horario = this.dateUtils
-            .convertLocalDateToServer(evento.horario);
+        copy.fecha = this.dateUtils
+            .convertLocalDateToServer(evento.fecha);
         return copy;
     }
 }

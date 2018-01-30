@@ -22,7 +22,8 @@
             <th jhiSortBy="descripcion"><span>Descripcion</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="precio"><span>Precio</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="ubicacion"><span>Ubicacion</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="horario"><span>Horario</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="fecha"><span>Fecha</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="hora"><span>Hora</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="imagenes"><span>Imagenes</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="destacado"><span>Destacado</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="estado"><span>Estado</span> <span class="fa fa-sort"></span></th>
@@ -39,7 +40,8 @@
                 <td>{{evento.descripcion}}</td>
                 <td>{{evento.precio}}</td>
                 <td>{{evento.ubicacion}}</td>
-                <td>{{evento.horario | date:'mediumDate'}}</td>
+                <td>{{evento.fecha | date:'mediumDate'}}</td>
+                <td>{{evento.hora}}</td>
                 <td>
                     <a *ngIf="evento.imagenes" (click)="openFile(evento.imagenesContentType, evento.imagenes)">open</a>
                     <span *ngIf="evento.imagenes">{{evento.imagenesContentType}}, {{byteSize(evento.imagenes)}}</span>

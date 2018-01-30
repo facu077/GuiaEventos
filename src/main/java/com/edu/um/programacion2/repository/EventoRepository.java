@@ -1,6 +1,7 @@
 package com.edu.um.programacion2.repository;
 
 import com.edu.um.programacion2.domain.Evento;
+import com.edu.um.programacion2.domain.Tags;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,16 @@ public interface EventoRepository extends JpaRepository<Evento, Long> {
 
     @Query("select evento from Evento evento left join fetch evento.tags where evento.id =:id")
     Evento findOneWithEagerRelationships(@Param("id") Long id);
+    
+    @Query(value = "select jhi_user.id from jhi_user where jhi_user.login = :login",
+            nativeQuery=true
+    )
+    Long getUserId(@Param("login") String login);
+    
+    @Query(value = "select * from evento where usuario_creador_id = :id",
+            nativeQuery=true
+    )
+    List<Evento> findUserEventos(@Param("id") Long id);
     
     @Transactional
     @Modifying

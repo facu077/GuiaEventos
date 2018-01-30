@@ -56,8 +56,11 @@ public class EventoResourceIntTest {
     private static final String DEFAULT_UBICACION = "AAAAAAAAAA";
     private static final String UPDATED_UBICACION = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_HORARIO = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_HORARIO = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate DEFAULT_FECHA = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_FECHA = LocalDate.now(ZoneId.systemDefault());
+
+    private static final String DEFAULT_HORA = "AAAAAAAAAA";
+    private static final String UPDATED_HORA = "BBBBBBBBBB";
 
     private static final byte[] DEFAULT_IMAGENES = TestUtil.createByteArray(1, "0");
     private static final byte[] UPDATED_IMAGENES = TestUtil.createByteArray(2, "1");
@@ -113,7 +116,8 @@ public class EventoResourceIntTest {
             .descripcion(DEFAULT_DESCRIPCION)
             .precio(DEFAULT_PRECIO)
             .ubicacion(DEFAULT_UBICACION)
-            .horario(DEFAULT_HORARIO)
+            .fecha(DEFAULT_FECHA)
+            .hora(DEFAULT_HORA)
             .imagenes(DEFAULT_IMAGENES)
             .imagenesContentType(DEFAULT_IMAGENES_CONTENT_TYPE)
             .destacado(DEFAULT_DESTACADO)
@@ -146,7 +150,8 @@ public class EventoResourceIntTest {
         assertThat(testEvento.getDescripcion()).isEqualTo(DEFAULT_DESCRIPCION);
         assertThat(testEvento.getPrecio()).isEqualTo(DEFAULT_PRECIO);
         assertThat(testEvento.getUbicacion()).isEqualTo(DEFAULT_UBICACION);
-        assertThat(testEvento.getHorario()).isEqualTo(DEFAULT_HORARIO);
+        assertThat(testEvento.getFecha()).isEqualTo(DEFAULT_FECHA);
+        assertThat(testEvento.getHora()).isEqualTo(DEFAULT_HORA);
         assertThat(testEvento.getImagenes()).isEqualTo(DEFAULT_IMAGENES);
         assertThat(testEvento.getImagenesContentType()).isEqualTo(DEFAULT_IMAGENES_CONTENT_TYPE);
         assertThat(testEvento.isDestacado()).isEqualTo(DEFAULT_DESTACADO);
@@ -264,64 +269,10 @@ public class EventoResourceIntTest {
 
     @Test
     @Transactional
-    public void checkHorarioIsRequired() throws Exception {
+    public void checkFechaIsRequired() throws Exception {
         int databaseSizeBeforeTest = eventoRepository.findAll().size();
         // set the field null
-        evento.setHorario(null);
-
-        // Create the Evento, which fails.
-
-        restEventoMockMvc.perform(post("/api/eventos")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(evento)))
-            .andExpect(status().isBadRequest());
-
-        List<Evento> eventoList = eventoRepository.findAll();
-        assertThat(eventoList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkImagenesIsRequired() throws Exception {
-        int databaseSizeBeforeTest = eventoRepository.findAll().size();
-        // set the field null
-        evento.setImagenes(null);
-
-        // Create the Evento, which fails.
-
-        restEventoMockMvc.perform(post("/api/eventos")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(evento)))
-            .andExpect(status().isBadRequest());
-
-        List<Evento> eventoList = eventoRepository.findAll();
-        assertThat(eventoList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkDestacadoIsRequired() throws Exception {
-        int databaseSizeBeforeTest = eventoRepository.findAll().size();
-        // set the field null
-        evento.setDestacado(null);
-
-        // Create the Evento, which fails.
-
-        restEventoMockMvc.perform(post("/api/eventos")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(evento)))
-            .andExpect(status().isBadRequest());
-
-        List<Evento> eventoList = eventoRepository.findAll();
-        assertThat(eventoList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkEstadoIsRequired() throws Exception {
-        int databaseSizeBeforeTest = eventoRepository.findAll().size();
-        // set the field null
-        evento.setEstado(null);
+        evento.setFecha(null);
 
         // Create the Evento, which fails.
 
@@ -350,7 +301,8 @@ public class EventoResourceIntTest {
             .andExpect(jsonPath("$.[*].descripcion").value(hasItem(DEFAULT_DESCRIPCION.toString())))
             .andExpect(jsonPath("$.[*].precio").value(hasItem(DEFAULT_PRECIO)))
             .andExpect(jsonPath("$.[*].ubicacion").value(hasItem(DEFAULT_UBICACION.toString())))
-            .andExpect(jsonPath("$.[*].horario").value(hasItem(DEFAULT_HORARIO.toString())))
+            .andExpect(jsonPath("$.[*].fecha").value(hasItem(DEFAULT_FECHA.toString())))
+            .andExpect(jsonPath("$.[*].hora").value(hasItem(DEFAULT_HORA.toString())))
             .andExpect(jsonPath("$.[*].imagenesContentType").value(hasItem(DEFAULT_IMAGENES_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].imagenes").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGENES))))
             .andExpect(jsonPath("$.[*].destacado").value(hasItem(DEFAULT_DESTACADO.booleanValue())))
@@ -373,7 +325,8 @@ public class EventoResourceIntTest {
             .andExpect(jsonPath("$.descripcion").value(DEFAULT_DESCRIPCION.toString()))
             .andExpect(jsonPath("$.precio").value(DEFAULT_PRECIO))
             .andExpect(jsonPath("$.ubicacion").value(DEFAULT_UBICACION.toString()))
-            .andExpect(jsonPath("$.horario").value(DEFAULT_HORARIO.toString()))
+            .andExpect(jsonPath("$.fecha").value(DEFAULT_FECHA.toString()))
+            .andExpect(jsonPath("$.hora").value(DEFAULT_HORA.toString()))
             .andExpect(jsonPath("$.imagenesContentType").value(DEFAULT_IMAGENES_CONTENT_TYPE))
             .andExpect(jsonPath("$.imagenes").value(Base64Utils.encodeToString(DEFAULT_IMAGENES)))
             .andExpect(jsonPath("$.destacado").value(DEFAULT_DESTACADO.booleanValue()))
@@ -405,7 +358,8 @@ public class EventoResourceIntTest {
             .descripcion(UPDATED_DESCRIPCION)
             .precio(UPDATED_PRECIO)
             .ubicacion(UPDATED_UBICACION)
-            .horario(UPDATED_HORARIO)
+            .fecha(UPDATED_FECHA)
+            .hora(UPDATED_HORA)
             .imagenes(UPDATED_IMAGENES)
             .imagenesContentType(UPDATED_IMAGENES_CONTENT_TYPE)
             .destacado(UPDATED_DESTACADO)
@@ -425,7 +379,8 @@ public class EventoResourceIntTest {
         assertThat(testEvento.getDescripcion()).isEqualTo(UPDATED_DESCRIPCION);
         assertThat(testEvento.getPrecio()).isEqualTo(UPDATED_PRECIO);
         assertThat(testEvento.getUbicacion()).isEqualTo(UPDATED_UBICACION);
-        assertThat(testEvento.getHorario()).isEqualTo(UPDATED_HORARIO);
+        assertThat(testEvento.getFecha()).isEqualTo(UPDATED_FECHA);
+        assertThat(testEvento.getHora()).isEqualTo(UPDATED_HORA);
         assertThat(testEvento.getImagenes()).isEqualTo(UPDATED_IMAGENES);
         assertThat(testEvento.getImagenesContentType()).isEqualTo(UPDATED_IMAGENES_CONTENT_TYPE);
         assertThat(testEvento.isDestacado()).isEqualTo(UPDATED_DESTACADO);

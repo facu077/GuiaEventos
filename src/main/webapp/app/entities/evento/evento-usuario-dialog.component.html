@@ -19,7 +19,7 @@
             <div [hidden]="!(editForm.controls.nombre?.dirty && editForm.controls.nombre?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.nombre?.errors?.required">
-                   Este campo es obligatorio.
+                   This field is required.
                 </small>
             </div>
         </div>
@@ -30,7 +30,7 @@
             <div [hidden]="!(editForm.controls.resumen?.dirty && editForm.controls.resumen?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.resumen?.errors?.required">
-                   Este campo es obligatorio.
+                   This field is required.
                 </small>
             </div>
         </div>
@@ -41,7 +41,7 @@
             <div [hidden]="!(editForm.controls.descripcion?.dirty && editForm.controls.descripcion?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.descripcion?.errors?.required">
-                   Este campo es obligatorio.
+                   This field is required.
                 </small>
             </div>
         </div>
@@ -52,11 +52,11 @@
             <div [hidden]="!(editForm.controls.precio?.dirty && editForm.controls.precio?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.precio?.errors?.required">
-                   Este campo es obligatorio.
+                   This field is required.
                 </small>
                 <small class="form-text text-danger"
                     [hidden]="!editForm.controls.precio?.errors?.number">
-                    Ingrese solo numeros.
+                    This field should be a number.
                 </small>
             </div>
         </div>
@@ -67,25 +67,30 @@
             <div [hidden]="!(editForm.controls.ubicacion?.dirty && editForm.controls.ubicacion?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.ubicacion?.errors?.required">
-                   Este campo es obligatorio.
+                   This field is required.
                 </small>
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" for="field_horario">Horario</label>
+            <label class="form-control-label" for="field_fecha">Fecha</label>
             <div class="input-group">
-                <input id="field_horario" type="text" class="form-control" name="horario" ngbDatepicker  #horarioDp="ngbDatepicker" [(ngModel)]="evento.horario"
+                <input id="field_fecha" type="date" class="form-control" name="fecha" ngbDatepicker  #fechaDp="ngbDatepicker" [(ngModel)]="evento.fecha"
                 required/>
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-secondary" (click)="horarioDp.toggle()"><i class="fa fa-calendar"></i></button>
+                    <button type="button" class="btn btn-secondary" (click)="fechaDp.toggle()"><i class="fa fa-calendar"></i></button>
                 </span>
             </div>
-            <div [hidden]="!(editForm.controls.horario?.dirty && editForm.controls.horario?.invalid)">
+            <div [hidden]="!(editForm.controls.fecha?.dirty && editForm.controls.fecha?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.horario?.errors?.required">
-                   Este campo es obligatorio.
+                   [hidden]="!editForm.controls.fecha?.errors?.required">
+                   This field is required.
                 </small>
             </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_hora">Hora</label>
+            <input type="time" class="form-control" name="hora" id="field_hora"
+                [(ngModel)]="evento.hora" />
         </div>
         <div class="form-group">
             <label class="form-control-label" for="field_imagenes">Imagenes</label>
@@ -101,15 +106,9 @@
                 <input type="file" id="file_imagenes" (change)="setFileData($event, evento, 'imagenes', false)"/>
             </div>
             <input type="hidden" class="form-control" name="imagenes" id="field_imagenes"
-                [(ngModel)]="evento.imagenes" required/>
+                [(ngModel)]="evento.imagenes" />
             <input type="hidden" class="form-control" name="imagenesContentType" id="field_imagenesContentType"
                 [(ngModel)]="evento.imagenesContentType" />
-            <div [hidden]="!(editForm.controls.imagenes?.dirty && editForm.controls.imagenes?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.imagenes?.errors?.required">
-                   Este campo es obligatorio.
-                </small>
-            </div>
         </div>
         <div class="form-group">
             <label class="form-control-label" for="field_categoria">Categoria</label>
@@ -127,10 +126,10 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
-            <span class="fa fa-ban"></span>&nbsp;<span>Cancelar</span>
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
         </button>
         <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-            <span class="fa fa-save"></span>&nbsp;<span>Crear</span>
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
         </button>
     </div>
 </form>

@@ -28,7 +28,7 @@ export class EventoDialogComponent implements OnInit {
     usuarios: Usuario[];
 
     tags: Tags[];
-    horarioDp: any;
+    fechaDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,

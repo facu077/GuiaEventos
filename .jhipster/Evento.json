@@ -61,33 +61,28 @@
             ]
         },
         {
-            "fieldName": "horario",
+            "fieldName": "fecha",
             "fieldType": "LocalDate",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
+            "fieldName": "hora",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "imagenes",
             "fieldType": "byte[]",
-            "fieldTypeBlobContent": "any",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldTypeBlobContent": "any"
         },
         {
             "fieldName": "destacado",
-            "fieldType": "Boolean",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "Boolean"
         },
         {
             "fieldName": "estado",
-            "fieldType": "Boolean",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "Boolean"
         }
     ],
     "changelogDate": "20180111160849",

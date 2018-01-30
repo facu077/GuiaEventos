@@ -42,7 +42,7 @@ export class EventoUsuarioComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        this.eventoService.query({
+        this.eventoService.queryUsuario({
             page: this.page,
             size: this.itemsPerPage,
             sort: this.sort()
