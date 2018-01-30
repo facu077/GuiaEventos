@@ -18,6 +18,8 @@ import { TagsUsuarioDeletePopupComponent } from './entities/tags/tags-usuario-de
 import { TagsUsuarioDeleteDialogComponent } from './entities/tags/tags-usuario-delete-dialog.component';
 import { TagsUsuarioDialogComponent } from './entities/tags/tags-usuario-dialog.component';
 import { TagsUsuarioPopupComponent } from './entities/tags/tags-usuario-dialog.component';
+import { EventoUsuarioComponent } from './entities/evento/evento-usuario.component';
+import { EventoUsuarioDialogComponent, EventoUsuarioPopupComponent } from './entities/evento/evento-usuario-dialog.component';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -53,7 +55,10 @@ import {
         TagsUsuarioDeletePopupComponent,
         TagsUsuarioDeleteDialogComponent,
         TagsUsuarioDialogComponent,
-        TagsUsuarioPopupComponent
+        TagsUsuarioPopupComponent,
+        EventoUsuarioComponent,
+        EventoUsuarioDialogComponent,
+        EventoUsuarioPopupComponent
     ],
     providers: [
         ProfileService,
@@ -61,7 +66,11 @@ import {
         PaginationConfig,
         UserRouteAccessService
     ],
-    entryComponents: [TagsUsuarioDeleteDialogComponent, TagsUsuarioDialogComponent],
+    entryComponents: [
+        TagsUsuarioDeleteDialogComponent,
+        TagsUsuarioDialogComponent,
+        EventoUsuarioDialogComponent
+    ],
     bootstrap: [ JhiMainComponent ]
 })
 export class TrabajoFinalAppModule {}

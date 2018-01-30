@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.edu.um.programacion2.domain.Evento;
 
 import com.edu.um.programacion2.repository.EventoRepository;
+import com.edu.um.programacion2.security.SecurityUtils;
 import com.edu.um.programacion2.web.rest.errors.BadRequestAlertException;
 import com.edu.um.programacion2.web.rest.util.HeaderUtil;
 import com.edu.um.programacion2.web.rest.util.PaginationUtil;
@@ -125,4 +126,28 @@ public class EventoResource {
         eventoRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    
+    /**
+     * POST  /eventos-usuario : Create a new evento.
+     *
+     * @param evento the evento to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new evento, or with status 400 (Bad Request) if the evento has already an ID
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PostMapping("/eventos-usuario")
+    @Timed
+    public ResponseEntity<Evento> createEventoUsuario(@Valid @RequestBody Evento evento) throws URISyntaxException {
+        String login;
+    	log.debug("REST request to save Evento : {}", evento);
+        if (evento.getId() != null) {
+            throw new BadRequestAlertException("A new evento cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        login = SecurityUtils.getCurrentUserLogin().get();
+        Evento result = eventoRepository.save(evento);
+        eventoRepository.saveCreador(login ,result.getId());
+        return ResponseEntity.created(new URI("/api/eventos/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
 }
