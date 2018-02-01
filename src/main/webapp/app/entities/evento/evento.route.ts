@@ -78,4 +78,14 @@ export const eventoPopupRoute: Routes = [
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
     },
+    {
+        path: 'evento-usuario/:id/edit',
+        component: EventoUsuarioPopupComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Eventos'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
 ];

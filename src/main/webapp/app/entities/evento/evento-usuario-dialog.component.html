@@ -1,7 +1,7 @@
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
 
     <div class="modal-header">
-        <h4 class="modal-title" id="myEventoLabel">Create or edit a Evento</h4>
+        <h4 class="modal-title" id="myEventoLabel">Crear o editar evento</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 (click)="clear()">&times;</button>
     </div>
@@ -64,7 +64,7 @@
             <label class="form-control-label" for="field_ubicacion">Ubicacion</label>
             <div class="input-group">
                 <input type="text" class="form-control" name="ubicacion" id="field_ubicacion"
-                    [(ngModel)]="evento.ubicacion" required/>
+                    [(ngModel)]="evento.ubicacion" readonly required/>
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-secondary" (click)="showMap()"><i class="fa fa-map-marker"></i></button>
                 </span>
@@ -87,7 +87,7 @@
                         (dragEnd)="markerDragEnd(marcador, $event)">
                         
                         <agm-info-window>
-                        <strong>InfoWindow content</strong>
+                        <strong>Tu evento</strong>
                         </agm-info-window>
                         
                     </agm-marker>

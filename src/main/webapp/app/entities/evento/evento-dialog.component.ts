@@ -14,9 +14,11 @@ import { Usuario, UsuarioService } from '../usuario';
 import { Tags, TagsService } from '../tags';
 import { ResponseWrapper } from '../../shared';
 
+import { MouseEvent } from '@agm/core';
+
 @Component({
     selector: 'jhi-evento-dialog',
-    templateUrl: './evento-dialog.component.html'
+    templateUrl: './evento-dialog.component.html',
 })
 export class EventoDialogComponent implements OnInit {
 
@@ -28,7 +30,23 @@ export class EventoDialogComponent implements OnInit {
     usuarios: Usuario[];
 
     tags: Tags[];
-    fechaDp: any;
+    horarioDp: any;
+
+    show: boolean;
+
+    // google maps zoom level
+    zoom: number = +12;
+
+    // initial center position for the map
+    lat: number = -32.8943;
+    lng: number = -68.8341;
+
+    marcador: Marker = {
+        lat: -32.8943,
+        lng: -68.8341,
+        label: 'A',
+        draggable: true
+    }
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -43,6 +61,7 @@ export class EventoDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.show = false;
         this.isSaving = false;
         this.categoriaService.query()
             .subscribe((res: ResponseWrapper) => { this.categorias = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
@@ -120,6 +139,34 @@ export class EventoDialogComponent implements OnInit {
         }
         return option;
     }
+
+    clickedMarker(label: string, index: number) {
+        console.log(`clicked the marker: ${label || index}`)
+    }
+
+    mapClicked($event: MouseEvent) {
+        this.marcador = {
+          lat: $event.coords.lat,
+          lng: $event.coords.lng,
+          draggable: true
+        }
+        this.evento.ubicacion = `${this.marcador.lat};${this.marcador.lng}`;
+    }
+
+    markerDragEnd(m: Marker, $event: MouseEvent) {
+        console.log('dragEnd', m, $event);
+    }
+
+    showMap() {
+        this.show = !this.show;
+    }
+}
+
+interface Marker {
+    lat: number;
+    lng: number;
+    label?: string;
+    draggable: boolean;
 }
 
 @Component({

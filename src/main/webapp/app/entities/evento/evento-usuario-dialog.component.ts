@@ -42,8 +42,8 @@ export class EventoUsuarioDialogComponent implements OnInit {
     lng: number = -68.8341;
 
     marcador: Marker = {
-        lat: -32.8943,
-        lng: -68.8341,
+        lat: 0,
+        lng: 0,
         label: 'A',
         draggable: true
     }
@@ -68,6 +68,15 @@ export class EventoUsuarioDialogComponent implements OnInit {
             .subscribe((res: ResponseWrapper) => { this.usuarios = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.tagsService.query()
             .subscribe((res: ResponseWrapper) => { this.tags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.buildMap();
+    }
+
+    buildMap() {
+        const [longitud, latitud] = this.evento.ubicacion.split(';');
+        this.marcador.lat = +longitud;
+        this.marcador.lng = +latitud;
+        this.lat = +longitud;
+        this.lng = +latitud;
     }
 
     byteSize(field) {

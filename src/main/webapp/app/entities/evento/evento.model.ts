@@ -20,5 +20,6 @@ export class Evento implements BaseEntity {
     ) {
         this.destacado = false;
         this.estado = false;
+        this.ubicacion = '-32.89;-68.83';
     }
 }
