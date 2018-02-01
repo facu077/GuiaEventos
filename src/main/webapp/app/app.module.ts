@@ -1,8 +1,11 @@
 import './vendor.ts';
 
-import { NgModule } from '@angular/core';
+import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Ng2Webstorage } from 'ngx-webstorage';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AgmCoreModule } from '@agm/core';
 
 import { TrabajoFinalSharedModule, UserRouteAccessService } from './shared';
 import { TrabajoFinalAppRoutingModule} from './app-routing.module';
@@ -35,6 +38,11 @@ import {
 @NgModule({
     imports: [
         BrowserModule,
+        CommonModule,
+        FormsModule,
+        AgmCoreModule.forRoot({
+        apiKey: 'AIzaSyDUv635tYlaLjlECsrwe8LCMKreP4kwpzE'
+        }),
         TrabajoFinalAppRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
         TrabajoFinalSharedModule,

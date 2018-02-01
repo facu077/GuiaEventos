@@ -14,6 +14,8 @@ import { Usuario, UsuarioService } from '../usuario';
 import { Tags, TagsService } from '../tags';
 import { ResponseWrapper } from '../../shared';
 
+import { MouseEvent } from '@agm/core';
+
 @Component({
     selector: 'jhi-evento-usuario-dialog',
     templateUrl: './evento-usuario-dialog.component.html'
@@ -29,6 +31,22 @@ export class EventoUsuarioDialogComponent implements OnInit {
 
     tags: Tags[];
     horarioDp: any;
+
+    show: boolean;
+
+    // google maps zoom level
+    zoom: number = +12;
+
+    // initial center position for the map
+    lat: number = -32.8943;
+    lng: number = -68.8341;
+
+    marcador: Marker = {
+        lat: -32.8943,
+        lng: -68.8341,
+        label: 'A',
+        draggable: true
+    }
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -120,6 +138,34 @@ export class EventoUsuarioDialogComponent implements OnInit {
         }
         return option;
     }
+
+    clickedMarker(label: string, index: number) {
+        console.log(`clicked the marker: ${label || index}`)
+    }
+
+    mapClicked($event: MouseEvent) {
+        this.marcador = {
+          lat: $event.coords.lat,
+          lng: $event.coords.lng,
+          draggable: true
+        }
+        this.evento.ubicacion = `${this.marcador.lat};${this.marcador.lng}`;
+    }
+
+    markerDragEnd(m: Marker, $event: MouseEvent) {
+        console.log('dragEnd', m, $event);
+    }
+
+    showMap() {
+        this.show = !this.show;
+    }
+}
+
+interface Marker {
+    lat: number;
+    lng: number;
+    label?: string;
+    draggable: boolean;
 }
 
 @Component({
