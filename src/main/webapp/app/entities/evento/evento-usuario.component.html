@@ -33,7 +33,8 @@
                 <td>{{evento.precio}}</td>
                 <td>{{evento.fecha | date:'mediumDate'}}</td>
                 <td>{{evento.hora}}</td>
-                <td>{{evento.estado}}</td>
+                <td *ngIf="evento.estado === true">Habilitado</td>
+                <td *ngIf="evento.estado === false">Deshabilitado</td>
                 <td>
                     <div *ngIf="evento.categoria">
                         <a [routerLink]="['../categoria', evento.categoria?.id ]" >{{evento.categoria?.nombre}}</a>
@@ -42,7 +43,7 @@
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                [routerLink]="['../evento', evento.id ]"
+                                [routerLink]="['../evento-usuario', evento.id ]"
                                 class="btn btn-info btn-sm">
                             <span class="fa fa-eye"></span>
                             <span class="d-none d-md-inline">View</span>
@@ -56,12 +57,11 @@
                             <span class="d-none d-md-inline">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'evento/'+ evento.id + '/delete'} }]"
-                                replaceUrl="true"
+                                (click)="cambiarEstado(evento.id)"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
-                            <span class="fa fa-remove"></span>
-                            <span class="d-none d-md-inline">Delete</span>
+                            <span class="fa fa-check"></span>
+                            <span class="d-none d-md-inline">Habilitar/Deshabilitar</span>
                         </button>
                     </div>
                 </td>

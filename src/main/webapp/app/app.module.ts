@@ -23,6 +23,7 @@ import { TagsUsuarioDialogComponent } from './entities/tags/tags-usuario-dialog.
 import { TagsUsuarioPopupComponent } from './entities/tags/tags-usuario-dialog.component';
 import { EventoUsuarioComponent } from './entities/evento/evento-usuario.component';
 import { EventoUsuarioDialogComponent, EventoUsuarioPopupComponent } from './entities/evento/evento-usuario-dialog.component';
+import { EventoUsuarioDetailComponent } from './entities/evento/evento-usuario-detail.component';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -66,7 +67,8 @@ import {
         TagsUsuarioPopupComponent,
         EventoUsuarioComponent,
         EventoUsuarioDialogComponent,
-        EventoUsuarioPopupComponent
+        EventoUsuarioPopupComponent,
+        EventoUsuarioDetailComponent
     ],
     providers: [
         ProfileService,

@@ -13,6 +13,7 @@ import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 export class EventoUsuarioComponent implements OnInit, OnDestroy {
 
     eventos: Evento[];
+    evento: Evento;
     currentAccount: any;
     eventSubscriber: Subscription;
     itemsPerPage: number;
@@ -95,6 +96,10 @@ export class EventoUsuarioComponent implements OnInit, OnDestroy {
             result.push('id');
         }
         return result;
+    }
+
+    cambiarEstado(id: number): void {
+        this.eventoService.updateEstado(id).subscribe((response) => this.reset());
     }
 
     private onSuccess(data, headers) {

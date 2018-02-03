@@ -37,4 +37,16 @@ public interface EventoRepository extends JpaRepository<Evento, Long> {
             nativeQuery=true
     )
     void saveCreador(@Param("login") String login, @Param("idEvento") Long idEvento);
+    
+    @Query(value = "select estado from evento where id = :id",
+            nativeQuery=true
+    )
+    Boolean getEstado(@Param("id") Long id);
+    
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE evento SET estado = :estado WHERE evento.id = :id",
+            nativeQuery=true
+    )
+    void updateEstado(@Param("id") Long id, @Param("estado") Boolean estado);
 }

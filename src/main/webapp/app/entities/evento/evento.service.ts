@@ -63,6 +63,10 @@ export class EventoService {
         });
     }
 
+    updateEstado(id: number): Observable<Response> {
+        return this.http.get(`${this.resourceUrlUsuario}/estado/${id}`);
+    }
+
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         const result = [];

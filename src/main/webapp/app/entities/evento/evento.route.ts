@@ -5,8 +5,9 @@ import { EventoComponent } from './evento.component';
 import { EventoDetailComponent } from './evento-detail.component';
 import { EventoPopupComponent } from './evento-dialog.component';
 import { EventoDeletePopupComponent } from './evento-delete-dialog.component';
-import { EventoUsuarioComponent } from './evento-usuario.component'
-import { EventoUsuarioPopupComponent } from './evento-usuario-dialog.component'
+import { EventoUsuarioComponent } from './evento-usuario.component';
+import { EventoUsuarioPopupComponent } from './evento-usuario-dialog.component';
+import { EventoUsuarioDetailComponent } from './evento-usuario-detail.component'
 
 export const eventoRoute: Routes = [
     {
@@ -28,6 +29,14 @@ export const eventoRoute: Routes = [
     }, {
         path: 'evento-usuario',
         component: EventoUsuarioComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Eventos'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'evento-usuario/:id',
+        component: EventoUsuarioDetailComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Eventos'
