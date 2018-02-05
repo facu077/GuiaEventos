@@ -4,11 +4,14 @@ import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Tags } from './tags.model';
 import { TagsPopupService } from './tags-popup.service';
 import { TagsService } from './tags.service';
+import { Evento, EventoService } from '../evento';
+import { Usuario, UsuarioService } from '../usuario';
+import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-tags-dialog',
@@ -19,15 +22,26 @@ export class TagsDialogComponent implements OnInit {
     tags: Tags;
     isSaving: boolean;
 
+    eventos: Evento[];
+
+    usuarios: Usuario[];
+
     constructor(
         public activeModal: NgbActiveModal,
+        private jhiAlertService: JhiAlertService,
         private tagsService: TagsService,
+        private eventoService: EventoService,
+        private usuarioService: UsuarioService,
         private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
+        this.eventoService.query()
+            .subscribe((res: ResponseWrapper) => { this.eventos = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.usuarioService.query()
+            .subscribe((res: ResponseWrapper) => { this.usuarios = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -58,6 +72,29 @@ export class TagsDialogComponent implements OnInit {
 
     private onSaveError() {
         this.isSaving = false;
+    }
+
+    private onError(error: any) {
+        this.jhiAlertService.error(error.message, null, null);
+    }
+
+    trackEventoById(index: number, item: Evento) {
+        return item.id;
+    }
+
+    trackUsuarioById(index: number, item: Usuario) {
+        return item.id;
+    }
+
+    getSelected(selectedVals: Array<any>, option: any) {
+        if (selectedVals) {
+            for (let i = 0; i < selectedVals.length; i++) {
+                if (option.id === selectedVals[i].id) {
+                    return selectedVals[i];
+                }
+            }
+        }
+        return option;
     }
 }
 

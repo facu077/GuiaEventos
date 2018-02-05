@@ -83,14 +83,13 @@ export class EventoUsuarioDetailComponent implements OnInit, OnDestroy {
     }
 
     buildMap() {
-        console.log('jajajajajajajjajajajajaja');
-        console.log(this.evento.ubicacion);
         const [longitud, latitud] = this.evento.ubicacion.split(';');
         this.marcador.lat = +longitud;
         this.marcador.lng = +latitud;
         this.lat = +longitud;
         this.lng = +latitud;
     }
+
 }
 
 interface Marker {

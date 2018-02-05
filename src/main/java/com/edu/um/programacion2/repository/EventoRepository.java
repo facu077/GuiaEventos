@@ -15,10 +15,10 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface EventoRepository extends JpaRepository<Evento, Long> {
-    @Query("select distinct evento from Evento evento left join fetch evento.tags")
+    @Query("select distinct evento from Evento evento left join fetch evento.tags left join fetch evento.usuarioRegistrados left join fetch evento.usuarioFavoritos")
     List<Evento> findAllWithEagerRelationships();
 
-    @Query("select evento from Evento evento left join fetch evento.tags where evento.id =:id")
+    @Query("select evento from Evento evento left join fetch evento.tags left join fetch evento.usuarioRegistrados left join fetch evento.usuarioFavoritos where evento.id =:id")
     Evento findOneWithEagerRelationships(@Param("id") Long id);
     
     @Query(value = "select jhi_user.id from jhi_user where jhi_user.login = :login",

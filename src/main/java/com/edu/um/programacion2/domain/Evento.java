@@ -1,5 +1,6 @@
 package com.edu.um.programacion2.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -76,6 +77,12 @@ public class Evento implements Serializable {
                joinColumns = @JoinColumn(name="eventos_id", referencedColumnName="id"),
                inverseJoinColumns = @JoinColumn(name="tags_id", referencedColumnName="id"))
     private Set<Tags> tags = new HashSet<>();
+
+    @ManyToMany(mappedBy = "eventoRegistrados")
+    private Set<Usuario> usuarioRegistrados = new HashSet<>();
+
+    @ManyToMany(mappedBy = "eventoFavoritos")
+    private Set<Usuario> usuarioFavoritos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -266,16 +273,68 @@ public class Evento implements Serializable {
 
     public Evento addTags(Tags tags) {
         this.tags.add(tags);
+        tags.getEventos().add(this);
         return this;
     }
 
     public Evento removeTags(Tags tags) {
         this.tags.remove(tags);
+        tags.getEventos().remove(this);
         return this;
     }
 
     public void setTags(Set<Tags> tags) {
         this.tags = tags;
+    }
+
+    public Set<Usuario> getUsuarioRegistrados() {
+        return usuarioRegistrados;
+    }
+
+    public Evento usuarioRegistrados(Set<Usuario> usuarios) {
+        this.usuarioRegistrados = usuarios;
+        return this;
+    }
+
+    public Evento addUsuarioRegistrado(Usuario usuario) {
+        this.usuarioRegistrados.add(usuario);
+        usuario.getEventoRegistrados().add(this);
+        return this;
+    }
+
+    public Evento removeUsuarioRegistrado(Usuario usuario) {
+        this.usuarioRegistrados.remove(usuario);
+        usuario.getEventoRegistrados().remove(this);
+        return this;
+    }
+
+    public void setUsuarioRegistrados(Set<Usuario> usuarios) {
+        this.usuarioRegistrados = usuarios;
+    }
+
+    public Set<Usuario> getUsuarioFavoritos() {
+        return usuarioFavoritos;
+    }
+
+    public Evento usuarioFavoritos(Set<Usuario> usuarios) {
+        this.usuarioFavoritos = usuarios;
+        return this;
+    }
+
+    public Evento addUsuarioFavorito(Usuario usuario) {
+        this.usuarioFavoritos.add(usuario);
+        usuario.getEventoFavoritos().add(this);
+        return this;
+    }
+
+    public Evento removeUsuarioFavorito(Usuario usuario) {
+        this.usuarioFavoritos.remove(usuario);
+        usuario.getEventoFavoritos().remove(this);
+        return this;
+    }
+
+    public void setUsuarioFavoritos(Set<Usuario> usuarios) {
+        this.usuarioFavoritos = usuarios;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

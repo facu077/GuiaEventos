@@ -17,6 +17,8 @@ export class Evento implements BaseEntity {
         public categoria?: BaseEntity,
         public usuarioCreador?: BaseEntity,
         public tags?: BaseEntity[],
+        public usuarioRegistrados?: BaseEntity[],
+        public usuarioFavoritos?: BaseEntity[],
     ) {
         this.destacado = false;
         this.estado = false;

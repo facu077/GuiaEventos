@@ -75,6 +75,12 @@
                 <span>{{tags.nombre}}</span>{{last ? '' : ', '}}
             </span>
         </dd>
+        <dt><span>Participantes</span></dt>
+        <dd>
+            <span *ngFor="let usuarioRegistrado of evento.usuarioRegistrados; let last = last">
+                <a [routerLink]="['/usuario', usuarioRegistrado?.id ]">{{usuarioRegistrado.user.firstName}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
     </dl>
     <button type="submit"
             (click)="previousState()"
@@ -83,7 +89,7 @@
     </button>
 
     <button type="button"
-            [routerLink]="['/', { outlets: { popup: 'evento/'+ evento.id + '/edit'} }]"
+            [routerLink]="['/', { outlets: { popup: 'evento-usuario/'+ evento.id + '/edit'} }]"
             replaceUrl="true"
             queryParamsHandling="merge"
             class="btn btn-primary">

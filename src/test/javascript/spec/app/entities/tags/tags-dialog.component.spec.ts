@@ -8,6 +8,8 @@ import { TrabajoFinalTestModule } from '../../../test.module';
 import { TagsDialogComponent } from '../../../../../../main/webapp/app/entities/tags/tags-dialog.component';
 import { TagsService } from '../../../../../../main/webapp/app/entities/tags/tags.service';
 import { Tags } from '../../../../../../main/webapp/app/entities/tags/tags.model';
+import { EventoService } from '../../../../../../main/webapp/app/entities/evento';
+import { UsuarioService } from '../../../../../../main/webapp/app/entities/usuario';
 
 describe('Component Tests', () => {
 
@@ -23,6 +25,8 @@ describe('Component Tests', () => {
                 imports: [TrabajoFinalTestModule],
                 declarations: [TagsDialogComponent],
                 providers: [
+                    EventoService,
+                    UsuarioService,
                     TagsService
                 ]
             })

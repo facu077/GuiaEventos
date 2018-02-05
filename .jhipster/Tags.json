@@ -1,6 +1,21 @@
 {
     "fluentMethods": true,
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "evento",
+            "otherEntityName": "evento",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "tags"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "usuario",
+            "otherEntityName": "usuario",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "tag"
+        }
+    ],
     "fields": [
         {
             "fieldName": "nombre",

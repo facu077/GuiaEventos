@@ -41,7 +41,7 @@
                 </td>
                 <td>
                     <span *ngFor="let eventoFavorito of usuario.eventoFavoritos; let last = last">
-                            <a class="form-control-static" [routerLink]="['../evento', eventoFavorito?.id ]">{{eventoFavorito.id}}</a>{{last ? '' : ', '}}
+                            <a class="form-control-static" [routerLink]="['../evento', eventoFavorito?.id ]">{{eventoFavorito.nombre}}</a>{{last ? '' : ', '}}
                         </span>
                 </td>
                 <td>
