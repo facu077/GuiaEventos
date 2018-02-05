@@ -14,6 +14,7 @@ import {
     UsuarioDeleteDialogComponent,
     usuarioRoute,
     usuarioPopupRoute,
+    SerPrestadorComponent,
 } from './';
 
 const ENTITY_STATES = [
@@ -34,6 +35,7 @@ const ENTITY_STATES = [
         UsuarioDeleteDialogComponent,
         UsuarioPopupComponent,
         UsuarioDeletePopupComponent,
+        SerPrestadorComponent,
     ],
     entryComponents: [
         UsuarioComponent,

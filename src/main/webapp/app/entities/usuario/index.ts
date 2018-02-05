@@ -6,3 +6,4 @@ export * from './usuario-delete-dialog.component';
 export * from './usuario-detail.component';
 export * from './usuario.component';
 export * from './usuario.route';
+export * from './serprestador.component'

@@ -13,6 +13,11 @@ import {
     TagsDeleteDialogComponent,
     tagsRoute,
     tagsPopupRoute,
+    TagsUsuarioComponent,
+    TagsUsuarioDeletePopupComponent,
+    TagsUsuarioDeleteDialogComponent,
+    TagsUsuarioDialogComponent,
+    TagsUsuarioPopupComponent,
 } from './';
 
 const ENTITY_STATES = [
@@ -32,6 +37,11 @@ const ENTITY_STATES = [
         TagsDeleteDialogComponent,
         TagsPopupComponent,
         TagsDeletePopupComponent,
+        TagsUsuarioComponent,
+        TagsUsuarioDeletePopupComponent,
+        TagsUsuarioDeleteDialogComponent,
+        TagsUsuarioDialogComponent,
+        TagsUsuarioPopupComponent,
     ],
     entryComponents: [
         TagsComponent,
@@ -39,6 +49,8 @@ const ENTITY_STATES = [
         TagsPopupComponent,
         TagsDeleteDialogComponent,
         TagsDeletePopupComponent,
+        TagsUsuarioDeleteDialogComponent,
+        TagsUsuarioDialogComponent,
     ],
     providers: [
         TagsService,

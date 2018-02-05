@@ -6,3 +6,6 @@ export * from './evento-delete-dialog.component';
 export * from './evento-detail.component';
 export * from './evento.component';
 export * from './evento.route';
+export * from './evento-usuario-dialog.component';
+export * from './evento-usuario-detail.component';
+export * from './evento-usuario.component';
