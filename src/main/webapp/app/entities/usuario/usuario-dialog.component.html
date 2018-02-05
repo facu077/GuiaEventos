@@ -46,7 +46,7 @@
         <div class="form-group">
             <label for="field_eventoFavorito">Evento Favorito</label>
             <select class="form-control" id="field_eventoFavorito" multiple name="eventoFavorito" [(ngModel)]="usuario.eventoFavoritos">
-                <option [ngValue]="getSelected(usuario.eventoFavoritos, eventoOption)" *ngFor="let eventoOption of eventos; trackBy: trackEventoById">{{eventoOption.id}}</option>
+                <option [ngValue]="getSelected(usuario.eventoFavoritos, eventoOption)" *ngFor="let eventoOption of eventos; trackBy: trackEventoById">{{eventoOption.nombre}}</option>
             </select>
         </div>
         <div class="form-group">

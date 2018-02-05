@@ -111,11 +111,13 @@ public class Usuario implements Serializable {
 
     public Usuario addEventoRegistrado(Evento evento) {
         this.eventoRegistrados.add(evento);
+        evento.getUsuarioRegistrados().add(this);
         return this;
     }
 
     public Usuario removeEventoRegistrado(Evento evento) {
         this.eventoRegistrados.remove(evento);
+        evento.getUsuarioRegistrados().remove(this);
         return this;
     }
 
@@ -134,11 +136,13 @@ public class Usuario implements Serializable {
 
     public Usuario addEventoFavorito(Evento evento) {
         this.eventoFavoritos.add(evento);
+        evento.getUsuarioFavoritos().add(this);
         return this;
     }
 
     public Usuario removeEventoFavorito(Evento evento) {
         this.eventoFavoritos.remove(evento);
+        evento.getUsuarioFavoritos().remove(this);
         return this;
     }
 
@@ -157,11 +161,13 @@ public class Usuario implements Serializable {
 
     public Usuario addTag(Tags tags) {
         this.tags.add(tags);
+        tags.getUsuarios().add(this);
         return this;
     }
 
     public Usuario removeTag(Tags tags) {
         this.tags.remove(tags);
+        tags.getUsuarios().remove(this);
         return this;
     }
 

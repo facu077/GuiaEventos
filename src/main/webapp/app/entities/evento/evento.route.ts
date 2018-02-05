@@ -5,6 +5,9 @@ import { EventoComponent } from './evento.component';
 import { EventoDetailComponent } from './evento-detail.component';
 import { EventoPopupComponent } from './evento-dialog.component';
 import { EventoDeletePopupComponent } from './evento-delete-dialog.component';
+import { EventoUsuarioComponent } from './evento-usuario.component';
+import { EventoUsuarioPopupComponent } from './evento-usuario-dialog.component';
+import { EventoUsuarioDetailComponent } from './evento-usuario-detail.component'
 
 export const eventoRoute: Routes = [
     {
@@ -23,7 +26,24 @@ export const eventoRoute: Routes = [
             pageTitle: 'Eventos'
         },
         canActivate: [UserRouteAccessService]
+    }, {
+        path: 'evento-usuario',
+        component: EventoUsuarioComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Eventos'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'evento-usuario/:id',
+        component: EventoUsuarioDetailComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Eventos'
+        },
+        canActivate: [UserRouteAccessService]
     }
+
 ];
 
 export const eventoPopupRoute: Routes = [
@@ -56,5 +76,25 @@ export const eventoPopupRoute: Routes = [
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'
-    }
+    },
+    {
+        path: 'evento-usuario-new',
+        component: EventoUsuarioPopupComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Eventos'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
+    {
+        path: 'evento-usuario/:id/edit',
+        component: EventoUsuarioPopupComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Eventos'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
 ];

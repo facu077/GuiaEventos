@@ -8,7 +8,8 @@ export class Evento implements BaseEntity {
         public descripcion?: any,
         public precio?: number,
         public ubicacion?: string,
-        public horario?: any,
+        public fecha?: any,
+        public hora?: string,
         public imagenesContentType?: string,
         public imagenes?: any,
         public destacado?: boolean,
@@ -16,8 +17,11 @@ export class Evento implements BaseEntity {
         public categoria?: BaseEntity,
         public usuarioCreador?: BaseEntity,
         public tags?: BaseEntity[],
+        public usuarioRegistrados?: BaseEntity[],
+        public usuarioFavoritos?: BaseEntity[],
     ) {
         this.destacado = false;
         this.estado = false;
+        this.ubicacion = '-32.89;-68.83';
     }
 }

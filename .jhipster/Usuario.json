@@ -11,7 +11,7 @@
         },
         {
             "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "",
+            "otherEntityRelationshipName": "usuarioRegistrado",
             "relationshipName": "eventoRegistrado",
             "otherEntityName": "evento",
             "otherEntityField": "nombre",
@@ -19,15 +19,15 @@
         },
         {
             "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "",
+            "otherEntityRelationshipName": "usuarioFavorito",
             "relationshipName": "eventoFavorito",
             "otherEntityName": "evento",
-            "otherEntityField": "id",
+            "otherEntityField": "nombre",
             "ownerSide": true
         },
         {
             "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "",
+            "otherEntityRelationshipName": "usuario",
             "relationshipName": "tag",
             "otherEntityName": "tags",
             "otherEntityField": "nombre",

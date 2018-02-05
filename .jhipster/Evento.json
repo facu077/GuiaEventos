@@ -15,11 +15,25 @@
         },
         {
             "relationshipType": "many-to-many",
-            "otherEntityRelationshipName": "",
+            "otherEntityRelationshipName": "evento",
             "relationshipName": "tags",
             "otherEntityName": "tags",
             "otherEntityField": "nombre",
             "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "usuarioRegistrado",
+            "otherEntityName": "usuario",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "eventoRegistrado"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "usuarioFavorito",
+            "otherEntityName": "usuario",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "eventoFavorito"
         }
     ],
     "fields": [
@@ -61,33 +75,28 @@
             ]
         },
         {
-            "fieldName": "horario",
+            "fieldName": "fecha",
             "fieldType": "LocalDate",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
+            "fieldName": "hora",
+            "fieldType": "String"
+        },
+        {
             "fieldName": "imagenes",
             "fieldType": "byte[]",
-            "fieldTypeBlobContent": "any",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldTypeBlobContent": "any"
         },
         {
             "fieldName": "destacado",
-            "fieldType": "Boolean",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "Boolean"
         },
         {
             "fieldName": "estado",
-            "fieldType": "Boolean",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldType": "Boolean"
         }
     ],
     "changelogDate": "20180111160849",

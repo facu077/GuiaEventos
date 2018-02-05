@@ -17,10 +17,10 @@ import { ResponseWrapper } from '../../shared';
 import { MouseEvent } from '@agm/core';
 
 @Component({
-    selector: 'jhi-evento-dialog',
-    templateUrl: './evento-dialog.component.html',
+    selector: 'jhi-evento-usuario-dialog',
+    templateUrl: './evento-usuario-dialog.component.html'
 })
-export class EventoDialogComponent implements OnInit {
+export class EventoUsuarioDialogComponent implements OnInit {
 
     evento: Evento;
     isSaving: boolean;
@@ -42,8 +42,8 @@ export class EventoDialogComponent implements OnInit {
     lng: number = -68.8341;
 
     marcador: Marker = {
-        lat: -32.8943,
-        lng: -68.8341,
+        lat: 0,
+        lng: 0,
         label: 'A',
         draggable: true
     }
@@ -61,7 +61,6 @@ export class EventoDialogComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.show = false;
         this.isSaving = false;
         this.categoriaService.query()
             .subscribe((res: ResponseWrapper) => { this.categorias = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
@@ -69,6 +68,15 @@ export class EventoDialogComponent implements OnInit {
             .subscribe((res: ResponseWrapper) => { this.usuarios = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.tagsService.query()
             .subscribe((res: ResponseWrapper) => { this.tags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.buildMap();
+    }
+
+    buildMap() {
+        const [longitud, latitud] = this.evento.ubicacion.split(';');
+        this.marcador.lat = +longitud;
+        this.marcador.lng = +latitud;
+        this.lat = +longitud;
+        this.lng = +latitud;
     }
 
     byteSize(field) {
@@ -94,7 +102,7 @@ export class EventoDialogComponent implements OnInit {
                 this.eventoService.update(this.evento));
         } else {
             this.subscribeToSaveResponse(
-                this.eventoService.create(this.evento));
+                this.eventoService.createUsuario(this.evento));
         }
     }
 
@@ -170,10 +178,10 @@ interface Marker {
 }
 
 @Component({
-    selector: 'jhi-evento-popup',
+    selector: 'jhi-usuario-evento-popup',
     template: ''
 })
-export class EventoPopupComponent implements OnInit, OnDestroy {
+export class EventoUsuarioPopupComponent implements OnInit, OnDestroy {
 
     routeSub: any;
 
@@ -186,10 +194,10 @@ export class EventoPopupComponent implements OnInit, OnDestroy {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
                 this.eventoPopupService
-                    .open(EventoDialogComponent as Component, params['id']);
+                    .open(EventoUsuarioDialogComponent as Component, params['id']);
             } else {
                 this.eventoPopupService
-                    .open(EventoDialogComponent as Component);
+                    .open(EventoUsuarioDialogComponent as Component);
             }
         });
     }

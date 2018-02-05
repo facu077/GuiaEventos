@@ -1,6 +1,6 @@
 
 <div *ngIf="evento">
-    <h2><span>Evento</span> {{evento.id}}</h2>
+    <h2><span>Evento:</span> {{evento.nombre}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="row-md jh-entity-details">
@@ -22,7 +22,26 @@
         </dd>
         <dt><span>Ubicacion</span></dt>
         <dd>
-            <span>{{evento.ubicacion}}</span>
+                <agm-map 
+                    [latitude]="lat"
+                    [longitude]="lng"
+                    [zoom]="zoom"
+                    [disableDefaultUI]="false"
+                    [zoomControl]="false">
+
+                    <agm-marker 
+                        (markerClick)="clickedMarker(marcador.label, i)"
+                        [latitude]="marcador.lat"
+                        [longitude]="marcador.lng"
+                        [label]="marcador.label"
+                        [markerDraggable]="marcador.draggable">
+                        
+                        <agm-info-window>
+                        <strong>Tu evento</strong>
+                        </agm-info-window>
+                        
+                    </agm-marker>
+                </agm-map>
         </dd>
         <dt><span>Fecha</span></dt>
         <dd>
@@ -39,34 +58,30 @@
                 {{evento.imagenesContentType}}, {{byteSize(evento.imagenes)}}
             </div>
         </dd>
-        <dt><span>Destacado</span></dt>
-        <dd>
-            <span>{{evento.destacado}}</span>
-        </dd>
         <dt><span>Estado</span></dt>
         <dd>
-            <span>{{evento.estado}}</span>
+            <span *ngIf="evento.estado === true">Habilitado</span>
+            <span *ngIf="evento.estado === false">Deshabilitado</span>
         </dd>
         <dt><span>Categoria</span></dt>
         <dd>
             <div *ngIf="evento.categoria">
-                <a [routerLink]="['/categoria', evento.categoria?.id]">{{evento.categoria?.nombre}}</a>
-            </div>
-        </dd>
-        <dt><span>Usuario Creador</span></dt>
-        <dd>
-            <div *ngIf="evento.usuarioCreador">
-                <a [routerLink]="['/usuario', evento.usuarioCreador?.id]">{{evento.usuarioCreador?.id}}</a>
+                <span>{{evento.categoria?.nombre}}</span>
             </div>
         </dd>
         <dt><span>Tags</span></dt>
         <dd>
             <span *ngFor="let tags of evento.tags; let last = last">
-                <a [routerLink]="['/tags', tags?.id ]">{{tags.nombre}}</a>{{last ? '' : ', '}}
+                <span>{{tags.nombre}}</span>{{last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span>Participantes</span></dt>
+        <dd>
+            <span *ngFor="let usuarioRegistrado of evento.usuarioRegistrados; let last = last">
+                <a [routerLink]="['/usuario', usuarioRegistrado?.id ]">{{usuarioRegistrado.user.firstName}}</a>{{last ? '' : ', '}}
             </span>
         </dd>
     </dl>
-
     <button type="submit"
             (click)="previousState()"
             class="btn btn-info">
@@ -74,7 +89,7 @@
     </button>
 
     <button type="button"
-            [routerLink]="['/', { outlets: { popup: 'evento/'+ evento.id + '/edit'} }]"
+            [routerLink]="['/', { outlets: { popup: 'evento-usuario/'+ evento.id + '/edit'} }]"
             replaceUrl="true"
             queryParamsHandling="merge"
             class="btn btn-primary">

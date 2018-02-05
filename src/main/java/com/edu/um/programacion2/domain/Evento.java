@@ -1,5 +1,6 @@
 package com.edu.um.programacion2.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -46,23 +47,23 @@ public class Evento implements Serializable {
     private String ubicacion;
 
     @NotNull
-    @Column(name = "horario", nullable = false)
-    private LocalDate horario;
+    @Column(name = "fecha", nullable = false)
+    private LocalDate fecha;
 
-    @NotNull
+    @Column(name = "hora")
+    private String hora;
+
     @Lob
-    @Column(name = "imagenes", nullable = false)
+    @Column(name = "imagenes")
     private byte[] imagenes;
 
-    @Column(name = "imagenes_content_type", nullable = false)
+    @Column(name = "imagenes_content_type")
     private String imagenesContentType;
 
-    @NotNull
-    @Column(name = "destacado", nullable = false)
+    @Column(name = "destacado")
     private Boolean destacado;
 
-    @NotNull
-    @Column(name = "estado", nullable = false)
+    @Column(name = "estado")
     private Boolean estado;
 
     @ManyToOne
@@ -76,6 +77,12 @@ public class Evento implements Serializable {
                joinColumns = @JoinColumn(name="eventos_id", referencedColumnName="id"),
                inverseJoinColumns = @JoinColumn(name="tags_id", referencedColumnName="id"))
     private Set<Tags> tags = new HashSet<>();
+
+    @ManyToMany(mappedBy = "eventoRegistrados")
+    private Set<Usuario> usuarioRegistrados = new HashSet<>();
+
+    @ManyToMany(mappedBy = "eventoFavoritos")
+    private Set<Usuario> usuarioFavoritos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -151,17 +158,30 @@ public class Evento implements Serializable {
         this.ubicacion = ubicacion;
     }
 
-    public LocalDate getHorario() {
-        return horario;
+    public LocalDate getFecha() {
+        return fecha;
     }
 
-    public Evento horario(LocalDate horario) {
-        this.horario = horario;
+    public Evento fecha(LocalDate fecha) {
+        this.fecha = fecha;
         return this;
     }
 
-    public void setHorario(LocalDate horario) {
-        this.horario = horario;
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public Evento hora(String hora) {
+        this.hora = hora;
+        return this;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
     }
 
     public byte[] getImagenes() {
@@ -253,16 +273,68 @@ public class Evento implements Serializable {
 
     public Evento addTags(Tags tags) {
         this.tags.add(tags);
+        tags.getEventos().add(this);
         return this;
     }
 
     public Evento removeTags(Tags tags) {
         this.tags.remove(tags);
+        tags.getEventos().remove(this);
         return this;
     }
 
     public void setTags(Set<Tags> tags) {
         this.tags = tags;
+    }
+
+    public Set<Usuario> getUsuarioRegistrados() {
+        return usuarioRegistrados;
+    }
+
+    public Evento usuarioRegistrados(Set<Usuario> usuarios) {
+        this.usuarioRegistrados = usuarios;
+        return this;
+    }
+
+    public Evento addUsuarioRegistrado(Usuario usuario) {
+        this.usuarioRegistrados.add(usuario);
+        usuario.getEventoRegistrados().add(this);
+        return this;
+    }
+
+    public Evento removeUsuarioRegistrado(Usuario usuario) {
+        this.usuarioRegistrados.remove(usuario);
+        usuario.getEventoRegistrados().remove(this);
+        return this;
+    }
+
+    public void setUsuarioRegistrados(Set<Usuario> usuarios) {
+        this.usuarioRegistrados = usuarios;
+    }
+
+    public Set<Usuario> getUsuarioFavoritos() {
+        return usuarioFavoritos;
+    }
+
+    public Evento usuarioFavoritos(Set<Usuario> usuarios) {
+        this.usuarioFavoritos = usuarios;
+        return this;
+    }
+
+    public Evento addUsuarioFavorito(Usuario usuario) {
+        this.usuarioFavoritos.add(usuario);
+        usuario.getEventoFavoritos().add(this);
+        return this;
+    }
+
+    public Evento removeUsuarioFavorito(Usuario usuario) {
+        this.usuarioFavoritos.remove(usuario);
+        usuario.getEventoFavoritos().remove(this);
+        return this;
+    }
+
+    public void setUsuarioFavoritos(Set<Usuario> usuarios) {
+        this.usuarioFavoritos = usuarios;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -295,7 +367,8 @@ public class Evento implements Serializable {
             ", descripcion='" + getDescripcion() + "'" +
             ", precio=" + getPrecio() +
             ", ubicacion='" + getUbicacion() + "'" +
-            ", horario='" + getHorario() + "'" +
+            ", fecha='" + getFecha() + "'" +
+            ", hora='" + getHora() + "'" +
             ", imagenes='" + getImagenes() + "'" +
             ", imagenesContentType='" + getImagenesContentType() + "'" +
             ", destacado='" + isDestacado() + "'" +

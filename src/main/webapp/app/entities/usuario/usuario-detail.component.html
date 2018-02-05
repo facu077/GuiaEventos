@@ -25,7 +25,7 @@
         <dt><span>Evento Favorito</span></dt>
         <dd>
             <span *ngFor="let eventoFavorito of usuario.eventoFavoritos; let last = last">
-                <a [routerLink]="['/evento', eventoFavorito?.id ]">{{eventoFavorito.id}}</a>{{last ? '' : ', '}}
+                <a [routerLink]="['/evento', eventoFavorito?.id ]">{{eventoFavorito.nombre}}</a>{{last ? '' : ', '}}
             </span>
         </dd>
         <dt><span>Tag</span></dt>

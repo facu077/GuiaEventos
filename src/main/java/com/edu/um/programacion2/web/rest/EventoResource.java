@@ -2,8 +2,8 @@ package com.edu.um.programacion2.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.edu.um.programacion2.domain.Evento;
-
 import com.edu.um.programacion2.repository.EventoRepository;
+import com.edu.um.programacion2.security.SecurityUtils;
 import com.edu.um.programacion2.web.rest.errors.BadRequestAlertException;
 import com.edu.um.programacion2.web.rest.util.HeaderUtil;
 import com.edu.um.programacion2.web.rest.util.PaginationUtil;
@@ -11,6 +11,7 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -124,5 +125,66 @@ public class EventoResource {
         log.debug("REST request to delete Evento : {}", id);
         eventoRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+    
+    /**
+     * POST  /eventos-usuario : Create a new evento.
+     *
+     * @param evento the evento to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new evento, or with status 400 (Bad Request) if the evento has already an ID
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @PostMapping("/eventos-usuario")
+    @Timed
+    public ResponseEntity<Evento> createEventoUsuario(@Valid @RequestBody Evento evento) throws URISyntaxException {
+        String login;
+    	log.debug("REST request to save Evento : {}", evento);
+        if (evento.getId() != null) {
+            throw new BadRequestAlertException("A new evento cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        login = SecurityUtils.getCurrentUserLogin().get();
+        Evento result = eventoRepository.save(evento);
+        eventoRepository.saveCreador(login ,result.getId());
+        return ResponseEntity.created(new URI("/api/eventos-usuario/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+    
+    /**
+     * GET  /eventos-usuario : get all the eventos del usuario.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of eventos in body
+     */
+    @GetMapping("/eventos-usuario")
+    @Timed
+    public ResponseEntity<List<Evento>> getEventosUsuario(Pageable pageable) {
+        log.debug("REST request to get a page of Eventos");
+        //Page<Evento> page = eventoRepository.findAll(pageable);
+        String login;
+        Long id;
+        login = SecurityUtils.getCurrentUserLogin().get();
+        id = eventoRepository.getUserId(login);
+        List<Evento> evento = eventoRepository.findUserEventos(id);
+        final Page<Evento> page = new PageImpl<>(evento);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/eventos-usuario");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    /**
+     * GET  /eventos-usuario/estado/:id : Cambia el estado del evento :id
+     *
+     * @param id the id of the tags to add
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @GetMapping("/eventos-usuario/estado/{id}")
+    @Timed
+    public String updateEstadoEvento(@PathVariable Long id) {
+    	Evento evento = new Evento();
+    	evento.setEstado(eventoRepository.getEstado(id));
+        log.debug("REST request to update estado Evento: {}", id);
+        evento.setEstado(!evento.isEstado());
+        eventoRepository.updateEstado(id,evento.isEstado());
+        return "/eventos-usuario";
     }
 }
