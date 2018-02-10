@@ -4,6 +4,7 @@ import com.edu.um.programacion2.TrabajoFinalApp;
 
 import com.edu.um.programacion2.domain.Evento;
 import com.edu.um.programacion2.repository.EventoRepository;
+import com.edu.um.programacion2.repository.search.EventoSearchRepository;
 import com.edu.um.programacion2.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -77,6 +78,9 @@ public class EventoResourceIntTest {
     private EventoRepository eventoRepository;
 
     @Autowired
+    private EventoSearchRepository eventoSearchRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -95,7 +99,7 @@ public class EventoResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final EventoResource eventoResource = new EventoResource(eventoRepository);
+        final EventoResource eventoResource = new EventoResource(eventoRepository, eventoSearchRepository);
         this.restEventoMockMvc = MockMvcBuilders.standaloneSetup(eventoResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -127,6 +131,7 @@ public class EventoResourceIntTest {
 
     @Before
     public void initTest() {
+        eventoSearchRepository.deleteAll();
         evento = createEntity(em);
     }
 
@@ -156,6 +161,10 @@ public class EventoResourceIntTest {
         assertThat(testEvento.getImagenesContentType()).isEqualTo(DEFAULT_IMAGENES_CONTENT_TYPE);
         assertThat(testEvento.isDestacado()).isEqualTo(DEFAULT_DESTACADO);
         assertThat(testEvento.isEstado()).isEqualTo(DEFAULT_ESTADO);
+
+        // Validate the Evento in Elasticsearch
+        Evento eventoEs = eventoSearchRepository.findOne(testEvento.getId());
+        assertThat(eventoEs).isEqualToIgnoringGivenFields(testEvento);
     }
 
     @Test
@@ -346,6 +355,7 @@ public class EventoResourceIntTest {
     public void updateEvento() throws Exception {
         // Initialize the database
         eventoRepository.saveAndFlush(evento);
+        eventoSearchRepository.save(evento);
         int databaseSizeBeforeUpdate = eventoRepository.findAll().size();
 
         // Update the evento
@@ -385,6 +395,10 @@ public class EventoResourceIntTest {
         assertThat(testEvento.getImagenesContentType()).isEqualTo(UPDATED_IMAGENES_CONTENT_TYPE);
         assertThat(testEvento.isDestacado()).isEqualTo(UPDATED_DESTACADO);
         assertThat(testEvento.isEstado()).isEqualTo(UPDATED_ESTADO);
+
+        // Validate the Evento in Elasticsearch
+        Evento eventoEs = eventoSearchRepository.findOne(testEvento.getId());
+        assertThat(eventoEs).isEqualToIgnoringGivenFields(testEvento);
     }
 
     @Test
@@ -410,6 +424,7 @@ public class EventoResourceIntTest {
     public void deleteEvento() throws Exception {
         // Initialize the database
         eventoRepository.saveAndFlush(evento);
+        eventoSearchRepository.save(evento);
         int databaseSizeBeforeDelete = eventoRepository.findAll().size();
 
         // Get the evento
@@ -417,9 +432,38 @@ public class EventoResourceIntTest {
             .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk());
 
+        // Validate Elasticsearch is empty
+        boolean eventoExistsInEs = eventoSearchRepository.exists(evento.getId());
+        assertThat(eventoExistsInEs).isFalse();
+
         // Validate the database is empty
         List<Evento> eventoList = eventoRepository.findAll();
         assertThat(eventoList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void searchEvento() throws Exception {
+        // Initialize the database
+        eventoRepository.saveAndFlush(evento);
+        eventoSearchRepository.save(evento);
+
+        // Search the evento
+        restEventoMockMvc.perform(get("/api/_search/eventos?query=id:" + evento.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(evento.getId().intValue())))
+            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE.toString())))
+            .andExpect(jsonPath("$.[*].resumen").value(hasItem(DEFAULT_RESUMEN.toString())))
+            .andExpect(jsonPath("$.[*].descripcion").value(hasItem(DEFAULT_DESCRIPCION.toString())))
+            .andExpect(jsonPath("$.[*].precio").value(hasItem(DEFAULT_PRECIO)))
+            .andExpect(jsonPath("$.[*].ubicacion").value(hasItem(DEFAULT_UBICACION.toString())))
+            .andExpect(jsonPath("$.[*].fecha").value(hasItem(DEFAULT_FECHA.toString())))
+            .andExpect(jsonPath("$.[*].hora").value(hasItem(DEFAULT_HORA.toString())))
+            .andExpect(jsonPath("$.[*].imagenesContentType").value(hasItem(DEFAULT_IMAGENES_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].imagenes").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGENES))))
+            .andExpect(jsonPath("$.[*].destacado").value(hasItem(DEFAULT_DESTACADO.booleanValue())))
+            .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO.booleanValue())));
     }
 
     @Test

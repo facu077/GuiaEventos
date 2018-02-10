@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -16,6 +17,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "evento")
+@Document(indexName = "evento")
 public class Evento implements Serializable {
 
     private static final long serialVersionUID = 1L;

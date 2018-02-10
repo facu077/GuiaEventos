@@ -12,6 +12,7 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 export class EventoService {
 
     private resourceUrl =  SERVER_API_URL + 'api/eventos';
+    private resourceSearchUrl = SERVER_API_URL + 'api/_search/eventos';
     private resourceUrlUsuario = SERVER_API_URL + 'api/eventos-usuario';
 
     constructor(private http: Http, private dateUtils: JhiDateUtils) { }
@@ -47,6 +48,12 @@ export class EventoService {
 
     delete(id: number): Observable<Response> {
         return this.http.delete(`${this.resourceUrl}/${id}`);
+    }
+
+    search(req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
+        return this.http.get(this.resourceSearchUrl, options)
+            .map((res: any) => this.convertResponse(res));
     }
 
     queryUsuario(req?: any): Observable<ResponseWrapper> {

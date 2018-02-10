@@ -104,5 +104,6 @@
     "dto": "no",
     "pagination": "infinite-scroll",
     "service": "no",
-    "jpaMetamodelFiltering": false
+    "jpaMetamodelFiltering": false,
+    "searchEngine": "elasticsearch"
 }

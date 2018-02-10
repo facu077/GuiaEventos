@@ -1,10 +1,8 @@
 import './vendor.ts';
 
-import { NgModule, ApplicationRef } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Ng2Webstorage } from 'ngx-webstorage';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 import { TrabajoFinalSharedModule, UserRouteAccessService } from './shared';
 import { TrabajoFinalAppRoutingModule} from './app-routing.module';
@@ -29,8 +27,6 @@ import {
 @NgModule({
     imports: [
         BrowserModule,
-        CommonModule,
-        FormsModule,
         TrabajoFinalAppRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
         TrabajoFinalSharedModule,
@@ -45,7 +41,7 @@ import {
         NavbarComponent,
         ErrorComponent,
         PageRibbonComponent,
-        FooterComponent,
+        FooterComponent
     ],
     providers: [
         ProfileService,
@@ -53,7 +49,6 @@ import {
         PaginationConfig,
         UserRouteAccessService
     ],
-    entryComponents: [],
     bootstrap: [ JhiMainComponent ]
 })
 export class TrabajoFinalAppModule {}

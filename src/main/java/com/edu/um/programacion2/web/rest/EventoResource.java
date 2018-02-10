@@ -2,7 +2,9 @@ package com.edu.um.programacion2.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.edu.um.programacion2.domain.Evento;
+
 import com.edu.um.programacion2.repository.EventoRepository;
+import com.edu.um.programacion2.repository.search.EventoSearchRepository;
 import com.edu.um.programacion2.security.SecurityUtils;
 import com.edu.um.programacion2.web.rest.errors.BadRequestAlertException;
 import com.edu.um.programacion2.web.rest.util.HeaderUtil;
@@ -24,6 +26,10 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Evento.
@@ -38,8 +44,11 @@ public class EventoResource {
 
     private final EventoRepository eventoRepository;
 
-    public EventoResource(EventoRepository eventoRepository) {
+    private final EventoSearchRepository eventoSearchRepository;
+
+    public EventoResource(EventoRepository eventoRepository, EventoSearchRepository eventoSearchRepository) {
         this.eventoRepository = eventoRepository;
+        this.eventoSearchRepository = eventoSearchRepository;
     }
 
     /**
@@ -57,6 +66,7 @@ public class EventoResource {
             throw new BadRequestAlertException("A new evento cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Evento result = eventoRepository.save(evento);
+        eventoSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/eventos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -79,6 +89,7 @@ public class EventoResource {
             return createEvento(evento);
         }
         Evento result = eventoRepository.save(evento);
+        eventoSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, evento.getId().toString()))
             .body(result);
@@ -124,7 +135,25 @@ public class EventoResource {
     public ResponseEntity<Void> deleteEvento(@PathVariable Long id) {
         log.debug("REST request to delete Evento : {}", id);
         eventoRepository.delete(id);
+        eventoSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * SEARCH  /_search/eventos?query=:query : search for the evento corresponding
+     * to the query.
+     *
+     * @param query the query of the evento search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+    @GetMapping("/_search/eventos")
+    @Timed
+    public ResponseEntity<List<Evento>> searchEventos(@RequestParam String query, Pageable pageable) {
+        log.debug("REST request to search for a page of Eventos for query {}", query);
+        Page<Evento> page = eventoSearchRepository.search(queryStringQuery(query), pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/eventos");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
     
     /**
@@ -145,6 +174,7 @@ public class EventoResource {
         login = SecurityUtils.getCurrentUserLogin().get();
         Evento result = eventoRepository.save(evento);
         eventoRepository.saveCreador(login ,result.getId());
+        eventoSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/eventos-usuario/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -187,4 +217,5 @@ public class EventoResource {
         eventoRepository.updateEstado(id,evento.isEstado());
         return "/eventos-usuario";
     }
+
 }

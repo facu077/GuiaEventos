@@ -6,6 +6,7 @@ import com.edu.um.programacion2.domain.User;
 import com.edu.um.programacion2.repository.AuthorityRepository;
 import com.edu.um.programacion2.repository.UserRepository;
 import com.edu.um.programacion2.security.AuthoritiesConstants;
+import com.edu.um.programacion2.repository.search.UserSearchRepository;
 import com.edu.um.programacion2.service.MailService;
 
 import org.junit.Before;
@@ -40,6 +41,9 @@ public class SocialServiceIntTest {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserSearchRepository userSearchRepository;
+
 
     @Mock
     private MailService mockMailService;
@@ -60,7 +64,7 @@ public class SocialServiceIntTest {
         when(mockUsersConnectionRepository.createConnectionRepository(anyString())).thenReturn(mockConnectionRepository);
 
         socialService = new SocialService(mockUsersConnectionRepository, authorityRepository,
-                passwordEncoder, userRepository, mockMailService);
+                passwordEncoder, userRepository, mockMailService, userSearchRepository);
     }
 
     @Test
