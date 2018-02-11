@@ -24,6 +24,18 @@
 
             <p class="lead">Listado de Eventos</p>
             <p class="lead">Buscador</p>
+            <div class="row">
+                <div class="col-sm-5">
+                    <form name="searchForm" class="form-inline">
+                        <div class="input-group w-100 mt-3">
+                            <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Campo">
+                            <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                                <span class="fa fa-search"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <div>
                 <jhi-footer></jhi-footer>
             </div>
