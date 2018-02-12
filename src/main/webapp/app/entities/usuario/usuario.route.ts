@@ -12,7 +12,7 @@ export const usuarioRoute: Routes = [
         path: 'usuario',
         component: UsuarioComponent,
         data: {
-            authorities: ['ROLE_USER'],
+            authorities: ['ROLE_ADMIN'],
             pageTitle: 'Usuarios'
         },
         canActivate: [UserRouteAccessService]

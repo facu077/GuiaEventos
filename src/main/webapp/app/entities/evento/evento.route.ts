@@ -7,7 +7,8 @@ import { EventoPopupComponent } from './evento-dialog.component';
 import { EventoDeletePopupComponent } from './evento-delete-dialog.component';
 import { EventoUsuarioComponent } from './evento-usuario.component';
 import { EventoUsuarioPopupComponent } from './evento-usuario-dialog.component';
-import { EventoUsuarioDetailComponent } from './evento-usuario-detail.component'
+import { EventoUsuarioDetailComponent } from './evento-usuario-detail.component';
+import { EventoBuscadorComponent } from './evento-buscador.component';
 
 export const eventoRoute: Routes = [
     {
@@ -39,6 +40,14 @@ export const eventoRoute: Routes = [
         component: EventoUsuarioDetailComponent,
         data: {
             authorities: ['ROLE_USER'],
+            pageTitle: 'Eventos'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'evento-buscador',
+        component: EventoBuscadorComponent,
+        data: {
+            // authorities: ['ROLE_USER'],
             pageTitle: 'Eventos'
         },
         canActivate: [UserRouteAccessService]

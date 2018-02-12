@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
+import { Router } from '@angular/router';
 
 import { Account, LoginModalService, Principal } from '../shared';
 
@@ -19,7 +20,8 @@ export class HomeComponent implements OnInit {
     constructor(
         private principal: Principal,
         private loginModalService: LoginModalService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private router: Router
     ) {
     }
 
@@ -44,5 +46,12 @@ export class HomeComponent implements OnInit {
 
     login() {
         this.modalRef = this.loginModalService.open();
+    }
+
+    search(query) {
+        if (query === undefined) {
+            query = '';
+        }
+        this.router.navigate(['/evento-buscador', {search: query}]);
     }
 }

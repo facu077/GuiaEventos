@@ -105,7 +105,9 @@ public class EventoResource {
     @Timed
     public ResponseEntity<List<Evento>> getAllEventos(Pageable pageable) {
         log.debug("REST request to get a page of Eventos");
-        Page<Evento> page = eventoRepository.findAll(pageable);
+        // Page<Evento> page = eventoRepository.findAll(pageable);
+        List<Evento> evento = eventoRepository.findAllWithEagerRelationships();
+        final Page<Evento> page = new PageImpl<>(evento);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/eventos");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

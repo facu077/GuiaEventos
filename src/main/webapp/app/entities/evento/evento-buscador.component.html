@@ -1,0 +1,59 @@
+<div>
+    <h2>
+        <span>Eventos</span>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="eventos">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="nombre"><span>Nombre</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="resumen"><span>Resumen</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="ubicacion"><span>Ubicacion</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="fecha"><span>Fecha</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="asistentes"><span>Asistentes</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let evento of eventos ;trackBy: trackId">
+                    <td>{{evento.nombre}}</td>
+                    <td>{{evento.resumen}}</td>
+                    <td>{{evento.ubicacion}}</td>
+                    <td>{{evento.fecha | date:'mediumDate'}}</td>
+                    <td>
+                        <span *ngFor="let usuarioRegistrado of evento.usuarioRegistrados; let last = last">
+                            <a class="form-control-static" [routerLink]="['/usuario', usuarioRegistrado?.id ]">{{usuarioRegistrado.user.firstName}}</a>{{last ? '' : ', '}}
+                        </span>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    [routerLink]="['../evento-usuario', evento.id ]"
+                                    class="btn btn-info btn-sm">
+                                <span class="fa fa-eye"></span>
+                                <span class="d-none d-md-inline">Ver</span>
+                            </button>
+                        </div>
+                    </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
