@@ -1,9 +1,17 @@
 
 <div *ngIf="usuario">
-    <h2><span>Usuario</span> {{usuario.id}}</h2>
+    <h2>{{usuario.user?.login}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="row-md jh-entity-details">
+        <dt><span>Nombre</span></dt>
+        <dd>
+            <span>{{usuario.user?.firstName}}</span>
+        </dd>
+        <dt><span>Apellido</span></dt>
+        <dd>
+            <span>{{usuario.user?.lastName}}</span>
+        </dd>
         <dt><span>Fecha Nacimiento</span></dt>
         <dd>
             <span>{{usuario.fechaNacimiento | date:'mediumDate'}}</span>
@@ -12,17 +20,13 @@
         <dd>
             <span>{{usuario.sexo}}</span>
         </dd>
-        <dt><span>User</span></dt>
-        <dd>
-            {{usuario.user?.id}}
-        </dd>
-        <dt><span>Evento Registrado</span></dt>
+        <dt><span>Eventos Registrados</span></dt>
         <dd>
             <span *ngFor="let eventoRegistrado of usuario.eventoRegistrados; let last = last">
                 <a [routerLink]="['/evento', eventoRegistrado?.id ]">{{eventoRegistrado.nombre}}</a>{{last ? '' : ', '}}
             </span>
         </dd>
-        <dt><span>Evento Favorito</span></dt>
+        <dt><span>Eventos Favoritos</span></dt>
         <dd>
             <span *ngFor="let eventoFavorito of usuario.eventoFavoritos; let last = last">
                 <a [routerLink]="['/evento', eventoFavorito?.id ]">{{eventoFavorito.nombre}}</a>{{last ? '' : ', '}}
@@ -40,13 +44,5 @@
             (click)="previousState()"
             class="btn btn-info">
         <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
-    </button>
-
-    <button type="button"
-            [routerLink]="['/', { outlets: { popup: 'usuario/'+ usuario.id + '/edit'} }]"
-            replaceUrl="true"
-            queryParamsHandling="merge"
-            class="btn btn-primary">
-        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
     </button>
 </div>
