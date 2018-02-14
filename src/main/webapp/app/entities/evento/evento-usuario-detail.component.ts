@@ -21,6 +21,7 @@ export class EventoUsuarioDetailComponent implements OnInit, OnDestroy {
     private eventSubscriber: Subscription;
     userId: number;
     control: Boolean;
+    controlFavorito: Boolean;
     usuario: Usuario;
 
     // google maps zoom level
@@ -50,6 +51,7 @@ export class EventoUsuarioDetailComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.control = true;
+        this.controlFavorito = true;
         this.principal.identity().then((account) => {
             this.userId = account.id;
         });
@@ -109,6 +111,11 @@ export class EventoUsuarioDetailComponent implements OnInit, OnDestroy {
         return 'Ya estas registrado en este evento';
     }
 
+    isFavorito() {
+        this.controlFavorito = false;
+        return 'Ya tienes el evento en favoritos';
+    }
+
     registro() {
         this.eventoService.registroEvento(this.evento.id).subscribe((response) => {
             this.eventManager.broadcast({
@@ -116,8 +123,31 @@ export class EventoUsuarioDetailComponent implements OnInit, OnDestroy {
                 content: 'Registrado un evento'
             });
             this.control = false;
+            this.eliminarFavorito(this.evento.id);
             this.registerChangeInEventos();
         });
+    }
+
+    favorito() {
+        this.eventoService.favoritoEvento(this.evento.id).subscribe((response) => {
+            this.eventManager.broadcast({
+                name: 'eventoListModification',
+                content: 'Agregado a favoritos un evento'
+            });
+            this.controlFavorito = false;
+            this.registerChangeInEventos();
+        });
+    }
+
+    eliminarFavorito(id: number): void {
+        this.eventoService.deleteFavorito(id).subscribe((response) => {
+            this.eventManager.broadcast({
+                name: 'eventoListModification',
+                content: 'Deleted an evento favorito'
+            });
+            // this.activeModal.dismiss(true);
+        });
+        this.registerChangeInEventos()
     }
 
 }

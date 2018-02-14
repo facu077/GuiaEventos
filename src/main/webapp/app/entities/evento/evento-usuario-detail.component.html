@@ -103,7 +103,19 @@
         <button type="button" *ngIf="control"
                 (click)="registro()"
                 class="btn btn-primary">
-            <span class="fa fa-pencil"></span>&nbsp;<span> Registrarse</span>
+            <span class="fa fa-plus-circle"></span>&nbsp;<span> Registrarse</span>
         </button>
+        <ng-container *ngIf="control">
+            <ng-container *ngFor="let usuarioFavorito of evento.usuarioFavoritos;">
+                <ng-container *ngIf="userId == usuarioFavorito?.id">
+                    <span class="btn btn-primary">{{isFavorito()}}</span>
+                </ng-container>
+            </ng-container>
+            <button type="button" *ngIf="controlFavorito"
+                    (click)="favorito()"
+                    class="btn btn-primary">
+                <span class="fa fa-plus-circle"></span>&nbsp;<span> Agregar a favoritos</span>
+            </button>
+        </ng-container>
     </ng-container>
 </div>

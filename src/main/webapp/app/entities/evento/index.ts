@@ -10,4 +10,5 @@ export * from './evento-usuario-dialog.component';
 export * from './evento-usuario-detail.component';
 export * from './evento-usuario.component';
 export * from './evento-buscador.component';
-export * from './evento-registro.component';
+export * from './evento-registrado.component';
+export * from './evento-favorito.component';

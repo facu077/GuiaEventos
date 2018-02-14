@@ -108,7 +108,6 @@ public class EventoResource {
     @Timed
     public ResponseEntity<List<Evento>> getAllEventos(Pageable pageable) {
         log.debug("REST request to get a page of Eventos");
-        // Page<Evento> page = eventoRepository.findAll(pageable);
         List<Evento> evento = eventoRepository.findAllWithEagerRelationships();
         final Page<Evento> page = new PageImpl<>(evento);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/eventos");
@@ -229,14 +228,88 @@ public class EventoResource {
      */
     @GetMapping("/eventos-usuario/registro/{idEvento}")
     @Timed
-    public void addTagsUsuario(@PathVariable Long idEvento) {
+    public void registroEvento(@PathVariable Long idEvento) {
         String login;
         Long idUs;
         login = SecurityUtils.getCurrentUserLogin().get();
         idUs = eventoRepository.getUserId(login);
         log.debug("REST request add evento : {}", idEvento);
-        eventoRepository.registroEvento(idEvento,idUs);
+        eventoRepository.registroEventoSql(idEvento,idUs);
         // return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, idTag.toString())).build();
+    }
+    
+    /**
+     * GET  /eventos-usario/favorito/:id : agregar a favoritos el evento id.
+     *
+     */
+    @GetMapping("/eventos-usuario/favorito/{idEvento}")
+    @Timed
+    public void favoritoEvento(@PathVariable Long idEvento) {
+        String login;
+        Long idUs;
+        login = SecurityUtils.getCurrentUserLogin().get();
+        idUs = eventoRepository.getUserId(login);
+        log.debug("REST request add evento : {}", idEvento);
+        eventoRepository.favoritoEventoSql(idEvento,idUs);
+        // return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, idTag.toString())).build();
+    }
+    
+    /**
+     * GET  /eventos/registrado : get all the eventos registrados del usuario.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of eventos in body
+     */
+    @GetMapping("/eventos/registrado")
+    @Timed
+    public ResponseEntity<List<Evento>> getEventosRegistrado(Pageable pageable) {
+        log.debug("REST request to get a page of Eventos");
+        String login;
+        Long id;
+        login = SecurityUtils.getCurrentUserLogin().get();
+        id = eventoRepository.getUserId(login);
+        List<Evento> evento = eventoRepository.findEventosRegistrado(id);
+        final Page<Evento> page = new PageImpl<>(evento);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/eventos-usuario");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    /**
+     * GET  /eventos/favorito : get all the eventos favoritos del usuario.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of eventos in body
+     */
+    @GetMapping("/eventos/favorito")
+    @Timed
+    public ResponseEntity<List<Evento>> getEventosFavorito(Pageable pageable) {
+        log.debug("REST request to get a page of Eventos");
+        String login;
+        Long id;
+        login = SecurityUtils.getCurrentUserLogin().get();
+        id = eventoRepository.getUserId(login);
+        List<Evento> evento = eventoRepository.findEventosFavorito(id);
+        final Page<Evento> page = new PageImpl<>(evento);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/eventos-usuario");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    /**
+     * DELETE  /eventos/favorito/:id : delete the "id" evento favorito.
+     *
+     * @param id the id of the evento to delete
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @DeleteMapping("/eventos/favorito/{id}")
+    @Timed
+    public ResponseEntity<Void> deleteEventoFavorito(@PathVariable Long id) {
+        String login;
+        Long idUs;
+        login = SecurityUtils.getCurrentUserLogin().get();
+        idUs = eventoRepository.getUserId(login);
+        log.debug("REST request to delete Evento favorito : {}", id);
+        eventoRepository.deleteFavorito(id, idUs);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
 }

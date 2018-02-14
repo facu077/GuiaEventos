@@ -31,6 +31,16 @@ public interface EventoRepository extends JpaRepository<Evento, Long> {
     )
     List<Evento> findUserEventos(@Param("id") Long id);
     
+    @Query(value = "select * from evento left join usuario_evento_registrado on evento_registrados_id = evento.id where usuario_evento_registrado.usuarios_id =:id",
+            nativeQuery=true
+    )
+    List<Evento> findEventosRegistrado(@Param("id") Long id);
+    
+    @Query(value = "select * from evento left join usuario_evento_favorito on evento_favoritos_id = evento.id where usuario_evento_favorito.usuarios_id =:id",
+            nativeQuery=true
+    )
+    List<Evento> findEventosFavorito(@Param("id") Long id);
+    
     @Transactional
     @Modifying
     @Query(value = "UPDATE evento SET usuario_creador_id = (select id from jhi_user where login = :login) WHERE evento.id = :idEvento",
@@ -55,5 +65,19 @@ public interface EventoRepository extends JpaRepository<Evento, Long> {
     @Query(value = "INSERT INTO usuario_evento_registrado (evento_registrados_id, usuarios_id) VALUES (:idEvento,:idUs)",
             nativeQuery=true
     )
-    void registroEvento(@Param("idEvento") Long idEvento, @Param("idUs") Long idUs);
+    void registroEventoSql(@Param("idEvento") Long idEvento, @Param("idUs") Long idUs);
+    
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO usuario_evento_favorito (evento_favoritos_id, usuarios_id) VALUES (:idEvento,:idUs)",
+            nativeQuery=true
+    )
+    void favoritoEventoSql(@Param("idEvento") Long idEvento, @Param("idUs") Long idUs);
+    
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM usuario_evento_favorito WHERE usuario_evento_favorito.evento_favoritos_id = :idEvento AND usuario_evento_favorito.usuarios_id = :idUs",
+            nativeQuery=true
+    )
+    void deleteFavorito(@Param("idEvento") Long idEvento, @Param("idUs") Long idUs);
 }
