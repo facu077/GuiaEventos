@@ -47,7 +47,7 @@ export class TagsUsuarioDialogComponent implements OnInit {
         this.tagsService.addTagsUsuario(id).subscribe((response) => {
             this.eventManager.broadcast({
                 name: 'tagsListModification',
-                content: 'Deleted an tags'
+                content: 'Add tags'
             });
             this.activeModal.dismiss(true);
         });

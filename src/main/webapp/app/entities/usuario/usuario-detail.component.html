@@ -23,13 +23,13 @@
         <dt><span>Eventos Registrados</span></dt>
         <dd>
             <span *ngFor="let eventoRegistrado of usuario.eventoRegistrados; let last = last">
-                <a [routerLink]="['/evento', eventoRegistrado?.id ]">{{eventoRegistrado.nombre}}</a>{{last ? '' : ', '}}
+                <a [routerLink]="['/evento-usuario', eventoRegistrado?.id ]">{{eventoRegistrado.nombre}}</a>{{last ? '' : ', '}}
             </span>
         </dd>
         <dt><span>Eventos Favoritos</span></dt>
         <dd>
             <span *ngFor="let eventoFavorito of usuario.eventoFavoritos; let last = last">
-                <a [routerLink]="['/evento', eventoFavorito?.id ]">{{eventoFavorito.nombre}}</a>{{last ? '' : ', '}}
+                <a [routerLink]="['/evento-usuario', eventoFavorito?.id ]">{{eventoFavorito.nombre}}</a>{{last ? '' : ', '}}
             </span>
         </dd>
         <dt><span>Tag</span></dt>

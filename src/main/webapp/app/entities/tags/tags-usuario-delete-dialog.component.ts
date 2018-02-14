@@ -14,7 +14,7 @@ import { TagsService } from './tags.service';
 })
 export class TagsUsuarioDeleteDialogComponent {
 
-    tags: Tags;
+    tags: Tags[];
 
     constructor(
         private tagsService: TagsService,

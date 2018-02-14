@@ -30,7 +30,7 @@ export class EventoUsuarioDialogComponent implements OnInit {
     usuarios: Usuario[];
 
     tags: Tags[];
-    horarioDp: any;
+    fechaDp: any;
 
     show: boolean;
 

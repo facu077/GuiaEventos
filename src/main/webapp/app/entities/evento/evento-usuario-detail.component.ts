@@ -6,6 +6,10 @@ import { JhiEventManager, JhiDataUtils } from 'ng-jhipster';
 import { Evento } from './evento.model';
 import { EventoService } from './evento.service';
 
+import { Usuario, UsuarioService } from '../usuario';
+
+import { Principal, AccountService } from '../../shared';
+
 @Component({
     selector: 'jhi-evento-usuario-detail',
     templateUrl: './evento-usuario-detail.component.html'
@@ -15,6 +19,10 @@ export class EventoUsuarioDetailComponent implements OnInit, OnDestroy {
     evento: Evento;
     private subscription: Subscription;
     private eventSubscriber: Subscription;
+    userId: number;
+    control: Boolean;
+    controlFavorito: Boolean;
+    usuario: Usuario;
 
     // google maps zoom level
     zoom: number = +12;
@@ -34,11 +42,19 @@ export class EventoUsuarioDetailComponent implements OnInit, OnDestroy {
         private eventManager: JhiEventManager,
         private dataUtils: JhiDataUtils,
         private eventoService: EventoService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private account: AccountService,
+        private principal: Principal,
+        private usuarioService: UsuarioService
     ) {
     }
 
     ngOnInit() {
+        this.control = true;
+        this.controlFavorito = true;
+        this.principal.identity().then((account) => {
+            this.userId = account.id;
+        });
         this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
         });
@@ -88,6 +104,50 @@ export class EventoUsuarioDetailComponent implements OnInit, OnDestroy {
         this.marcador.lng = +latitud;
         this.lat = +longitud;
         this.lng = +latitud;
+    }
+
+    isRegistrado() {
+        this.control = false;
+        return 'Ya estas registrado en este evento';
+    }
+
+    isFavorito() {
+        this.controlFavorito = false;
+        return 'Ya tienes el evento en favoritos';
+    }
+
+    registro() {
+        this.eventoService.registroEvento(this.evento.id).subscribe((response) => {
+            this.eventManager.broadcast({
+                name: 'eventoListModification',
+                content: 'Registrado un evento'
+            });
+            this.control = false;
+            this.eliminarFavorito(this.evento.id);
+            this.registerChangeInEventos();
+        });
+    }
+
+    favorito() {
+        this.eventoService.favoritoEvento(this.evento.id).subscribe((response) => {
+            this.eventManager.broadcast({
+                name: 'eventoListModification',
+                content: 'Agregado a favoritos un evento'
+            });
+            this.controlFavorito = false;
+            this.registerChangeInEventos();
+        });
+    }
+
+    eliminarFavorito(id: number): void {
+        this.eventoService.deleteFavorito(id).subscribe((response) => {
+            this.eventManager.broadcast({
+                name: 'eventoListModification',
+                content: 'Deleted an evento favorito'
+            });
+            // this.activeModal.dismiss(true);
+        });
+        this.registerChangeInEventos()
     }
 
 }

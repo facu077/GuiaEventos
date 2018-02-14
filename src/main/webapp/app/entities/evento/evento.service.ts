@@ -50,6 +50,10 @@ export class EventoService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
+    deleteFavorito(id: number): Observable<Response> {
+        return this.http.delete(`${this.resourceUrl}/favorito/${id}`);
+    }
+
     search(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
         return this.http.get(this.resourceSearchUrl, options)
@@ -72,6 +76,26 @@ export class EventoService {
 
     updateEstado(id: number): Observable<Response> {
         return this.http.get(`${this.resourceUrlUsuario}/estado/${id}`);
+    }
+
+    registroEvento(id: number): Observable<Response> {
+        return this.http.get(`${this.resourceUrlUsuario}/registro/${id}`);
+    }
+
+    favoritoEvento(id: number): Observable<Response> {
+        return this.http.get(`${this.resourceUrlUsuario}/favorito/${id}`);
+    }
+
+    queryRegistrado(req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
+        return this.http.get(`${this.resourceUrl}/registrado`, options)
+            .map((res: Response) => this.convertResponse(res));
+    }
+
+    queryFavorito(req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
+        return this.http.get(`${this.resourceUrl}/favorito`, options)
+            .map((res: Response) => this.convertResponse(res));
     }
 
     private convertResponse(res: Response): ResponseWrapper {

@@ -18,7 +18,9 @@ import {
     EventoUsuarioDialogComponent,
     EventoUsuarioPopupComponent,
     EventoUsuarioDetailComponent,
-    EventoBuscadorComponent
+    EventoBuscadorComponent,
+    EventoRegistradoComponent,
+    EventoFavoritoComponent
 } from './';
 
 const ENTITY_STATES = [
@@ -45,7 +47,9 @@ const ENTITY_STATES = [
         EventoUsuarioDialogComponent,
         EventoUsuarioPopupComponent,
         EventoUsuarioDetailComponent,
-        EventoBuscadorComponent
+        EventoBuscadorComponent,
+        EventoRegistradoComponent,
+        EventoFavoritoComponent
     ],
     entryComponents: [
         EventoComponent,
@@ -53,7 +57,8 @@ const ENTITY_STATES = [
         EventoPopupComponent,
         EventoDeleteDialogComponent,
         EventoDeletePopupComponent,
-        EventoUsuarioDialogComponent,
+        EventoUsuarioDialogComponent
+
     ],
     providers: [
         EventoService,

@@ -1,4 +1,3 @@
-
 <div *ngIf="evento">
     <h2><span>Evento:</span> {{evento.nombre}}</h2>
     <hr>
@@ -87,12 +86,36 @@
             class="btn btn-info">
         <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
     </button>
-
-    <button type="button"
+    <button type="button" *ngIf="userId == evento.usuarioCreador.id"
             [routerLink]="['/', { outlets: { popup: 'evento-usuario/'+ evento.id + '/edit'} }]"
             replaceUrl="true"
             queryParamsHandling="merge"
             class="btn btn-primary">
-        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+        <span class="fa fa-pencil"></span>&nbsp;<span> Editar</span>
     </button>
+
+    <ng-container  *ngIf="userId !== evento.usuarioCreador.id">
+        <ng-container *ngFor="let usuarioRegistrado of evento.usuarioRegistrados;">
+            <ng-container *ngIf="userId == usuarioRegistrado?.id">
+                <span class="btn btn-primary">{{isRegistrado()}}</span>
+            </ng-container>
+        </ng-container>
+        <button type="button" *ngIf="control"
+                (click)="registro()"
+                class="btn btn-primary">
+            <span class="fa fa-plus-circle"></span>&nbsp;<span> Registrarse</span>
+        </button>
+        <ng-container *ngIf="control">
+            <ng-container *ngFor="let usuarioFavorito of evento.usuarioFavoritos;">
+                <ng-container *ngIf="userId == usuarioFavorito?.id">
+                    <span class="btn btn-primary">{{isFavorito()}}</span>
+                </ng-container>
+            </ng-container>
+            <button type="button" *ngIf="controlFavorito"
+                    (click)="favorito()"
+                    class="btn btn-primary">
+                <span class="fa fa-plus-circle"></span>&nbsp;<span> Agregar a favoritos</span>
+            </button>
+        </ng-container>
+    </ng-container>
 </div>
