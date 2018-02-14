@@ -49,4 +49,11 @@ public interface EventoRepository extends JpaRepository<Evento, Long> {
             nativeQuery=true
     )
     void updateEstado(@Param("id") Long id, @Param("estado") Boolean estado);
+    
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO usuario_evento_registrado (evento_registrados_id, usuarios_id) VALUES (:idEvento,:idUs)",
+            nativeQuery=true
+    )
+    void registroEvento(@Param("idEvento") Long idEvento, @Param("idUs") Long idUs);
 }

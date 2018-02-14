@@ -74,6 +74,10 @@ export class EventoService {
         return this.http.get(`${this.resourceUrlUsuario}/estado/${id}`);
     }
 
+    registroEvento(id: number): Observable<Response> {
+        return this.http.get(`${this.resourceUrlUsuario}/registro/${id}`);
+    }
+
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         const result = [];

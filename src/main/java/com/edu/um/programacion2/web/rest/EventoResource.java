@@ -2,11 +2,14 @@ package com.edu.um.programacion2.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.edu.um.programacion2.domain.Evento;
-
+import com.edu.um.programacion2.domain.User;
 import com.edu.um.programacion2.repository.EventoRepository;
 import com.edu.um.programacion2.repository.search.EventoSearchRepository;
 import com.edu.um.programacion2.security.SecurityUtils;
+import com.edu.um.programacion2.service.dto.UserDTO;
 import com.edu.um.programacion2.web.rest.errors.BadRequestAlertException;
+import com.edu.um.programacion2.web.rest.errors.EmailAlreadyUsedException;
+import com.edu.um.programacion2.web.rest.errors.InternalServerErrorException;
 import com.edu.um.programacion2.web.rest.util.HeaderUtil;
 import com.edu.um.programacion2.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -218,6 +221,22 @@ public class EventoResource {
         evento.setEstado(!evento.isEstado());
         eventoRepository.updateEstado(id,evento.isEstado());
         return "/eventos-usuario";
+    }
+    
+    /**
+     * GET  /eventos-usario/registro/:id : registro en el evento id.
+     *
+     */
+    @GetMapping("/eventos-usuario/registro/{idEvento}")
+    @Timed
+    public void addTagsUsuario(@PathVariable Long idEvento) {
+        String login;
+        Long idUs;
+        login = SecurityUtils.getCurrentUserLogin().get();
+        idUs = eventoRepository.getUserId(login);
+        log.debug("REST request add evento : {}", idEvento);
+        eventoRepository.registroEvento(idEvento,idUs);
+        // return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, idTag.toString())).build();
     }
 
 }

@@ -9,6 +9,7 @@ import { EventoUsuarioComponent } from './evento-usuario.component';
 import { EventoUsuarioPopupComponent } from './evento-usuario-dialog.component';
 import { EventoUsuarioDetailComponent } from './evento-usuario-detail.component';
 import { EventoBuscadorComponent } from './evento-buscador.component';
+import { EventoRegistroPopupComponent } from './evento-registro.component';
 
 export const eventoRoute: Routes = [
     {
@@ -99,6 +100,16 @@ export const eventoPopupRoute: Routes = [
     {
         path: 'evento-usuario/:id/edit',
         component: EventoUsuarioPopupComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'Eventos'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
+    {
+        path: 'evento-usuario/:id/registro',
+        component: EventoRegistroPopupComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Eventos'

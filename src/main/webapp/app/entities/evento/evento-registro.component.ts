@@ -14,13 +14,13 @@ import { Usuario, UsuarioService } from '../usuario';
 import { Tags, TagsService } from '../tags';
 import { ResponseWrapper } from '../../shared';
 
-import { MouseEvent } from '@agm/core';
+import { Principal, AccountService } from '../../shared';
 
 @Component({
-    selector: 'jhi-evento-usuario-dialog',
-    templateUrl: './evento-usuario-dialog.component.html'
+    selector: 'jhi-evento-registro',
+    templateUrl: './evento-registro.component.html'
 })
-export class EventoUsuarioDialogComponent implements OnInit {
+export class EventoRegistroComponent implements OnInit {
 
     evento: Evento;
     isSaving: boolean;
@@ -28,25 +28,10 @@ export class EventoUsuarioDialogComponent implements OnInit {
     categorias: Categoria[];
 
     usuarios: Usuario[];
+    usuario: Usuario;
 
     tags: Tags[];
     fechaDp: any;
-
-    show: boolean;
-
-    // google maps zoom level
-    zoom: number = +12;
-
-    // initial center position for the map
-    lat: number = -32.8943;
-    lng: number = -68.8341;
-
-    marcador: Marker = {
-        lat: 0,
-        lng: 0,
-        label: 'A',
-        draggable: true
-    }
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -56,7 +41,9 @@ export class EventoUsuarioDialogComponent implements OnInit {
         private categoriaService: CategoriaService,
         private usuarioService: UsuarioService,
         private tagsService: TagsService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private account: AccountService,
+        private principal: Principal
     ) {
     }
 
@@ -68,27 +55,12 @@ export class EventoUsuarioDialogComponent implements OnInit {
             .subscribe((res: ResponseWrapper) => { this.usuarios = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.tagsService.query()
             .subscribe((res: ResponseWrapper) => { this.tags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
-        this.buildMap();
-    }
-
-    buildMap() {
-        const [longitud, latitud] = this.evento.ubicacion.split(';');
-        this.marcador.lat = +longitud;
-        this.marcador.lng = +latitud;
-        this.lat = +longitud;
-        this.lng = +latitud;
-    }
-
-    byteSize(field) {
-        return this.dataUtils.byteSize(field);
-    }
-
-    openFile(contentType, field) {
-        return this.dataUtils.openFile(contentType, field);
-    }
-
-    setFileData(event, entity, field, isImage) {
-        this.dataUtils.setFileData(event, entity, field, isImage);
+        this.principal.identity().then((account) => {
+            this.usuarioService.find(account.id).subscribe((usuario) => {
+                this.usuario = usuario;
+                this.usuario.eventoRegistrados.push(this.evento);
+            });
+        });
     }
 
     clear() {
@@ -97,12 +69,12 @@ export class EventoUsuarioDialogComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        if (this.evento.id !== undefined) {
+        if (this.usuario.id !== undefined) {
             this.subscribeToSaveResponse(
-                this.eventoService.update(this.evento));
+                this.usuarioService.update(this.usuario));
         } else {
             this.subscribeToSaveResponse(
-                this.eventoService.createUsuario(this.evento));
+                this.usuarioService.create(this.usuario));
         }
     }
 
@@ -125,18 +97,6 @@ export class EventoUsuarioDialogComponent implements OnInit {
         this.jhiAlertService.error(error.message, null, null);
     }
 
-    trackCategoriaById(index: number, item: Categoria) {
-        return item.id;
-    }
-
-    trackUsuarioById(index: number, item: Usuario) {
-        return item.id;
-    }
-
-    trackTagsById(index: number, item: Tags) {
-        return item.id;
-    }
-
     getSelected(selectedVals: Array<any>, option: any) {
         if (selectedVals) {
             for (let i = 0; i < selectedVals.length; i++) {
@@ -146,27 +106,6 @@ export class EventoUsuarioDialogComponent implements OnInit {
             }
         }
         return option;
-    }
-
-    clickedMarker(label: string, index: number) {
-        console.log(`clicked the marker: ${label || index}`)
-    }
-
-    mapClicked($event: MouseEvent) {
-        this.marcador = {
-          lat: $event.coords.lat,
-          lng: $event.coords.lng,
-          draggable: true
-        }
-        this.evento.ubicacion = `${this.marcador.lat};${this.marcador.lng}`;
-    }
-
-    markerDragEnd(m: Marker, $event: MouseEvent) {
-        console.log('dragEnd', m, $event);
-    }
-
-    showMap() {
-        this.show = !this.show;
     }
 }
 
@@ -181,7 +120,7 @@ interface Marker {
     selector: 'jhi-usuario-evento-popup',
     template: ''
 })
-export class EventoUsuarioPopupComponent implements OnInit, OnDestroy {
+export class EventoRegistroPopupComponent implements OnInit, OnDestroy {
 
     routeSub: any;
 
@@ -194,10 +133,10 @@ export class EventoUsuarioPopupComponent implements OnInit, OnDestroy {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
                 this.eventoPopupService
-                    .open(EventoUsuarioDialogComponent as Component, params['id']);
+                    .open(EventoRegistroComponent as Component, params['id']);
             } else {
                 this.eventoPopupService
-                    .open(EventoUsuarioDialogComponent as Component);
+                    .open(EventoRegistroComponent as Component);
             }
         });
     }
