@@ -12,3 +12,4 @@ export * from './evento-usuario.component';
 export * from './evento-buscador.component';
 export * from './evento-registrado.component';
 export * from './evento-favorito.component';
+export * from './evento-populares.component';

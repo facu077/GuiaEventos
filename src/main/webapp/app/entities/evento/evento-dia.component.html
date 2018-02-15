@@ -1,0 +1,48 @@
+<div>
+    <h4>
+        <span>Eventos del Dia</span>
+    </h4>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="eventos">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="nombre"><span>Nombre</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="resumen"><span>Resumen</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="precio"><span>Precio</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="fecha"><span>Fecha</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let evento of eventos ;trackBy: trackId">
+                <td>{{evento.nombre}}</td>
+                <td>{{evento.resumen}}</td>
+                <td>{{evento.precio}}</td>
+                <td>{{evento.fecha | date:'mediumDate'}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../evento-usuario', evento.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline">Detalles</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="limite">
+        <button type="submit"
+                [routerLink]="['../evento-dia',{control: false}]"
+                class="btn btn-info btn-sm">
+            <span class="fa fa-eye"></span>
+            <span class="d-none d-md-inline">Ver mas</span>
+        </button>
+    </div>
+</div>

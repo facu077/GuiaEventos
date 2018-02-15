@@ -11,7 +11,6 @@ import { Account, LoginModalService, Principal } from '../shared';
     styleUrls: [
         'home.scss'
     ]
-
 })
 export class HomeComponent implements OnInit {
     account: Account;
