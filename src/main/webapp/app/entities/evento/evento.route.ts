@@ -11,6 +11,9 @@ import { EventoUsuarioDetailComponent } from './evento-usuario-detail.component'
 import { EventoBuscadorComponent } from './evento-buscador.component';
 import { EventoRegistradoComponent } from './evento-registrado.component';
 import { EventoFavoritoComponent } from './evento-favorito.component';
+import { EventoPopularesComponent } from './evento-populares.component';
+import { EventoDestacadosComponent } from './evento-destacados.component';
+import { EventoDiaComponent } from './evento-dia.component';
 
 export const eventoRoute: Routes = [
     {
@@ -66,6 +69,30 @@ export const eventoRoute: Routes = [
         component: EventoFavoritoComponent,
         data: {
             authorities: ['ROLE_USER'],
+            pageTitle: 'Eventos'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'evento-populares',
+        component: EventoPopularesComponent,
+        data: {
+            // authorities: ['ROLE_USER'],
+            pageTitle: 'Eventos'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'evento-destacados',
+        component: EventoDestacadosComponent,
+        data: {
+            // authorities: ['ROLE_USER'],
+            pageTitle: 'Eventos'
+        },
+        canActivate: [UserRouteAccessService]
+    }, {
+        path: 'evento-dia',
+        component: EventoDiaComponent,
+        data: {
+            // authorities: ['ROLE_USER'],
             pageTitle: 'Eventos'
         },
         canActivate: [UserRouteAccessService]

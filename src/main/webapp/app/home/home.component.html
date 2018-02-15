@@ -7,23 +7,16 @@
 
             <div *ngSwitchCase="true">
                 <h1 class="display-4">Bienvenido, {{account.firstName}}!</h1>
-                <p class="lead">This is your homepage</p>
-                <div class="alert alert-success">
-                    <span *ngIf="account"> You are logged in as user "{{account.login}}". </span>
-                </div>
             </div>
 
             <div *ngSwitchCase="false">
-                <h1 class="display-4">Welcome, Java Hipster!</h1>
-                <p class="lead">This is your homepage</p>
+                <h1 class="display-4">Bienvenido!</h1>
                 <div class="alert alert-warning">
-                    <span>You don't have an account yet?</span>
-                    <a class="alert-link" routerLink="register">Register a new account</a>
+                    <span>No tienes cuenta?</span>
+                    <a class="alert-link" routerLink="register">Registrate</a>
                 </div>
             </div>
-
-            <p class="lead">Listado de Eventos</p>
-            <p class="lead">Buscador</p>
+            <h4>Buscador</h4>
             <div class="row">
                 <div class="col-sm-5">
                     <form name="searchForm" class="form-inline">
@@ -36,8 +29,13 @@
                     </form>
                 </div>
             </div>
+            <br>
             <div>
-                <jhi-footer></jhi-footer>
+                <jhi-evento-populares></jhi-evento-populares>
+                <br>
+                <jhi-evento-destacados></jhi-evento-destacados>
+                <br>
+                <jhi-evento-dia></jhi-evento-dia>
             </div>
         </div>
     </div>

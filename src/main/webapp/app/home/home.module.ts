@@ -4,6 +4,9 @@ import { RouterModule } from '@angular/router';
 import { TrabajoFinalSharedModule } from '../shared';
 
 import { HOME_ROUTE, HomeComponent } from './';
+import { EventoPopularesComponent } from '../entities/evento/evento-populares.component';
+import { EventoDestacadosComponent } from '../entities/evento/evento-destacados.component';
+import { EventoDiaComponent } from '../entities/evento/evento-dia.component';
 
 @NgModule({
     imports: [
@@ -12,6 +15,9 @@ import { HOME_ROUTE, HomeComponent } from './';
     ],
     declarations: [
         HomeComponent,
+        EventoPopularesComponent,
+        EventoDestacadosComponent,
+        EventoDiaComponent
     ],
     entryComponents: [
     ],

@@ -80,4 +80,5 @@ public interface EventoRepository extends JpaRepository<Evento, Long> {
             nativeQuery=true
     )
     void deleteFavorito(@Param("idEvento") Long idEvento, @Param("idUs") Long idUs);
+
 }

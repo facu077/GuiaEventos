@@ -1,20 +1,20 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { JhiEventManager, JhiParseLinks, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+import { ActivatedRoute } from '@angular/router';
 
 import { Evento } from './evento.model';
 import { EventoService } from './evento.service';
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 
 @Component({
-    selector: 'jhi-evento-buscador',
-    templateUrl: './evento-buscador.component.html'
+    selector: 'jhi-evento-dia',
+    templateUrl: './evento-dia.component.html',
 })
-export class EventoBuscadorComponent implements OnInit, OnDestroy {
+export class EventoDiaComponent implements OnInit, OnDestroy {
 
     eventos: Evento[];
-    eventosTemp: Evento[];
+    evento: Evento;
     currentAccount: any;
     eventSubscriber: Subscription;
     itemsPerPage: number;
@@ -24,7 +24,7 @@ export class EventoBuscadorComponent implements OnInit, OnDestroy {
     queryCount: any;
     reverse: any;
     totalItems: number;
-    currentSearch: string;
+    limite: boolean;
 
     constructor(
         private eventoService: EventoService,
@@ -32,11 +32,10 @@ export class EventoBuscadorComponent implements OnInit, OnDestroy {
         private dataUtils: JhiDataUtils,
         private eventManager: JhiEventManager,
         private parseLinks: JhiParseLinks,
-        private activatedRoute: ActivatedRoute,
-        private principal: Principal
+        private principal: Principal,
+        private activatedRoute: ActivatedRoute
     ) {
         this.eventos = [];
-        this.eventosTemp = [];
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.page = 0;
         this.links = {
@@ -44,30 +43,17 @@ export class EventoBuscadorComponent implements OnInit, OnDestroy {
         };
         this.predicate = 'id';
         this.reverse = true;
-        this.currentSearch = this.activatedRoute.snapshot && this.activatedRoute.snapshot.params['search'] ?
-            this.activatedRoute.snapshot.params['search'] : '';
+        this.limite = true;
     }
 
     loadAll() {
-        if (this.currentSearch) {
-            this.eventoService.search({
-                query: this.currentSearch,
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            }).subscribe(
-                (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
-                (res: ResponseWrapper) => this.onError(res.json)
-            );
-            return;
-        }
         this.eventoService.query({
             page: this.page,
             size: this.itemsPerPage,
             sort: this.sort()
         }).subscribe(
             (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
-            (res: ResponseWrapper) => this.onError(res.json),
+            (res: ResponseWrapper) => this.onError(res.json)
         );
     }
 
@@ -81,36 +67,13 @@ export class EventoBuscadorComponent implements OnInit, OnDestroy {
         this.page = page;
         this.loadAll();
     }
-
-    clear() {
-        this.eventos = [];
-        this.links = {
-            last: 0
-        };
-        this.page = 0;
-        this.predicate = 'id';
-        this.reverse = true;
-        this.currentSearch = '';
-        this.loadAll();
-    }
-
-    search(query) {
-        if (!query) {
-            return this.clear();
-        }
-        this.eventos = [];
-        this.eventosTemp = [];
-        this.links = {
-            last: 0
-        };
-        this.page = 0;
-        this.predicate = '_score';
-        this.reverse = false;
-        this.currentSearch = query;
-        this.loadAll();
-    }
     ngOnInit() {
         this.loadAll();
+        if (this.activatedRoute.snapshot.params['control'] === undefined) {
+            this.limite = true;
+        } else {
+            this.limite = false;
+        }
         this.principal.identity().then((account) => {
             this.currentAccount = account;
         });
@@ -145,14 +108,20 @@ export class EventoBuscadorComponent implements OnInit, OnDestroy {
     }
 
     private onSuccess(data, headers) {
+        let control = 0;
+        const fecha = new Date();
+        fecha.setHours(0, 0, 0, 0);
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         for (let i = 0; i < data.length; i++) {
-            this.eventoService.find(data[i].id).subscribe((evento) => {
-                if (evento.estado) {
-                    this.eventos.push(evento);
+            if ( fecha.toString() === data[i].fecha.toString() && data[i].estado === true ) {
+                if (control < 4 && this.limite) {
+                    this.eventos.push(data[i]);
+                } else if (!this.limite) {
+                    this.eventos.push(data[i]);
                 }
-            });
+                control++;
+            }
         }
     }
 
