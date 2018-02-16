@@ -72,9 +72,25 @@
                         </small>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="sexo">Sexo</label>
+                    <select class="form-control" name="sexo" #sexo="ngModel" [(ngModel)]="usuario.sexo" id="sexo" >
+                        <option value="MASCULINO">Masculino</option>
+                        <option value="FEMENINO">Femenino</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_fechaNacimiento">Fecha Nacimiento</label>
+                    <div class="input-group">
+                        <input id="field_fechaNacimiento" type="text" class="form-control" name="fechaNacimiento" ngbDatepicker  #fechaNacimientoDp="ngbDatepicker" [(ngModel)]="usuario.fechaNacimiento"
+                        />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-secondary" (click)="fechaNacimientoDp.toggle()"><i class="fa fa-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
                 <button type="submit" [disabled]="settingsForm.form.invalid" class="btn btn-primary">Save</button>
             </form>
         </div>
     </div>
-
 </div>
