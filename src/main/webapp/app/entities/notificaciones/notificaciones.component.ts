@@ -25,7 +25,7 @@ notificaciones: Notificaciones[];
     }
 
     loadAll() {
-        this.notificacionesService.query().subscribe(
+        this.notificacionesService.queryUsuario().subscribe(
             (res: ResponseWrapper) => {
                 this.notificaciones = res.json;
             },
