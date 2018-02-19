@@ -1,14 +1,23 @@
 package com.edu.um.programacion2.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.edu.um.programacion2.domain.Evento;
 import com.edu.um.programacion2.domain.Notificaciones;
 
 import com.edu.um.programacion2.repository.NotificacionesRepository;
+import com.edu.um.programacion2.security.SecurityUtils;
 import com.edu.um.programacion2.web.rest.errors.BadRequestAlertException;
 import com.edu.um.programacion2.web.rest.util.HeaderUtil;
+import com.edu.um.programacion2.web.rest.util.PaginationUtil;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -115,5 +124,25 @@ public class NotificacionesResource {
         log.debug("REST request to delete Notificaciones : {}", id);
         notificacionesRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+    
+    /**
+     * GET  /notificaciones-usuario : get all the notificaciones del usuario.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of eventos in body
+     */
+    @GetMapping("/notificaciones-usuario")
+    @Timed
+    public ResponseEntity<List<Notificaciones>> getNotificacionesUsuario(Pageable pageable) {
+        log.debug("REST request to get a page of Notificaciones");
+        String login;
+        Long id;
+        login = SecurityUtils.getCurrentUserLogin().get();
+        id = notificacionesRepository.getUserId(login);
+        List<Notificaciones> notificaciones = notificacionesRepository.findUserNotificaciones(id);
+        final Page<Notificaciones> page = new PageImpl<>(notificaciones);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/notificaciones-usuario");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 }

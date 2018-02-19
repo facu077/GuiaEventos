@@ -73,6 +73,11 @@
             <span *ngFor="let tags of evento.tags; let last = last">
                 <span>{{tags.nombre}}</span>{{last ? '' : ', '}}
             </span>
+            <button type="button"
+                    (click)="agregarTag()"
+                    class="btn btn-link">
+                <span class="fa fa-plus-circle"></span>&nbsp;<span> Agregar a mis tags</span>
+            </button>
         </dd>
         <dt><span>Participantes</span></dt>
         <dd>

@@ -10,6 +10,7 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 export class NotificacionesService {
 
     private resourceUrl =  SERVER_API_URL + 'api/notificaciones';
+    private resourceUrlUsuario =  SERVER_API_URL + 'api/notificaciones-usuario';
 
     constructor(private http: Http) { }
 
@@ -39,6 +40,12 @@ export class NotificacionesService {
     query(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
         return this.http.get(this.resourceUrl, options)
+            .map((res: Response) => this.convertResponse(res));
+    }
+
+    queryUsuario(req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
+        return this.http.get(this.resourceUrlUsuario, options)
             .map((res: Response) => this.convertResponse(res));
     }
 

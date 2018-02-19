@@ -5,6 +5,7 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
+import { Principal } from '../../shared';
 
 import { Evento } from './evento.model';
 import { EventoPopupService } from './evento-popup.service';
@@ -13,6 +14,8 @@ import { Categoria, CategoriaService } from '../categoria';
 import { Usuario, UsuarioService } from '../usuario';
 import { Tags, TagsService } from '../tags';
 import { ResponseWrapper } from '../../shared';
+import { Notificaciones } from '../notificaciones/notificaciones.model';
+import { NotificacionesService } from '../notificaciones/notificaciones.service';
 
 import { MouseEvent } from '@agm/core';
 
@@ -24,6 +27,9 @@ export class EventoUsuarioDialogComponent implements OnInit {
 
     evento: Evento;
     isSaving: boolean;
+    currentUserId: number;
+
+    notificaciones: Notificaciones;
 
     categorias: Categoria[];
 
@@ -56,8 +62,11 @@ export class EventoUsuarioDialogComponent implements OnInit {
         private categoriaService: CategoriaService,
         private usuarioService: UsuarioService,
         private tagsService: TagsService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private notificacionesService: NotificacionesService,
+        private principal: Principal
     ) {
+        this.notificaciones = new Notificaciones();
     }
 
     ngOnInit() {
@@ -69,6 +78,9 @@ export class EventoUsuarioDialogComponent implements OnInit {
         this.tagsService.query()
             .subscribe((res: ResponseWrapper) => { this.tags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.buildMap();
+        this.principal.identity().then((account) => {
+            this.currentUserId = account.id;
+        });
     }
 
     buildMap() {
@@ -101,8 +113,36 @@ export class EventoUsuarioDialogComponent implements OnInit {
             this.subscribeToSaveResponse(
                 this.eventoService.update(this.evento));
         } else {
-            this.subscribeToSaveResponse(
+            this.subscribeToSaveResponseNew(
                 this.eventoService.createUsuario(this.evento));
+        }
+    }
+
+    notificar() {
+        let notificado = false;
+        for (let us = 0; us < this.usuarios.length; us++) {
+            notificado = false;
+            for (let etags = 0; etags < this.evento.tags.length; etags++) {
+                if (this.usuarios[us].id !== this.currentUserId) {
+                    for (let ustags = 0; ustags < this.usuarios[us].tags.length; ustags++) {
+                        if (this.evento.tags[etags].id === this.usuarios[us].tags[ustags].id && !notificado) {
+                            notificado = true;
+                            this.notificaciones.usuario = this.usuarios[us];
+                            this.notificaciones.descripcion = `
+                            <h3>Nuevo Evento!<h3>
+                            <h6>
+                                <div>
+                                    Se creo un nuevo evento con uno o mas de tus tags favoritos
+                                </div>
+                                <br>
+                                  <a href="http://localhost:9000/#/evento-usuario/` + this.evento.id + `">` + this.evento.nombre + `</a>
+                            </h6>`
+                            this.subscribeToSaveResponseNotificacion(
+                                this.notificacionesService.create(this.notificaciones));
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -111,7 +151,31 @@ export class EventoUsuarioDialogComponent implements OnInit {
             this.onSaveSuccess(res), (res: Response) => this.onSaveError());
     }
 
+    private subscribeToSaveResponseNew(result: Observable<Evento>) {
+        result.subscribe((res: Evento) =>
+            this.onSaveSuccessNew(res), (res: Response) => this.onSaveError());
+    }
+
+    private subscribeToSaveResponseNotificacion(result: Observable<Notificaciones>) {
+        result.subscribe((res: Notificaciones) =>
+            this.onSaveSuccessNotificaciones(res), (res: Response) => this.onSaveError());
+    }
+
     private onSaveSuccess(result: Evento) {
+        this.eventManager.broadcast({ name: 'eventoListModification', content: 'OK'});
+        this.isSaving = false;
+        this.activeModal.dismiss(result);
+    }
+
+    private onSaveSuccessNew(result: Evento) {
+        this.eventManager.broadcast({ name: 'eventoListModification', content: 'OK'});
+        this.isSaving = false;
+        this.evento = result;
+        this.notificar();
+        this.activeModal.dismiss(result);
+    }
+
+    private onSaveSuccessNotificaciones(result: Evento) {
         this.eventManager.broadcast({ name: 'eventoListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);

@@ -12,12 +12,14 @@ export class SerPrestadorComponent implements OnInit {
     settingsAccount: any;
     languages: any[];
     authorities: any[]
+    control: boolean;
 
     constructor(
         private account: AccountService,
         private principal: Principal,
         private userService: UserService
     ) {
+        this.control = false;
     }
 
     ngOnInit() {
@@ -27,10 +29,8 @@ export class SerPrestadorComponent implements OnInit {
             this.userService.authorities().subscribe((authorities) => {
             this.authorities = authorities;
             this.settingsAccount.authorities.push('ROLE_PRESTADOR');
+            });
         });
-            // this.settingsAccount = { authorities: ['uno', 'dos'] }
-        });
-        // this.settingsAccount = { firstName: 'pedrito' }
     }
 
     save() {
@@ -46,7 +46,17 @@ export class SerPrestadorComponent implements OnInit {
         });
     }
 
+    isPrestador(authorities) {
+        for (let i = 0; i < authorities.length; i++) {
+            console.log(authorities[i]);
+            if (authorities[i].toString() === 'ROLE_PRESTADOR') {
+                this.control = true;
+            }
+        }
+    }
+
     copyAccount(account) {
+        this.isPrestador(account.authorities);
         return {
             id: account.id,
             activated: account.activated,

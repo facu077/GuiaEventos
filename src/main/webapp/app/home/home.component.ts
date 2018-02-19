@@ -43,6 +43,10 @@ export class HomeComponent implements OnInit {
         return this.principal.isAuthenticated();
     }
 
+    isAdmin() {
+        return this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN']);
+    }
+
     login() {
         this.modalRef = this.loginModalService.open();
     }

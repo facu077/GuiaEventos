@@ -9,6 +9,7 @@ import { EventoService } from './evento.service';
 import { Usuario, UsuarioService } from '../usuario';
 
 import { Principal, AccountService } from '../../shared';
+import { TagsService } from '../tags/tags.service';
 
 @Component({
     selector: 'jhi-evento-usuario-detail',
@@ -45,7 +46,8 @@ export class EventoUsuarioDetailComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private account: AccountService,
         private principal: Principal,
-        private usuarioService: UsuarioService
+        private usuarioService: UsuarioService,
+        private tagsService: TagsService
     ) {
     }
 
@@ -145,9 +147,21 @@ export class EventoUsuarioDetailComponent implements OnInit, OnDestroy {
                 name: 'eventoListModification',
                 content: 'Deleted an evento favorito'
             });
-            // this.activeModal.dismiss(true);
         });
         this.registerChangeInEventos()
+    }
+
+    agregarTag() {
+        // console.log(this.evento.tags.length);
+        for (let i = 0; i < this.evento.tags.length; i++) {
+            this.tagsService.addTagsUsuario(this.evento.tags[i].id).subscribe((response) => {
+                this.eventManager.broadcast({
+                    name: 'eventoListModification',
+                    content: 'Add tags'
+                });
+            });
+        }
+        alert('Tags agregados a tu lista!');
     }
 
 }

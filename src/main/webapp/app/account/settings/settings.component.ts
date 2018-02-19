@@ -67,7 +67,6 @@ export class SettingsComponent implements OnInit {
     }
 
     copyAccount(account) {
-        console.log(account);
         return {
             id: account.id,
             activated: account.activated,
@@ -77,7 +76,6 @@ export class SettingsComponent implements OnInit {
             lastName: account.lastName,
             login: account.login,
             imageUrl: account.imageUrl,
-            // sexo: account.usuario.sexo
         };
     }
 }
