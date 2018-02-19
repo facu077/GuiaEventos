@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { ProfileService } from '../profiles/profile.service';
-import { Principal, LoginModalService, LoginService } from '../../shared';
+import { Principal, LoginModalService, LoginService, AccountService } from '../../shared';
 
 import { VERSION } from '../../app.constants';
 
@@ -21,16 +21,19 @@ export class NavbarComponent implements OnInit {
     swaggerEnabled: boolean;
     modalRef: NgbModalRef;
     version: string;
+    granAdmin: boolean;
 
     constructor(
         private loginService: LoginService,
         private principal: Principal,
         private loginModalService: LoginModalService,
         private profileService: ProfileService,
-        private router: Router
+        private router: Router,
+        private account: AccountService
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
+        this.granAdmin = false;
     }
 
     ngOnInit() {
@@ -46,6 +49,10 @@ export class NavbarComponent implements OnInit {
 
     isAuthenticated() {
         return this.principal.isAuthenticated();
+    }
+
+    isAdmin() {
+        return this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN']);
     }
 
     login() {

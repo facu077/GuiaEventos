@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
 import { ITEMS_PER_PAGE, Principal, User, UserService, ResponseWrapper } from '../../shared';
+import { PasswordResetInitService } from '../../account/password-reset/init/password-reset-init.service';
 
 @Component({
     selector: 'jhi-user-mgmt',
@@ -31,7 +32,8 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
         private parseLinks: JhiParseLinks,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private passwordResetInitService: PasswordResetInitService
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
@@ -111,6 +113,15 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
             }
         });
         this.loadAll();
+    }
+
+    cambioClaveUsuario(email) {
+        this.passwordResetInitService.save(email).subscribe(() => {
+            this.success = 'OK';
+        }, (response) => {
+            this.success = null;
+        });
+        alert('Email de cambio de clave enviado a ' + email);
     }
 
     private onSuccess(data, headers) {

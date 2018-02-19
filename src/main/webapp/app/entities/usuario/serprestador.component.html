@@ -12,8 +12,12 @@
                 <form name="form" role="form" (ngSubmit)="save()" #settingsForm="ngForm" *ngIf="settingsAccount" novalidate>
 
                     <div class="form-group">De esta forma podras crear tus propios eventos</div>
-
-                    <button type="submit" [disabled]="settingsForm.form.invalid" class="btn btn-primary">Ser Prestador</button>
+                    <ng-component *ngIf="!control">
+                        <button type="submit" [disabled]="settingsForm.form.invalid" class="btn btn-primary">Ser Prestador</button>
+                    </ng-component>
+                    <ng-component *ngIf="control">
+                        <div class="btn btn-success">Ya eres prestador</div>
+                    </ng-component>
                 </form>
             </div>
         </div>
