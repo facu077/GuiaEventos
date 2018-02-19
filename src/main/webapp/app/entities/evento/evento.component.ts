@@ -145,6 +145,8 @@ export class EventoComponent implements OnInit, OnDestroy {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         for (let i = 0; i < data.length; i++) {
+            const [direccion, longitud, latitud] = data[i].ubicacion.split(';');
+            data[i].ubicacion = direccion;
             this.eventos.push(data[i]);
         }
     }

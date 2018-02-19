@@ -112,6 +112,8 @@ export class EventoPopularesComponent implements OnInit, OnDestroy {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         for (let i = 0; i < data.length; i++) {
+            const [direccion, longitud, latitud] = data[i].ubicacion.split(';');
+            data[i].ubicacion = direccion;
             if ( data[i].usuarioRegistrados.length >= 3 && data[i].estado === true ) {
                 if (control < 4 && this.limite) {
                     this.eventos.push(data[i]);

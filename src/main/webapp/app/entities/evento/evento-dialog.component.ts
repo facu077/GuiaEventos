@@ -33,6 +33,7 @@ export class EventoDialogComponent implements OnInit {
     horarioDp: any;
 
     show: boolean;
+    direccion: String;
 
     // google maps zoom level
     zoom: number = +12;
@@ -69,6 +70,16 @@ export class EventoDialogComponent implements OnInit {
             .subscribe((res: ResponseWrapper) => { this.usuarios = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.tagsService.query()
             .subscribe((res: ResponseWrapper) => { this.tags = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
+        this.buildMap();
+    }
+
+    buildMap() {
+        const [direccion, longitud, latitud] = this.evento.ubicacion.split(';');
+        this.marcador.lat = +longitud;
+        this.marcador.lng = +latitud;
+        this.lat = +longitud;
+        this.lng = +latitud;
+        this.direccion = direccion;
     }
 
     byteSize(field) {
@@ -148,9 +159,12 @@ export class EventoDialogComponent implements OnInit {
         this.marcador = {
           lat: $event.coords.lat,
           lng: $event.coords.lng,
-          draggable: true
+          draggable: false
         }
-        this.evento.ubicacion = `${this.marcador.lat};${this.marcador.lng}`;
+        this.eventoService.getData(this.marcador.lat, this.marcador.lng).subscribe((data) => {
+            this.evento.ubicacion = data.results[0].formatted_address + ';' + this.marcador.lat + ';' + this.marcador.lng;
+            this.direccion = data.results[0].formatted_address;
+        });
     }
 
     markerDragEnd(m: Marker, $event: MouseEvent) {

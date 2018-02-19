@@ -29,6 +29,8 @@ export class EventoUsuarioDialogComponent implements OnInit {
     isSaving: boolean;
     currentUserId: number;
 
+    direccion: string;
+
     notificaciones: Notificaciones;
 
     categorias: Categoria[];
@@ -84,11 +86,12 @@ export class EventoUsuarioDialogComponent implements OnInit {
     }
 
     buildMap() {
-        const [longitud, latitud] = this.evento.ubicacion.split(';');
+        const [direccion, longitud, latitud] = this.evento.ubicacion.split(';');
         this.marcador.lat = +longitud;
         this.marcador.lng = +latitud;
         this.lat = +longitud;
         this.lng = +latitud;
+        this.direccion = direccion;
     }
 
     byteSize(field) {
@@ -220,13 +223,12 @@ export class EventoUsuarioDialogComponent implements OnInit {
         this.marcador = {
           lat: $event.coords.lat,
           lng: $event.coords.lng,
-          draggable: true
+          draggable: false
         }
-        this.evento.ubicacion = `${this.marcador.lat};${this.marcador.lng}`;
-    }
-
-    markerDragEnd(m: Marker, $event: MouseEvent) {
-        console.log('dragEnd', m, $event);
+        this.eventoService.getData(this.marcador.lat, this.marcador.lng).subscribe((data) => {
+            this.evento.ubicacion = data.results[0].formatted_address + ';' + this.marcador.lat + ';' + this.marcador.lng;
+            this.direccion = data.results[0].formatted_address;
+        });
     }
 
     showMap() {

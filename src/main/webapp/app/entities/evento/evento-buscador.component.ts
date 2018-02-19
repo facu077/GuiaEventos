@@ -150,6 +150,8 @@ export class EventoBuscadorComponent implements OnInit, OnDestroy {
         for (let i = 0; i < data.length; i++) {
             this.eventoService.find(data[i].id).subscribe((evento) => {
                 if (evento.estado) {
+                    const [direccion, longitud, latitud] = evento.ubicacion.split(';');
+                    evento.ubicacion = direccion;
                     this.eventos.push(evento);
                 }
             });
