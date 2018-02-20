@@ -9,12 +9,12 @@ body, h1, h2, h3, h4 {
 }
 
 a {
-    color: #533f03;
+    color: #E9E581;
     font-weight: bold;
 }
 
 a:hover {
-    color: #533f03;
+    color: #E9E581;
     font-weight: bold;
 }
 
@@ -47,6 +47,8 @@ Generic styles
     padding: 1.5%;
     margin-top: 20px;
     border: none;
+    background-color: #2B2B2B;
+    color: #F6F6F6;
 }
 
 .error {

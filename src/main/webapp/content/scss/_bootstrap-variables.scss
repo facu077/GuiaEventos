@@ -34,7 +34,14 @@ $border-radius-sm:       .1rem;
 // Body:
 // Settings for the `<body>` element.
 
-$body-bg:                   #e4e5e6;
+$body-bg:                   #2e313d;
+body{
+    background: url("../../content/images/evento.jpg") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
 
 // Typography:
 // Font, line-height, and color for body text, headings, and more.
