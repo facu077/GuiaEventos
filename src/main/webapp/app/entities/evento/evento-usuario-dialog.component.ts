@@ -138,7 +138,7 @@ export class EventoUsuarioDialogComponent implements OnInit {
                                     Se creo un nuevo evento con uno o mas de tus tags favoritos
                                 </div>
                                 <br>
-                                  <a href="http://localhost:9000/#/evento-usuario/` + this.evento.id + `">` + this.evento.nombre + `</a>
+                                  <a href="http://localhost:8080/#/evento-usuario/` + this.evento.id + `">` + this.evento.nombre + `</a>
                             </h6>`
                             this.subscribeToSaveResponseNotificacion(
                                 this.notificacionesService.create(this.notificaciones));
@@ -179,9 +179,9 @@ export class EventoUsuarioDialogComponent implements OnInit {
     }
 
     private onSaveSuccessNotificaciones(result: Evento) {
-        this.eventManager.broadcast({ name: 'eventoListModification', content: 'OK'});
+        /*this.eventManager.broadcast({ name: 'eventoListModification', content: 'OK'});
         this.isSaving = false;
-        this.activeModal.dismiss(result);
+        this.activeModal.dismiss(result);*/
     }
 
     private onSaveError() {
