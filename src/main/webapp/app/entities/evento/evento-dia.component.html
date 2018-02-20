@@ -11,6 +11,7 @@
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
             <th jhiSortBy="nombre"><span>Nombre</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="resumen"><span>Resumen</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="resumen"><span>Ubicacion</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="precio"><span>Precio</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="fecha"><span>Fecha</span> <span class="fa fa-sort"></span></th>
             <th></th>
@@ -20,6 +21,7 @@
             <tr *ngFor="let evento of eventos ;trackBy: trackId">
                 <td>{{evento.nombre}}</td>
                 <td>{{evento.resumen}}</td>
+                <td>{{evento.ubicacion}}</td>
                 <td>{{evento.precio}}</td>
                 <td>{{evento.fecha | date:'mediumDate'}}</td>
                 <td class="text-right">

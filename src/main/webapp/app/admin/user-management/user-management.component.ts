@@ -125,6 +125,15 @@ export class UserMgmtComponent implements OnInit, OnDestroy {
     }
 
     private onSuccess(data, headers) {
+        // console.log(data);
+        for (let i = 0 ; i < data.length ; i++) {
+            console.log('usuario ' + data[i].firstName + ' creado por ' + data[i].createdBy);
+            if (data[i].createdBy === 'system') {
+                data.splice(i, 1);
+                i = -1;
+            }
+        }
+        console.log(data);
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;

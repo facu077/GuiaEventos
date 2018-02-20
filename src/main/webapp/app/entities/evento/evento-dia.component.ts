@@ -115,6 +115,8 @@ export class EventoDiaComponent implements OnInit, OnDestroy {
         this.totalItems = headers.get('X-Total-Count');
         for (let i = 0; i < data.length; i++) {
             if ( fecha.toString() === data[i].fecha.toString() && data[i].estado === true ) {
+                const [direccion, longitud, latitud] = data[i].ubicacion.split(';');
+                data[i].ubicacion = direccion;
                 if (control < 4 && this.limite) {
                     this.eventos.push(data[i]);
                 } else if (!this.limite) {

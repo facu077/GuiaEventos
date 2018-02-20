@@ -98,6 +98,11 @@ export class EventoService {
             .map((res: Response) => this.convertResponse(res));
     }
 
+    getData(lat, lng) {
+        return this.http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyDUv635tYlaLjlECsrwe8LCMKreP4kwpzE')
+            .map((response) => response = response.json());
+    }
+
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         const result = [];

@@ -25,6 +25,8 @@ export class EventoUsuarioDetailComponent implements OnInit, OnDestroy {
     controlFavorito: Boolean;
     usuario: Usuario;
 
+    direccion: String;
+
     // google maps zoom level
     zoom: number = +12;
 
@@ -101,11 +103,12 @@ export class EventoUsuarioDetailComponent implements OnInit, OnDestroy {
     }
 
     buildMap() {
-        const [longitud, latitud] = this.evento.ubicacion.split(';');
+        const [direccion, longitud, latitud] = this.evento.ubicacion.split(';');
         this.marcador.lat = +longitud;
         this.marcador.lng = +latitud;
         this.lat = +longitud;
         this.lng = +latitud;
+        this.direccion = direccion;
     }
 
     isRegistrado() {

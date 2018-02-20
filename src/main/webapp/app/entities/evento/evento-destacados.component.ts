@@ -112,6 +112,8 @@ export class EventoDestacadosComponent implements OnInit, OnDestroy {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         for (let i = 0; i < data.length; i++) {
+            const [direccion, longitud, latitud] = data[i].ubicacion.split(';');
+            data[i].ubicacion = direccion;
             if ( data[i].destacado === true && data[i].estado === true ) {
                 if (control < 4 && this.limite) {
                     this.eventos.push(data[i]);

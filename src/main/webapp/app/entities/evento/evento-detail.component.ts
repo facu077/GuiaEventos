@@ -33,6 +33,8 @@ export class EventoDetailComponent implements OnInit, OnDestroy {
 
     load(id) {
         this.eventoService.find(id).subscribe((evento) => {
+            const [direccion, longitud, latitud] = evento.ubicacion.split(';');
+            evento.ubicacion = direccion;
             this.evento = evento;
         });
     }

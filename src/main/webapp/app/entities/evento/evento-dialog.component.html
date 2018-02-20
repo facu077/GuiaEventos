@@ -63,8 +63,9 @@
         <div class="form-group">
             <label class="form-control-label" for="field_ubicacion">Ubicacion</label>
             <div class="input-group">
-                <input type="text" class="form-control" name="ubicacion" id="field_ubicacion"
+                <input [hidden]="true" type="text" class="form-control" name="ubicacion" id="field_ubicacion"
                     [(ngModel)]="evento.ubicacion" readonly required/>
+                <input type="text" class="form-control" value="{{direccion}}" readonly/>
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-secondary" (click)="showMap()"><i class="fa fa-map-marker"></i></button>
                 </span>

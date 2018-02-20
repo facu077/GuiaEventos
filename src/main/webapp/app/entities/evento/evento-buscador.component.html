@@ -6,6 +6,7 @@
     <div class="row">
         <div class="col-sm-12">
             <form name="searchForm" class="form-inline">
+                <p>Buscar por todos los campos</p>
                 <div class="input-group w-100 mt-3">
                     <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
                     <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
@@ -15,6 +16,52 @@
                         <span class="fa fa-trash-o"></span>
                     </button>
                 </div>
+            </form>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-4">
+            <p class="input-group">
+                Buscardor avanzado 
+                <button class="input-group-addon btn btn-info btn-xs" (click)="showBuscador()">
+                    <span class="fa fa-angle-down"></span>
+                </button>
+            </p>
+            <form name="buscadorAvanzado" [hidden]="buscadorHidden" (ngSubmit)="searchAvanzado(queryAvanzado)">
+                <div class="form-group">
+                    <label class="form-control-label" for="field_nombre">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" id="field_nombre"
+                        [(ngModel)]="queryAvanzado.nombre"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_resumen">Resumen</label>
+                    <input type="text" class="form-control" name="resumen" id="field_resumen"
+                        [(ngModel)]="queryAvanzado.resumen"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_ubicacion">Ubicacion</label>
+                    <input type="text" class="form-control" name="ubicacion" id="field_ubicacion"
+                        [(ngModel)]="queryAvanzado.ubicacion"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_fecha">Fecha</label>
+                    <input type="text" class="form-control" name="fecha" id="field_fecha"
+                        [(ngModel)]="queryAvanzado.fecha"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_categoria">Categoria</label>
+                    <input type="text" class="form-control" name="categoria" id="field_categoria"
+                        [(ngModel)]="queryAvanzado.categoria"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_tag">Tag</label>
+                    <input type="text" class="form-control" name="tag" id="field_tag"
+                        [(ngModel)]="queryAvanzado.tag"/>
+                </div>
+                <button type="submit" class="btn btn-info btn-xs">
+                    <span class="fa fa-search"></span>&nbsp;<span>Buscar</span>
+                </button>
             </form>
         </div>
     </div>
