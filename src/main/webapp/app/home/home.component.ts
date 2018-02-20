@@ -57,4 +57,8 @@ export class HomeComponent implements OnInit {
         }
         this.router.navigate(['/evento-buscador', {search: query}]);
     }
+
+    getUrl() {
+        return 'url("../../content/images/evento.jpg")';
+    }
 }
